@@ -21,12 +21,8 @@
 package conversation
 
 import (
-	context "context"
 	sdkws "github.com/openimsdk/protocol/sdkws"
 	wrapperspb "github.com/openimsdk/protocol/wrapperspb"
-	grpc "google.golang.org/grpc"
-	codes "google.golang.org/grpc/codes"
-	status "google.golang.org/grpc/status"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -45,23 +41,23 @@ type Conversation struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	OwnerUserID           string `protobuf:"bytes,1,opt,name=ownerUserID,proto3" json:"ownerUserID"`
-	ConversationID        string `protobuf:"bytes,2,opt,name=conversationID,proto3" json:"conversationID"`
-	RecvMsgOpt            int32  `protobuf:"varint,3,opt,name=recvMsgOpt,proto3" json:"recvMsgOpt"`
-	ConversationType      int32  `protobuf:"varint,4,opt,name=conversationType,proto3" json:"conversationType"`
-	UserID                string `protobuf:"bytes,5,opt,name=userID,proto3" json:"userID"`
-	GroupID               string `protobuf:"bytes,6,opt,name=groupID,proto3" json:"groupID"`
-	IsPinned              bool   `protobuf:"varint,7,opt,name=isPinned,proto3" json:"isPinned"`
-	AttachedInfo          string `protobuf:"bytes,8,opt,name=attachedInfo,proto3" json:"attachedInfo"`
-	IsPrivateChat         bool   `protobuf:"varint,9,opt,name=isPrivateChat,proto3" json:"isPrivateChat"`
-	GroupAtType           int32  `protobuf:"varint,10,opt,name=groupAtType,proto3" json:"groupAtType"`
-	Ex                    string `protobuf:"bytes,11,opt,name=ex,proto3" json:"ex"`
-	BurnDuration          int32  `protobuf:"varint,12,opt,name=burnDuration,proto3" json:"burnDuration"`
-	MinSeq                int64  `protobuf:"varint,13,opt,name=minSeq,proto3" json:"minSeq"`
-	MaxSeq                int64  `protobuf:"varint,14,opt,name=maxSeq,proto3" json:"maxSeq"`
-	MsgDestructTime       int64  `protobuf:"varint,15,opt,name=msgDestructTime,proto3" json:"msgDestructTime"`
-	LatestMsgDestructTime int64  `protobuf:"varint,16,opt,name=latestMsgDestructTime,proto3" json:"latestMsgDestructTime"`
-	IsMsgDestruct         bool   `protobuf:"varint,17,opt,name=isMsgDestruct,proto3" json:"isMsgDestruct"`
+	OwnerUserID           string `protobuf:"bytes,1,opt,name=ownerUserID,proto3" json:"ownerUserID,omitempty"`
+	ConversationID        string `protobuf:"bytes,2,opt,name=conversationID,proto3" json:"conversationID,omitempty"`
+	RecvMsgOpt            int32  `protobuf:"varint,3,opt,name=recvMsgOpt,proto3" json:"recvMsgOpt,omitempty"`
+	ConversationType      int32  `protobuf:"varint,4,opt,name=conversationType,proto3" json:"conversationType,omitempty"`
+	UserID                string `protobuf:"bytes,5,opt,name=userID,proto3" json:"userID,omitempty"`
+	GroupID               string `protobuf:"bytes,6,opt,name=groupID,proto3" json:"groupID,omitempty"`
+	IsPinned              bool   `protobuf:"varint,7,opt,name=isPinned,proto3" json:"isPinned,omitempty"`
+	AttachedInfo          string `protobuf:"bytes,8,opt,name=attachedInfo,proto3" json:"attachedInfo,omitempty"`
+	IsPrivateChat         bool   `protobuf:"varint,9,opt,name=isPrivateChat,proto3" json:"isPrivateChat,omitempty"`
+	GroupAtType           int32  `protobuf:"varint,10,opt,name=groupAtType,proto3" json:"groupAtType,omitempty"`
+	Ex                    string `protobuf:"bytes,11,opt,name=ex,proto3" json:"ex,omitempty"`
+	BurnDuration          int32  `protobuf:"varint,12,opt,name=burnDuration,proto3" json:"burnDuration,omitempty"`
+	MinSeq                int64  `protobuf:"varint,13,opt,name=minSeq,proto3" json:"minSeq,omitempty"`
+	MaxSeq                int64  `protobuf:"varint,14,opt,name=maxSeq,proto3" json:"maxSeq,omitempty"`
+	MsgDestructTime       int64  `protobuf:"varint,15,opt,name=msgDestructTime,proto3" json:"msgDestructTime,omitempty"`
+	LatestMsgDestructTime int64  `protobuf:"varint,16,opt,name=latestMsgDestructTime,proto3" json:"latestMsgDestructTime,omitempty"`
+	IsMsgDestruct         bool   `protobuf:"varint,17,opt,name=isMsgDestruct,proto3" json:"isMsgDestruct,omitempty"`
 }
 
 func (x *Conversation) Reset() {
@@ -220,21 +216,21 @@ type ConversationReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ConversationID   string                  `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID"`
-	ConversationType int32                   `protobuf:"varint,2,opt,name=conversationType,proto3" json:"conversationType"`
-	UserID           string                  `protobuf:"bytes,3,opt,name=userID,proto3" json:"userID"`
-	GroupID          string                  `protobuf:"bytes,4,opt,name=groupID,proto3" json:"groupID"`
-	RecvMsgOpt       *wrapperspb.Int32Value  `protobuf:"bytes,5,opt,name=recvMsgOpt,proto3" json:"recvMsgOpt"`
-	IsPinned         *wrapperspb.BoolValue   `protobuf:"bytes,6,opt,name=isPinned,proto3" json:"isPinned"`
-	AttachedInfo     *wrapperspb.StringValue `protobuf:"bytes,7,opt,name=attachedInfo,proto3" json:"attachedInfo"`
-	IsPrivateChat    *wrapperspb.BoolValue   `protobuf:"bytes,8,opt,name=isPrivateChat,proto3" json:"isPrivateChat"`
-	Ex               *wrapperspb.StringValue `protobuf:"bytes,9,opt,name=ex,proto3" json:"ex"`
-	BurnDuration     *wrapperspb.Int32Value  `protobuf:"bytes,10,opt,name=burnDuration,proto3" json:"burnDuration"`
-	MinSeq           *wrapperspb.Int64Value  `protobuf:"bytes,11,opt,name=minSeq,proto3" json:"minSeq"`
-	MaxSeq           *wrapperspb.Int64Value  `protobuf:"bytes,12,opt,name=maxSeq,proto3" json:"maxSeq"`
-	GroupAtType      *wrapperspb.Int32Value  `protobuf:"bytes,13,opt,name=groupAtType,proto3" json:"groupAtType"`
-	MsgDestructTime  *wrapperspb.Int64Value  `protobuf:"bytes,14,opt,name=msgDestructTime,proto3" json:"msgDestructTime"`
-	IsMsgDestruct    *wrapperspb.BoolValue   `protobuf:"bytes,15,opt,name=isMsgDestruct,proto3" json:"isMsgDestruct"`
+	ConversationID   string                  `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID,omitempty"`
+	ConversationType int32                   `protobuf:"varint,2,opt,name=conversationType,proto3" json:"conversationType,omitempty"`
+	UserID           string                  `protobuf:"bytes,3,opt,name=userID,proto3" json:"userID,omitempty"`
+	GroupID          string                  `protobuf:"bytes,4,opt,name=groupID,proto3" json:"groupID,omitempty"`
+	RecvMsgOpt       *wrapperspb.Int32Value  `protobuf:"bytes,5,opt,name=recvMsgOpt,proto3" json:"recvMsgOpt,omitempty"`
+	IsPinned         *wrapperspb.BoolValue   `protobuf:"bytes,6,opt,name=isPinned,proto3" json:"isPinned,omitempty"`
+	AttachedInfo     *wrapperspb.StringValue `protobuf:"bytes,7,opt,name=attachedInfo,proto3" json:"attachedInfo,omitempty"`
+	IsPrivateChat    *wrapperspb.BoolValue   `protobuf:"bytes,8,opt,name=isPrivateChat,proto3" json:"isPrivateChat,omitempty"`
+	Ex               *wrapperspb.StringValue `protobuf:"bytes,9,opt,name=ex,proto3" json:"ex,omitempty"`
+	BurnDuration     *wrapperspb.Int32Value  `protobuf:"bytes,10,opt,name=burnDuration,proto3" json:"burnDuration,omitempty"`
+	MinSeq           *wrapperspb.Int64Value  `protobuf:"bytes,11,opt,name=minSeq,proto3" json:"minSeq,omitempty"`
+	MaxSeq           *wrapperspb.Int64Value  `protobuf:"bytes,12,opt,name=maxSeq,proto3" json:"maxSeq,omitempty"`
+	GroupAtType      *wrapperspb.Int32Value  `protobuf:"bytes,13,opt,name=groupAtType,proto3" json:"groupAtType,omitempty"`
+	MsgDestructTime  *wrapperspb.Int64Value  `protobuf:"bytes,14,opt,name=msgDestructTime,proto3" json:"msgDestructTime,omitempty"`
+	IsMsgDestruct    *wrapperspb.BoolValue   `protobuf:"bytes,15,opt,name=isMsgDestruct,proto3" json:"isMsgDestruct,omitempty"`
 }
 
 func (x *ConversationReq) Reset() {
@@ -379,7 +375,7 @@ type SetConversationReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Conversation *Conversation `protobuf:"bytes,1,opt,name=conversation,proto3" json:"conversation"`
+	Conversation *Conversation `protobuf:"bytes,1,opt,name=conversation,proto3" json:"conversation,omitempty"`
 }
 
 func (x *SetConversationReq) Reset() {
@@ -464,8 +460,8 @@ type GetConversationReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ConversationID string `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID"`
-	OwnerUserID    string `protobuf:"bytes,2,opt,name=ownerUserID,proto3" json:"ownerUserID"`
+	ConversationID string `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID,omitempty"`
+	OwnerUserID    string `protobuf:"bytes,2,opt,name=ownerUserID,proto3" json:"ownerUserID,omitempty"`
 }
 
 func (x *GetConversationReq) Reset() {
@@ -519,7 +515,7 @@ type GetConversationResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Conversation *Conversation `protobuf:"bytes,2,opt,name=conversation,proto3" json:"conversation"`
+	Conversation *Conversation `protobuf:"bytes,2,opt,name=conversation,proto3" json:"conversation,omitempty"`
 }
 
 func (x *GetConversationResp) Reset() {
@@ -566,9 +562,9 @@ type GetSortedConversationListReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserID          string                   `protobuf:"bytes,1,opt,name=userID,proto3" json:"userID"`
-	ConversationIDs []string                 `protobuf:"bytes,2,rep,name=conversationIDs,proto3" json:"conversationIDs"`
-	Pagination      *sdkws.RequestPagination `protobuf:"bytes,3,opt,name=pagination,proto3" json:"pagination"`
+	UserID          string                   `protobuf:"bytes,1,opt,name=userID,proto3" json:"userID,omitempty"`
+	ConversationIDs []string                 `protobuf:"bytes,2,rep,name=conversationIDs,proto3" json:"conversationIDs,omitempty"`
+	Pagination      *sdkws.RequestPagination `protobuf:"bytes,3,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
 func (x *GetSortedConversationListReq) Reset() {
@@ -629,9 +625,9 @@ type GetSortedConversationListResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ConversationTotal int64               `protobuf:"varint,1,opt,name=conversationTotal,proto3" json:"conversationTotal"`
-	UnreadTotal       int64               `protobuf:"varint,2,opt,name=unreadTotal,proto3" json:"unreadTotal"`
-	ConversationElems []*ConversationElem `protobuf:"bytes,3,rep,name=conversationElems,proto3" json:"conversationElems"`
+	ConversationTotal int64               `protobuf:"varint,1,opt,name=conversationTotal,proto3" json:"conversationTotal,omitempty"`
+	UnreadTotal       int64               `protobuf:"varint,2,opt,name=unreadTotal,proto3" json:"unreadTotal,omitempty"`
+	ConversationElems []*ConversationElem `protobuf:"bytes,3,rep,name=conversationElems,proto3" json:"conversationElems,omitempty"`
 }
 
 func (x *GetSortedConversationListResp) Reset() {
@@ -692,11 +688,11 @@ type ConversationElem struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ConversationID string   `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID"`
-	RecvMsgOpt     int32    `protobuf:"varint,2,opt,name=recvMsgOpt,proto3" json:"recvMsgOpt"`
-	UnreadCount    int64    `protobuf:"varint,3,opt,name=unreadCount,proto3" json:"unreadCount"`
-	IsPinned       bool     `protobuf:"varint,4,opt,name=IsPinned,proto3" json:"IsPinned"`
-	MsgInfo        *MsgInfo `protobuf:"bytes,5,opt,name=msgInfo,proto3" json:"msgInfo"`
+	ConversationID string   `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID,omitempty"`
+	RecvMsgOpt     int32    `protobuf:"varint,2,opt,name=recvMsgOpt,proto3" json:"recvMsgOpt,omitempty"`
+	UnreadCount    int64    `protobuf:"varint,3,opt,name=unreadCount,proto3" json:"unreadCount,omitempty"`
+	IsPinned       bool     `protobuf:"varint,4,opt,name=IsPinned,proto3" json:"IsPinned,omitempty"`
+	MsgInfo        *MsgInfo `protobuf:"bytes,5,opt,name=msgInfo,proto3" json:"msgInfo,omitempty"`
 }
 
 func (x *ConversationElem) Reset() {
@@ -771,23 +767,23 @@ type MsgInfo struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ServerMsgID       string `protobuf:"bytes,1,opt,name=serverMsgID,proto3" json:"serverMsgID"`
-	ClientMsgID       string `protobuf:"bytes,2,opt,name=clientMsgID,proto3" json:"clientMsgID"`
-	SessionType       int32  `protobuf:"varint,3,opt,name=sessionType,proto3" json:"sessionType"`
-	SendID            string `protobuf:"bytes,4,opt,name=sendID,proto3" json:"sendID"`
-	RecvID            string `protobuf:"bytes,5,opt,name=recvID,proto3" json:"recvID"`
-	SenderName        string `protobuf:"bytes,6,opt,name=senderName,proto3" json:"senderName"`
-	FaceURL           string `protobuf:"bytes,7,opt,name=faceURL,proto3" json:"faceURL"`
-	GroupID           string `protobuf:"bytes,8,opt,name=groupID,proto3" json:"groupID"`
-	GroupName         string `protobuf:"bytes,9,opt,name=groupName,proto3" json:"groupName"`
-	GroupFaceURL      string `protobuf:"bytes,10,opt,name=groupFaceURL,proto3" json:"groupFaceURL"`
-	GroupType         int32  `protobuf:"varint,11,opt,name=groupType,proto3" json:"groupType"`
-	GroupMemberCount  uint32 `protobuf:"varint,12,opt,name=groupMemberCount,proto3" json:"groupMemberCount"`
-	LatestMsgRecvTime int64  `protobuf:"varint,13,opt,name=LatestMsgRecvTime,proto3" json:"LatestMsgRecvTime"`
-	MsgFrom           int32  `protobuf:"varint,14,opt,name=msgFrom,proto3" json:"msgFrom"`
-	ContentType       int32  `protobuf:"varint,15,opt,name=contentType,proto3" json:"contentType"`
-	Content           string `protobuf:"bytes,16,opt,name=content,proto3" json:"content"`
-	Ex                string `protobuf:"bytes,17,opt,name=ex,proto3" json:"ex"`
+	ServerMsgID       string `protobuf:"bytes,1,opt,name=serverMsgID,proto3" json:"serverMsgID,omitempty"`
+	ClientMsgID       string `protobuf:"bytes,2,opt,name=clientMsgID,proto3" json:"clientMsgID,omitempty"`
+	SessionType       int32  `protobuf:"varint,3,opt,name=sessionType,proto3" json:"sessionType,omitempty"`
+	SendID            string `protobuf:"bytes,4,opt,name=sendID,proto3" json:"sendID,omitempty"`
+	RecvID            string `protobuf:"bytes,5,opt,name=recvID,proto3" json:"recvID,omitempty"`
+	SenderName        string `protobuf:"bytes,6,opt,name=senderName,proto3" json:"senderName,omitempty"`
+	FaceURL           string `protobuf:"bytes,7,opt,name=faceURL,proto3" json:"faceURL,omitempty"`
+	GroupID           string `protobuf:"bytes,8,opt,name=groupID,proto3" json:"groupID,omitempty"`
+	GroupName         string `protobuf:"bytes,9,opt,name=groupName,proto3" json:"groupName,omitempty"`
+	GroupFaceURL      string `protobuf:"bytes,10,opt,name=groupFaceURL,proto3" json:"groupFaceURL,omitempty"`
+	GroupType         int32  `protobuf:"varint,11,opt,name=groupType,proto3" json:"groupType,omitempty"`
+	GroupMemberCount  uint32 `protobuf:"varint,12,opt,name=groupMemberCount,proto3" json:"groupMemberCount,omitempty"`
+	LatestMsgRecvTime int64  `protobuf:"varint,13,opt,name=LatestMsgRecvTime,proto3" json:"LatestMsgRecvTime,omitempty"`
+	MsgFrom           int32  `protobuf:"varint,14,opt,name=msgFrom,proto3" json:"msgFrom,omitempty"`
+	ContentType       int32  `protobuf:"varint,15,opt,name=contentType,proto3" json:"contentType,omitempty"`
+	Content           string `protobuf:"bytes,16,opt,name=content,proto3" json:"content,omitempty"`
+	Ex                string `protobuf:"bytes,17,opt,name=ex,proto3" json:"ex,omitempty"`
 }
 
 func (x *MsgInfo) Reset() {
@@ -946,8 +942,8 @@ type GetConversationsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	OwnerUserID     string   `protobuf:"bytes,1,opt,name=ownerUserID,proto3" json:"ownerUserID"`
-	ConversationIDs []string `protobuf:"bytes,2,rep,name=conversationIDs,proto3" json:"conversationIDs"`
+	OwnerUserID     string   `protobuf:"bytes,1,opt,name=ownerUserID,proto3" json:"ownerUserID,omitempty"`
+	ConversationIDs []string `protobuf:"bytes,2,rep,name=conversationIDs,proto3" json:"conversationIDs,omitempty"`
 }
 
 func (x *GetConversationsReq) Reset() {
@@ -1001,7 +997,7 @@ type GetConversationsResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Conversations []*Conversation `protobuf:"bytes,2,rep,name=conversations,proto3" json:"conversations"`
+	Conversations []*Conversation `protobuf:"bytes,2,rep,name=conversations,proto3" json:"conversations,omitempty"`
 }
 
 func (x *GetConversationsResp) Reset() {
@@ -1048,7 +1044,7 @@ type GetAllConversationsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	OwnerUserID string `protobuf:"bytes,1,opt,name=ownerUserID,proto3" json:"ownerUserID"`
+	OwnerUserID string `protobuf:"bytes,1,opt,name=ownerUserID,proto3" json:"ownerUserID,omitempty"`
 }
 
 func (x *GetAllConversationsReq) Reset() {
@@ -1095,7 +1091,7 @@ type GetAllConversationsResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Conversations []*Conversation `protobuf:"bytes,2,rep,name=conversations,proto3" json:"conversations"`
+	Conversations []*Conversation `protobuf:"bytes,2,rep,name=conversations,proto3" json:"conversations,omitempty"`
 }
 
 func (x *GetAllConversationsResp) Reset() {
@@ -1142,7 +1138,7 @@ type GetRecvMsgNotNotifyUserIDsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	GroupID string `protobuf:"bytes,1,opt,name=groupID,proto3" json:"groupID"`
+	GroupID string `protobuf:"bytes,1,opt,name=groupID,proto3" json:"groupID,omitempty"`
 }
 
 func (x *GetRecvMsgNotNotifyUserIDsReq) Reset() {
@@ -1189,7 +1185,7 @@ type GetRecvMsgNotNotifyUserIDsResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserIDs []string `protobuf:"bytes,1,rep,name=userIDs,proto3" json:"userIDs"`
+	UserIDs []string `protobuf:"bytes,1,rep,name=userIDs,proto3" json:"userIDs,omitempty"`
 }
 
 func (x *GetRecvMsgNotNotifyUserIDsResp) Reset() {
@@ -1236,10 +1232,10 @@ type CreateSingleChatConversationsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	RecvID           string `protobuf:"bytes,1,opt,name=recvID,proto3" json:"recvID"`
-	SendID           string `protobuf:"bytes,2,opt,name=sendID,proto3" json:"sendID"`
-	ConversationID   string `protobuf:"bytes,3,opt,name=conversationID,proto3" json:"conversationID"`
-	ConversationType int32  `protobuf:"varint,4,opt,name=conversationType,proto3" json:"conversationType"`
+	RecvID           string `protobuf:"bytes,1,opt,name=recvID,proto3" json:"recvID,omitempty"`
+	SendID           string `protobuf:"bytes,2,opt,name=sendID,proto3" json:"sendID,omitempty"`
+	ConversationID   string `protobuf:"bytes,3,opt,name=conversationID,proto3" json:"conversationID,omitempty"`
+	ConversationType int32  `protobuf:"varint,4,opt,name=conversationType,proto3" json:"conversationType,omitempty"`
 }
 
 func (x *CreateSingleChatConversationsReq) Reset() {
@@ -1345,8 +1341,8 @@ type CreateGroupChatConversationsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserIDs []string `protobuf:"bytes,1,rep,name=userIDs,proto3" json:"userIDs"`
-	GroupID string   `protobuf:"bytes,2,opt,name=groupID,proto3" json:"groupID"`
+	UserIDs []string `protobuf:"bytes,1,rep,name=userIDs,proto3" json:"userIDs,omitempty"`
+	GroupID string   `protobuf:"bytes,2,opt,name=groupID,proto3" json:"groupID,omitempty"`
 }
 
 func (x *CreateGroupChatConversationsReq) Reset() {
@@ -1438,9 +1434,9 @@ type SetConversationMaxSeqReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ConversationID string   `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID"`
-	OwnerUserID    []string `protobuf:"bytes,2,rep,name=ownerUserID,proto3" json:"ownerUserID"`
-	MaxSeq         int64    `protobuf:"varint,3,opt,name=maxSeq,proto3" json:"maxSeq"`
+	ConversationID string   `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID,omitempty"`
+	OwnerUserID    []string `protobuf:"bytes,2,rep,name=ownerUserID,proto3" json:"ownerUserID,omitempty"`
+	MaxSeq         int64    `protobuf:"varint,3,opt,name=maxSeq,proto3" json:"maxSeq,omitempty"`
 }
 
 func (x *SetConversationMaxSeqReq) Reset() {
@@ -1539,7 +1535,7 @@ type GetConversationIDsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserID string `protobuf:"bytes,1,opt,name=userID,proto3" json:"userID"`
+	UserID string `protobuf:"bytes,1,opt,name=userID,proto3" json:"userID,omitempty"`
 }
 
 func (x *GetConversationIDsReq) Reset() {
@@ -1586,7 +1582,7 @@ type GetConversationIDsResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ConversationIDs []string `protobuf:"bytes,1,rep,name=conversationIDs,proto3" json:"conversationIDs"`
+	ConversationIDs []string `protobuf:"bytes,1,rep,name=conversationIDs,proto3" json:"conversationIDs,omitempty"`
 }
 
 func (x *GetConversationIDsResp) Reset() {
@@ -1633,8 +1629,8 @@ type SetConversationsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserIDs      []string         `protobuf:"bytes,1,rep,name=userIDs,proto3" json:"userIDs"`
-	Conversation *ConversationReq `protobuf:"bytes,2,opt,name=conversation,proto3" json:"conversation"`
+	UserIDs      []string         `protobuf:"bytes,1,rep,name=userIDs,proto3" json:"userIDs,omitempty"`
+	Conversation *ConversationReq `protobuf:"bytes,2,opt,name=conversation,proto3" json:"conversation,omitempty"`
 }
 
 func (x *SetConversationsReq) Reset() {
@@ -1726,7 +1722,7 @@ type GetUserConversationIDsHashReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	OwnerUserID string `protobuf:"bytes,1,opt,name=ownerUserID,proto3" json:"ownerUserID"`
+	OwnerUserID string `protobuf:"bytes,1,opt,name=ownerUserID,proto3" json:"ownerUserID,omitempty"`
 }
 
 func (x *GetUserConversationIDsHashReq) Reset() {
@@ -1773,7 +1769,7 @@ type GetUserConversationIDsHashResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Hash uint64 `protobuf:"varint,1,opt,name=hash,proto3" json:"hash"`
+	Hash uint64 `protobuf:"varint,1,opt,name=hash,proto3" json:"hash,omitempty"`
 }
 
 func (x *GetUserConversationIDsHashResp) Reset() {
@@ -1820,7 +1816,7 @@ type GetConversationsByConversationIDReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ConversationIDs []string `protobuf:"bytes,1,rep,name=conversationIDs,proto3" json:"conversationIDs"`
+	ConversationIDs []string `protobuf:"bytes,1,rep,name=conversationIDs,proto3" json:"conversationIDs,omitempty"`
 }
 
 func (x *GetConversationsByConversationIDReq) Reset() {
@@ -1867,7 +1863,7 @@ type GetConversationsByConversationIDResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Conversations []*Conversation `protobuf:"bytes,1,rep,name=conversations,proto3" json:"conversations"`
+	Conversations []*Conversation `protobuf:"bytes,1,rep,name=conversations,proto3" json:"conversations,omitempty"`
 }
 
 func (x *GetConversationsByConversationIDResp) Reset() {
@@ -1914,8 +1910,8 @@ type GetConversationOfflinePushUserIDsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ConversationID string   `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID"`
-	UserIDs        []string `protobuf:"bytes,2,rep,name=userIDs,proto3" json:"userIDs"`
+	ConversationID string   `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID,omitempty"`
+	UserIDs        []string `protobuf:"bytes,2,rep,name=userIDs,proto3" json:"userIDs,omitempty"`
 }
 
 func (x *GetConversationOfflinePushUserIDsReq) Reset() {
@@ -1969,7 +1965,7 @@ type GetConversationOfflinePushUserIDsResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserIDs []string `protobuf:"bytes,1,rep,name=userIDs,proto3" json:"userIDs"`
+	UserIDs []string `protobuf:"bytes,1,rep,name=userIDs,proto3" json:"userIDs,omitempty"`
 }
 
 func (x *GetConversationOfflinePushUserIDsResp) Reset() {
@@ -2016,7 +2012,7 @@ type GetConversationNotReceiveMessageUserIDsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ConversationID string `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID"`
+	ConversationID string `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID,omitempty"`
 }
 
 func (x *GetConversationNotReceiveMessageUserIDsReq) Reset() {
@@ -2063,7 +2059,7 @@ type GetConversationNotReceiveMessageUserIDsResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserIDs []string `protobuf:"bytes,1,rep,name=userIDs,proto3" json:"userIDs"`
+	UserIDs []string `protobuf:"bytes,1,rep,name=userIDs,proto3" json:"userIDs,omitempty"`
 }
 
 func (x *GetConversationNotReceiveMessageUserIDsResp) Reset() {
@@ -3081,588 +3077,4 @@ func file_conversation_conversation_proto_init() {
 	file_conversation_conversation_proto_rawDesc = nil
 	file_conversation_conversation_proto_goTypes = nil
 	file_conversation_conversation_proto_depIdxs = nil
-}
-
-// Reference imports to suppress errors if they are not otherwise used.
-var _ context.Context
-var _ grpc.ClientConnInterface
-
-// This is a compile-time assertion to ensure that this generated file
-// is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion6
-
-// ConversationClient is the client API for Conversation service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type ConversationClient interface {
-	GetConversation(ctx context.Context, in *GetConversationReq, opts ...grpc.CallOption) (*GetConversationResp, error)
-	GetSortedConversationList(ctx context.Context, in *GetSortedConversationListReq, opts ...grpc.CallOption) (*GetSortedConversationListResp, error)
-	GetAllConversations(ctx context.Context, in *GetAllConversationsReq, opts ...grpc.CallOption) (*GetAllConversationsResp, error)
-	GetConversations(ctx context.Context, in *GetConversationsReq, opts ...grpc.CallOption) (*GetConversationsResp, error)
-	SetConversation(ctx context.Context, in *SetConversationReq, opts ...grpc.CallOption) (*SetConversationResp, error)
-	GetRecvMsgNotNotifyUserIDs(ctx context.Context, in *GetRecvMsgNotNotifyUserIDsReq, opts ...grpc.CallOption) (*GetRecvMsgNotNotifyUserIDsResp, error)
-	CreateSingleChatConversations(ctx context.Context, in *CreateSingleChatConversationsReq, opts ...grpc.CallOption) (*CreateSingleChatConversationsResp, error)
-	CreateGroupChatConversations(ctx context.Context, in *CreateGroupChatConversationsReq, opts ...grpc.CallOption) (*CreateGroupChatConversationsResp, error)
-	SetConversationMaxSeq(ctx context.Context, in *SetConversationMaxSeqReq, opts ...grpc.CallOption) (*SetConversationMaxSeqResp, error)
-	GetConversationIDs(ctx context.Context, in *GetConversationIDsReq, opts ...grpc.CallOption) (*GetConversationIDsResp, error)
-	SetConversations(ctx context.Context, in *SetConversationsReq, opts ...grpc.CallOption) (*SetConversationsResp, error)
-	GetUserConversationIDsHash(ctx context.Context, in *GetUserConversationIDsHashReq, opts ...grpc.CallOption) (*GetUserConversationIDsHashResp, error)
-	GetConversationsByConversationID(ctx context.Context, in *GetConversationsByConversationIDReq, opts ...grpc.CallOption) (*GetConversationsByConversationIDResp, error)
-	GetConversationOfflinePushUserIDs(ctx context.Context, in *GetConversationOfflinePushUserIDsReq, opts ...grpc.CallOption) (*GetConversationOfflinePushUserIDsResp, error)
-	GetConversationNotReceiveMessageUserIDs(ctx context.Context, in *GetConversationNotReceiveMessageUserIDsReq, opts ...grpc.CallOption) (*GetConversationNotReceiveMessageUserIDsResp, error)
-}
-
-type conversationClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewConversationClient(cc grpc.ClientConnInterface) ConversationClient {
-	return &conversationClient{cc}
-}
-
-func (c *conversationClient) GetConversation(ctx context.Context, in *GetConversationReq, opts ...grpc.CallOption) (*GetConversationResp, error) {
-	out := new(GetConversationResp)
-	err := c.cc.Invoke(ctx, "/openim.conversation.conversation/GetConversation", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *conversationClient) GetSortedConversationList(ctx context.Context, in *GetSortedConversationListReq, opts ...grpc.CallOption) (*GetSortedConversationListResp, error) {
-	out := new(GetSortedConversationListResp)
-	err := c.cc.Invoke(ctx, "/openim.conversation.conversation/GetSortedConversationList", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *conversationClient) GetAllConversations(ctx context.Context, in *GetAllConversationsReq, opts ...grpc.CallOption) (*GetAllConversationsResp, error) {
-	out := new(GetAllConversationsResp)
-	err := c.cc.Invoke(ctx, "/openim.conversation.conversation/GetAllConversations", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *conversationClient) GetConversations(ctx context.Context, in *GetConversationsReq, opts ...grpc.CallOption) (*GetConversationsResp, error) {
-	out := new(GetConversationsResp)
-	err := c.cc.Invoke(ctx, "/openim.conversation.conversation/GetConversations", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *conversationClient) SetConversation(ctx context.Context, in *SetConversationReq, opts ...grpc.CallOption) (*SetConversationResp, error) {
-	out := new(SetConversationResp)
-	err := c.cc.Invoke(ctx, "/openim.conversation.conversation/SetConversation", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *conversationClient) GetRecvMsgNotNotifyUserIDs(ctx context.Context, in *GetRecvMsgNotNotifyUserIDsReq, opts ...grpc.CallOption) (*GetRecvMsgNotNotifyUserIDsResp, error) {
-	out := new(GetRecvMsgNotNotifyUserIDsResp)
-	err := c.cc.Invoke(ctx, "/openim.conversation.conversation/GetRecvMsgNotNotifyUserIDs", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *conversationClient) CreateSingleChatConversations(ctx context.Context, in *CreateSingleChatConversationsReq, opts ...grpc.CallOption) (*CreateSingleChatConversationsResp, error) {
-	out := new(CreateSingleChatConversationsResp)
-	err := c.cc.Invoke(ctx, "/openim.conversation.conversation/CreateSingleChatConversations", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *conversationClient) CreateGroupChatConversations(ctx context.Context, in *CreateGroupChatConversationsReq, opts ...grpc.CallOption) (*CreateGroupChatConversationsResp, error) {
-	out := new(CreateGroupChatConversationsResp)
-	err := c.cc.Invoke(ctx, "/openim.conversation.conversation/CreateGroupChatConversations", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *conversationClient) SetConversationMaxSeq(ctx context.Context, in *SetConversationMaxSeqReq, opts ...grpc.CallOption) (*SetConversationMaxSeqResp, error) {
-	out := new(SetConversationMaxSeqResp)
-	err := c.cc.Invoke(ctx, "/openim.conversation.conversation/SetConversationMaxSeq", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *conversationClient) GetConversationIDs(ctx context.Context, in *GetConversationIDsReq, opts ...grpc.CallOption) (*GetConversationIDsResp, error) {
-	out := new(GetConversationIDsResp)
-	err := c.cc.Invoke(ctx, "/openim.conversation.conversation/GetConversationIDs", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *conversationClient) SetConversations(ctx context.Context, in *SetConversationsReq, opts ...grpc.CallOption) (*SetConversationsResp, error) {
-	out := new(SetConversationsResp)
-	err := c.cc.Invoke(ctx, "/openim.conversation.conversation/SetConversations", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *conversationClient) GetUserConversationIDsHash(ctx context.Context, in *GetUserConversationIDsHashReq, opts ...grpc.CallOption) (*GetUserConversationIDsHashResp, error) {
-	out := new(GetUserConversationIDsHashResp)
-	err := c.cc.Invoke(ctx, "/openim.conversation.conversation/GetUserConversationIDsHash", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *conversationClient) GetConversationsByConversationID(ctx context.Context, in *GetConversationsByConversationIDReq, opts ...grpc.CallOption) (*GetConversationsByConversationIDResp, error) {
-	out := new(GetConversationsByConversationIDResp)
-	err := c.cc.Invoke(ctx, "/openim.conversation.conversation/GetConversationsByConversationID", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *conversationClient) GetConversationOfflinePushUserIDs(ctx context.Context, in *GetConversationOfflinePushUserIDsReq, opts ...grpc.CallOption) (*GetConversationOfflinePushUserIDsResp, error) {
-	out := new(GetConversationOfflinePushUserIDsResp)
-	err := c.cc.Invoke(ctx, "/openim.conversation.conversation/GetConversationOfflinePushUserIDs", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *conversationClient) GetConversationNotReceiveMessageUserIDs(ctx context.Context, in *GetConversationNotReceiveMessageUserIDsReq, opts ...grpc.CallOption) (*GetConversationNotReceiveMessageUserIDsResp, error) {
-	out := new(GetConversationNotReceiveMessageUserIDsResp)
-	err := c.cc.Invoke(ctx, "/openim.conversation.conversation/GetConversationNotReceiveMessageUserIDs", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// ConversationServer is the server API for Conversation service.
-type ConversationServer interface {
-	GetConversation(context.Context, *GetConversationReq) (*GetConversationResp, error)
-	GetSortedConversationList(context.Context, *GetSortedConversationListReq) (*GetSortedConversationListResp, error)
-	GetAllConversations(context.Context, *GetAllConversationsReq) (*GetAllConversationsResp, error)
-	GetConversations(context.Context, *GetConversationsReq) (*GetConversationsResp, error)
-	SetConversation(context.Context, *SetConversationReq) (*SetConversationResp, error)
-	GetRecvMsgNotNotifyUserIDs(context.Context, *GetRecvMsgNotNotifyUserIDsReq) (*GetRecvMsgNotNotifyUserIDsResp, error)
-	CreateSingleChatConversations(context.Context, *CreateSingleChatConversationsReq) (*CreateSingleChatConversationsResp, error)
-	CreateGroupChatConversations(context.Context, *CreateGroupChatConversationsReq) (*CreateGroupChatConversationsResp, error)
-	SetConversationMaxSeq(context.Context, *SetConversationMaxSeqReq) (*SetConversationMaxSeqResp, error)
-	GetConversationIDs(context.Context, *GetConversationIDsReq) (*GetConversationIDsResp, error)
-	SetConversations(context.Context, *SetConversationsReq) (*SetConversationsResp, error)
-	GetUserConversationIDsHash(context.Context, *GetUserConversationIDsHashReq) (*GetUserConversationIDsHashResp, error)
-	GetConversationsByConversationID(context.Context, *GetConversationsByConversationIDReq) (*GetConversationsByConversationIDResp, error)
-	GetConversationOfflinePushUserIDs(context.Context, *GetConversationOfflinePushUserIDsReq) (*GetConversationOfflinePushUserIDsResp, error)
-	GetConversationNotReceiveMessageUserIDs(context.Context, *GetConversationNotReceiveMessageUserIDsReq) (*GetConversationNotReceiveMessageUserIDsResp, error)
-}
-
-// UnimplementedConversationServer can be embedded to have forward compatible implementations.
-type UnimplementedConversationServer struct {
-}
-
-func (*UnimplementedConversationServer) GetConversation(context.Context, *GetConversationReq) (*GetConversationResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetConversation not implemented")
-}
-func (*UnimplementedConversationServer) GetSortedConversationList(context.Context, *GetSortedConversationListReq) (*GetSortedConversationListResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetSortedConversationList not implemented")
-}
-func (*UnimplementedConversationServer) GetAllConversations(context.Context, *GetAllConversationsReq) (*GetAllConversationsResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAllConversations not implemented")
-}
-func (*UnimplementedConversationServer) GetConversations(context.Context, *GetConversationsReq) (*GetConversationsResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetConversations not implemented")
-}
-func (*UnimplementedConversationServer) SetConversation(context.Context, *SetConversationReq) (*SetConversationResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SetConversation not implemented")
-}
-func (*UnimplementedConversationServer) GetRecvMsgNotNotifyUserIDs(context.Context, *GetRecvMsgNotNotifyUserIDsReq) (*GetRecvMsgNotNotifyUserIDsResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetRecvMsgNotNotifyUserIDs not implemented")
-}
-func (*UnimplementedConversationServer) CreateSingleChatConversations(context.Context, *CreateSingleChatConversationsReq) (*CreateSingleChatConversationsResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateSingleChatConversations not implemented")
-}
-func (*UnimplementedConversationServer) CreateGroupChatConversations(context.Context, *CreateGroupChatConversationsReq) (*CreateGroupChatConversationsResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateGroupChatConversations not implemented")
-}
-func (*UnimplementedConversationServer) SetConversationMaxSeq(context.Context, *SetConversationMaxSeqReq) (*SetConversationMaxSeqResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SetConversationMaxSeq not implemented")
-}
-func (*UnimplementedConversationServer) GetConversationIDs(context.Context, *GetConversationIDsReq) (*GetConversationIDsResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetConversationIDs not implemented")
-}
-func (*UnimplementedConversationServer) SetConversations(context.Context, *SetConversationsReq) (*SetConversationsResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SetConversations not implemented")
-}
-func (*UnimplementedConversationServer) GetUserConversationIDsHash(context.Context, *GetUserConversationIDsHashReq) (*GetUserConversationIDsHashResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserConversationIDsHash not implemented")
-}
-func (*UnimplementedConversationServer) GetConversationsByConversationID(context.Context, *GetConversationsByConversationIDReq) (*GetConversationsByConversationIDResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetConversationsByConversationID not implemented")
-}
-func (*UnimplementedConversationServer) GetConversationOfflinePushUserIDs(context.Context, *GetConversationOfflinePushUserIDsReq) (*GetConversationOfflinePushUserIDsResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetConversationOfflinePushUserIDs not implemented")
-}
-func (*UnimplementedConversationServer) GetConversationNotReceiveMessageUserIDs(context.Context, *GetConversationNotReceiveMessageUserIDsReq) (*GetConversationNotReceiveMessageUserIDsResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetConversationNotReceiveMessageUserIDs not implemented")
-}
-
-func RegisterConversationServer(s *grpc.Server, srv ConversationServer) {
-	s.RegisterService(&_Conversation_serviceDesc, srv)
-}
-
-func _Conversation_GetConversation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetConversationReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ConversationServer).GetConversation(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/openim.conversation.conversation/GetConversation",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConversationServer).GetConversation(ctx, req.(*GetConversationReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Conversation_GetSortedConversationList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetSortedConversationListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ConversationServer).GetSortedConversationList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/openim.conversation.conversation/GetSortedConversationList",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConversationServer).GetSortedConversationList(ctx, req.(*GetSortedConversationListReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Conversation_GetAllConversations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetAllConversationsReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ConversationServer).GetAllConversations(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/openim.conversation.conversation/GetAllConversations",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConversationServer).GetAllConversations(ctx, req.(*GetAllConversationsReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Conversation_GetConversations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetConversationsReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ConversationServer).GetConversations(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/openim.conversation.conversation/GetConversations",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConversationServer).GetConversations(ctx, req.(*GetConversationsReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Conversation_SetConversation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SetConversationReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ConversationServer).SetConversation(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/openim.conversation.conversation/SetConversation",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConversationServer).SetConversation(ctx, req.(*SetConversationReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Conversation_GetRecvMsgNotNotifyUserIDs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetRecvMsgNotNotifyUserIDsReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ConversationServer).GetRecvMsgNotNotifyUserIDs(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/openim.conversation.conversation/GetRecvMsgNotNotifyUserIDs",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConversationServer).GetRecvMsgNotNotifyUserIDs(ctx, req.(*GetRecvMsgNotNotifyUserIDsReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Conversation_CreateSingleChatConversations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateSingleChatConversationsReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ConversationServer).CreateSingleChatConversations(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/openim.conversation.conversation/CreateSingleChatConversations",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConversationServer).CreateSingleChatConversations(ctx, req.(*CreateSingleChatConversationsReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Conversation_CreateGroupChatConversations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateGroupChatConversationsReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ConversationServer).CreateGroupChatConversations(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/openim.conversation.conversation/CreateGroupChatConversations",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConversationServer).CreateGroupChatConversations(ctx, req.(*CreateGroupChatConversationsReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Conversation_SetConversationMaxSeq_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SetConversationMaxSeqReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ConversationServer).SetConversationMaxSeq(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/openim.conversation.conversation/SetConversationMaxSeq",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConversationServer).SetConversationMaxSeq(ctx, req.(*SetConversationMaxSeqReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Conversation_GetConversationIDs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetConversationIDsReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ConversationServer).GetConversationIDs(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/openim.conversation.conversation/GetConversationIDs",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConversationServer).GetConversationIDs(ctx, req.(*GetConversationIDsReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Conversation_SetConversations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SetConversationsReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ConversationServer).SetConversations(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/openim.conversation.conversation/SetConversations",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConversationServer).SetConversations(ctx, req.(*SetConversationsReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Conversation_GetUserConversationIDsHash_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserConversationIDsHashReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ConversationServer).GetUserConversationIDsHash(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/openim.conversation.conversation/GetUserConversationIDsHash",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConversationServer).GetUserConversationIDsHash(ctx, req.(*GetUserConversationIDsHashReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Conversation_GetConversationsByConversationID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetConversationsByConversationIDReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ConversationServer).GetConversationsByConversationID(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/openim.conversation.conversation/GetConversationsByConversationID",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConversationServer).GetConversationsByConversationID(ctx, req.(*GetConversationsByConversationIDReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Conversation_GetConversationOfflinePushUserIDs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetConversationOfflinePushUserIDsReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ConversationServer).GetConversationOfflinePushUserIDs(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/openim.conversation.conversation/GetConversationOfflinePushUserIDs",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConversationServer).GetConversationOfflinePushUserIDs(ctx, req.(*GetConversationOfflinePushUserIDsReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Conversation_GetConversationNotReceiveMessageUserIDs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetConversationNotReceiveMessageUserIDsReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ConversationServer).GetConversationNotReceiveMessageUserIDs(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/openim.conversation.conversation/GetConversationNotReceiveMessageUserIDs",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConversationServer).GetConversationNotReceiveMessageUserIDs(ctx, req.(*GetConversationNotReceiveMessageUserIDsReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-var _Conversation_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "openim.conversation.conversation",
-	HandlerType: (*ConversationServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "GetConversation",
-			Handler:    _Conversation_GetConversation_Handler,
-		},
-		{
-			MethodName: "GetSortedConversationList",
-			Handler:    _Conversation_GetSortedConversationList_Handler,
-		},
-		{
-			MethodName: "GetAllConversations",
-			Handler:    _Conversation_GetAllConversations_Handler,
-		},
-		{
-			MethodName: "GetConversations",
-			Handler:    _Conversation_GetConversations_Handler,
-		},
-		{
-			MethodName: "SetConversation",
-			Handler:    _Conversation_SetConversation_Handler,
-		},
-		{
-			MethodName: "GetRecvMsgNotNotifyUserIDs",
-			Handler:    _Conversation_GetRecvMsgNotNotifyUserIDs_Handler,
-		},
-		{
-			MethodName: "CreateSingleChatConversations",
-			Handler:    _Conversation_CreateSingleChatConversations_Handler,
-		},
-		{
-			MethodName: "CreateGroupChatConversations",
-			Handler:    _Conversation_CreateGroupChatConversations_Handler,
-		},
-		{
-			MethodName: "SetConversationMaxSeq",
-			Handler:    _Conversation_SetConversationMaxSeq_Handler,
-		},
-		{
-			MethodName: "GetConversationIDs",
-			Handler:    _Conversation_GetConversationIDs_Handler,
-		},
-		{
-			MethodName: "SetConversations",
-			Handler:    _Conversation_SetConversations_Handler,
-		},
-		{
-			MethodName: "GetUserConversationIDsHash",
-			Handler:    _Conversation_GetUserConversationIDsHash_Handler,
-		},
-		{
-			MethodName: "GetConversationsByConversationID",
-			Handler:    _Conversation_GetConversationsByConversationID_Handler,
-		},
-		{
-			MethodName: "GetConversationOfflinePushUserIDs",
-			Handler:    _Conversation_GetConversationOfflinePushUserIDs_Handler,
-		},
-		{
-			MethodName: "GetConversationNotReceiveMessageUserIDs",
-			Handler:    _Conversation_GetConversationNotReceiveMessageUserIDs_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "conversation/conversation.proto",
 }
