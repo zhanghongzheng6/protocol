@@ -43,7 +43,7 @@ type DoubleValue struct {
 	unknownFields protoimpl.UnknownFields
 
 	// The double value.
-	Value float64 `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value float64 `protobuf:"fixed64,1,opt,name=value,proto3" json:"value"`
 }
 
 func (x *DoubleValue) Reset() {
@@ -94,7 +94,7 @@ type FloatValue struct {
 	unknownFields protoimpl.UnknownFields
 
 	// The float value.
-	Value float32 `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value float32 `protobuf:"fixed32,1,opt,name=value,proto3" json:"value"`
 }
 
 func (x *FloatValue) Reset() {
@@ -145,7 +145,7 @@ type Int64Value struct {
 	unknownFields protoimpl.UnknownFields
 
 	// The int64 value.
-	Value int64 `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value int64 `protobuf:"varint,1,opt,name=value,proto3" json:"value"`
 }
 
 func (x *Int64Value) Reset() {
@@ -196,7 +196,7 @@ type UInt64Value struct {
 	unknownFields protoimpl.UnknownFields
 
 	// The uint64 value.
-	Value uint64 `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value uint64 `protobuf:"varint,1,opt,name=value,proto3" json:"value"`
 }
 
 func (x *UInt64Value) Reset() {
@@ -247,7 +247,7 @@ type Int32Value struct {
 	unknownFields protoimpl.UnknownFields
 
 	// The int32 value.
-	Value int32 `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value int32 `protobuf:"varint,1,opt,name=value,proto3" json:"value"`
 }
 
 func (x *Int32Value) Reset() {
@@ -298,7 +298,7 @@ type UInt32Value struct {
 	unknownFields protoimpl.UnknownFields
 
 	// The uint32 value.
-	Value uint32 `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value uint32 `protobuf:"varint,1,opt,name=value,proto3" json:"value"`
 }
 
 func (x *UInt32Value) Reset() {
@@ -349,7 +349,7 @@ type BoolValue struct {
 	unknownFields protoimpl.UnknownFields
 
 	// The bool value.
-	Value bool `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value bool `protobuf:"varint,1,opt,name=value,proto3" json:"value"`
 }
 
 func (x *BoolValue) Reset() {
@@ -400,7 +400,7 @@ type StringValue struct {
 	unknownFields protoimpl.UnknownFields
 
 	// The string value.
-	Value string `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value string `protobuf:"bytes,1,opt,name=value,proto3" json:"value"`
 }
 
 func (x *StringValue) Reset() {
@@ -451,7 +451,7 @@ type BytesValue struct {
 	unknownFields protoimpl.UnknownFields
 
 	// The bytes value.
-	Value []byte `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value []byte `protobuf:"bytes,1,opt,name=value,proto3" json:"value"`
 }
 
 func (x *BytesValue) Reset() {

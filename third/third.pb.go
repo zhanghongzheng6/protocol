@@ -21,7 +21,11 @@
 package third
 
 import (
+	context "context"
 	sdkws "github.com/openimsdk/protocol/sdkws"
+	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -40,8 +44,8 @@ type KeyValues struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Key    string   `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
-	Values []string `protobuf:"bytes,2,rep,name=values,proto3" json:"values,omitempty"`
+	Key    string   `protobuf:"bytes,1,opt,name=key,proto3" json:"key"`
+	Values []string `protobuf:"bytes,2,rep,name=values,proto3" json:"values"`
 }
 
 func (x *KeyValues) Reset() {
@@ -95,10 +99,10 @@ type SignPart struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	PartNumber int32        `protobuf:"varint,1,opt,name=partNumber,proto3" json:"partNumber,omitempty"`
-	Url        string       `protobuf:"bytes,2,opt,name=url,proto3" json:"url,omitempty"`
-	Query      []*KeyValues `protobuf:"bytes,3,rep,name=query,proto3" json:"query,omitempty"`
-	Header     []*KeyValues `protobuf:"bytes,4,rep,name=header,proto3" json:"header,omitempty"`
+	PartNumber int32        `protobuf:"varint,1,opt,name=partNumber,proto3" json:"partNumber"`
+	Url        string       `protobuf:"bytes,2,opt,name=url,proto3" json:"url"`
+	Query      []*KeyValues `protobuf:"bytes,3,rep,name=query,proto3" json:"query"`
+	Header     []*KeyValues `protobuf:"bytes,4,rep,name=header,proto3" json:"header"`
 }
 
 func (x *SignPart) Reset() {
@@ -166,10 +170,10 @@ type AuthSignParts struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Url    string       `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
-	Query  []*KeyValues `protobuf:"bytes,2,rep,name=query,proto3" json:"query,omitempty"`
-	Header []*KeyValues `protobuf:"bytes,3,rep,name=header,proto3" json:"header,omitempty"`
-	Parts  []*SignPart  `protobuf:"bytes,4,rep,name=parts,proto3" json:"parts,omitempty"`
+	Url    string       `protobuf:"bytes,1,opt,name=url,proto3" json:"url"`
+	Query  []*KeyValues `protobuf:"bytes,2,rep,name=query,proto3" json:"query"`
+	Header []*KeyValues `protobuf:"bytes,3,rep,name=header,proto3" json:"header"`
+	Parts  []*SignPart  `protobuf:"bytes,4,rep,name=parts,proto3" json:"parts"`
 }
 
 func (x *AuthSignParts) Reset() {
@@ -275,9 +279,9 @@ type PartLimitResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	MinPartSize int64 `protobuf:"varint,1,opt,name=minPartSize,proto3" json:"minPartSize,omitempty"`
-	MaxPartSize int64 `protobuf:"varint,2,opt,name=maxPartSize,proto3" json:"maxPartSize,omitempty"`
-	MaxNumSize  int32 `protobuf:"varint,3,opt,name=maxNumSize,proto3" json:"maxNumSize,omitempty"`
+	MinPartSize int64 `protobuf:"varint,1,opt,name=minPartSize,proto3" json:"minPartSize"`
+	MaxPartSize int64 `protobuf:"varint,2,opt,name=maxPartSize,proto3" json:"maxPartSize"`
+	MaxNumSize  int32 `protobuf:"varint,3,opt,name=maxNumSize,proto3" json:"maxNumSize"`
 }
 
 func (x *PartLimitResp) Reset() {
@@ -338,7 +342,7 @@ type PartSizeReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Size int64 `protobuf:"varint,1,opt,name=size,proto3" json:"size,omitempty"`
+	Size int64 `protobuf:"varint,1,opt,name=size,proto3" json:"size"`
 }
 
 func (x *PartSizeReq) Reset() {
@@ -385,7 +389,7 @@ type PartSizeResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Size int64 `protobuf:"varint,2,opt,name=size,proto3" json:"size,omitempty"`
+	Size int64 `protobuf:"varint,2,opt,name=size,proto3" json:"size"`
 }
 
 func (x *PartSizeResp) Reset() {
@@ -432,14 +436,14 @@ type InitiateMultipartUploadReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Hash        string `protobuf:"bytes,1,opt,name=hash,proto3" json:"hash,omitempty"`
-	Size        int64  `protobuf:"varint,2,opt,name=size,proto3" json:"size,omitempty"`
-	PartSize    int64  `protobuf:"varint,3,opt,name=partSize,proto3" json:"partSize,omitempty"`
-	MaxParts    int32  `protobuf:"varint,4,opt,name=maxParts,proto3" json:"maxParts,omitempty"`
-	Cause       string `protobuf:"bytes,5,opt,name=cause,proto3" json:"cause,omitempty"`
-	Name        string `protobuf:"bytes,6,opt,name=name,proto3" json:"name,omitempty"`
-	ContentType string `protobuf:"bytes,7,opt,name=contentType,proto3" json:"contentType,omitempty"`
-	UrlPrefix   string `protobuf:"bytes,8,opt,name=urlPrefix,proto3" json:"urlPrefix,omitempty"`
+	Hash        string `protobuf:"bytes,1,opt,name=hash,proto3" json:"hash"`
+	Size        int64  `protobuf:"varint,2,opt,name=size,proto3" json:"size"`
+	PartSize    int64  `protobuf:"varint,3,opt,name=partSize,proto3" json:"partSize"`
+	MaxParts    int32  `protobuf:"varint,4,opt,name=maxParts,proto3" json:"maxParts"`
+	Cause       string `protobuf:"bytes,5,opt,name=cause,proto3" json:"cause"`
+	Name        string `protobuf:"bytes,6,opt,name=name,proto3" json:"name"`
+	ContentType string `protobuf:"bytes,7,opt,name=contentType,proto3" json:"contentType"`
+	UrlPrefix   string `protobuf:"bytes,8,opt,name=urlPrefix,proto3" json:"urlPrefix"`
 }
 
 func (x *InitiateMultipartUploadReq) Reset() {
@@ -535,10 +539,10 @@ type UploadInfo struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UploadID   string         `protobuf:"bytes,1,opt,name=uploadID,proto3" json:"uploadID,omitempty"`
-	PartSize   int64          `protobuf:"varint,2,opt,name=partSize,proto3" json:"partSize,omitempty"`
-	Sign       *AuthSignParts `protobuf:"bytes,3,opt,name=sign,proto3" json:"sign,omitempty"`
-	ExpireTime int64          `protobuf:"varint,4,opt,name=expireTime,proto3" json:"expireTime,omitempty"`
+	UploadID   string         `protobuf:"bytes,1,opt,name=uploadID,proto3" json:"uploadID"`
+	PartSize   int64          `protobuf:"varint,2,opt,name=partSize,proto3" json:"partSize"`
+	Sign       *AuthSignParts `protobuf:"bytes,3,opt,name=sign,proto3" json:"sign"`
+	ExpireTime int64          `protobuf:"varint,4,opt,name=expireTime,proto3" json:"expireTime"`
 }
 
 func (x *UploadInfo) Reset() {
@@ -606,8 +610,8 @@ type InitiateMultipartUploadResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Url    string      `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
-	Upload *UploadInfo `protobuf:"bytes,2,opt,name=upload,proto3" json:"upload,omitempty"`
+	Url    string      `protobuf:"bytes,1,opt,name=url,proto3" json:"url"`
+	Upload *UploadInfo `protobuf:"bytes,2,opt,name=upload,proto3" json:"upload"`
 }
 
 func (x *InitiateMultipartUploadResp) Reset() {
@@ -661,8 +665,8 @@ type AuthSignReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UploadID    string  `protobuf:"bytes,1,opt,name=uploadID,proto3" json:"uploadID,omitempty"`
-	PartNumbers []int32 `protobuf:"varint,2,rep,packed,name=partNumbers,proto3" json:"partNumbers,omitempty"`
+	UploadID    string  `protobuf:"bytes,1,opt,name=uploadID,proto3" json:"uploadID"`
+	PartNumbers []int32 `protobuf:"varint,2,rep,packed,name=partNumbers,proto3" json:"partNumbers"`
 }
 
 func (x *AuthSignReq) Reset() {
@@ -716,10 +720,10 @@ type AuthSignResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Url    string       `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
-	Query  []*KeyValues `protobuf:"bytes,2,rep,name=query,proto3" json:"query,omitempty"`
-	Header []*KeyValues `protobuf:"bytes,3,rep,name=header,proto3" json:"header,omitempty"`
-	Parts  []*SignPart  `protobuf:"bytes,4,rep,name=parts,proto3" json:"parts,omitempty"`
+	Url    string       `protobuf:"bytes,1,opt,name=url,proto3" json:"url"`
+	Query  []*KeyValues `protobuf:"bytes,2,rep,name=query,proto3" json:"query"`
+	Header []*KeyValues `protobuf:"bytes,3,rep,name=header,proto3" json:"header"`
+	Parts  []*SignPart  `protobuf:"bytes,4,rep,name=parts,proto3" json:"parts"`
 }
 
 func (x *AuthSignResp) Reset() {
@@ -787,12 +791,12 @@ type CompleteMultipartUploadReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UploadID    string   `protobuf:"bytes,1,opt,name=uploadID,proto3" json:"uploadID,omitempty"`
-	Parts       []string `protobuf:"bytes,2,rep,name=parts,proto3" json:"parts,omitempty"`
-	Name        string   `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	ContentType string   `protobuf:"bytes,4,opt,name=contentType,proto3" json:"contentType,omitempty"`
-	Cause       string   `protobuf:"bytes,5,opt,name=cause,proto3" json:"cause,omitempty"`
-	UrlPrefix   string   `protobuf:"bytes,6,opt,name=urlPrefix,proto3" json:"urlPrefix,omitempty"`
+	UploadID    string   `protobuf:"bytes,1,opt,name=uploadID,proto3" json:"uploadID"`
+	Parts       []string `protobuf:"bytes,2,rep,name=parts,proto3" json:"parts"`
+	Name        string   `protobuf:"bytes,3,opt,name=name,proto3" json:"name"`
+	ContentType string   `protobuf:"bytes,4,opt,name=contentType,proto3" json:"contentType"`
+	Cause       string   `protobuf:"bytes,5,opt,name=cause,proto3" json:"cause"`
+	UrlPrefix   string   `protobuf:"bytes,6,opt,name=urlPrefix,proto3" json:"urlPrefix"`
 }
 
 func (x *CompleteMultipartUploadReq) Reset() {
@@ -874,7 +878,7 @@ type CompleteMultipartUploadResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url"`
 }
 
 func (x *CompleteMultipartUploadResp) Reset() {
@@ -921,7 +925,7 @@ type AccessURLReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Name  string            `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Name  string            `protobuf:"bytes,1,opt,name=name,proto3" json:"name"`
 	Query map[string]string `protobuf:"bytes,2,rep,name=query,proto3" json:"query,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
@@ -976,8 +980,8 @@ type AccessURLResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Url        string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
-	ExpireTime int64  `protobuf:"varint,2,opt,name=expireTime,proto3" json:"expireTime,omitempty"`
+	Url        string `protobuf:"bytes,1,opt,name=url,proto3" json:"url"`
+	ExpireTime int64  `protobuf:"varint,2,opt,name=expireTime,proto3" json:"expireTime"`
 }
 
 func (x *AccessURLResp) Reset() {
@@ -1031,12 +1035,12 @@ type InitiateFormDataReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Name        string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Size        int64  `protobuf:"varint,2,opt,name=size,proto3" json:"size,omitempty"`
-	ContentType string `protobuf:"bytes,3,opt,name=contentType,proto3" json:"contentType,omitempty"`
-	Group       string `protobuf:"bytes,4,opt,name=group,proto3" json:"group,omitempty"`
-	Millisecond int64  `protobuf:"varint,5,opt,name=millisecond,proto3" json:"millisecond,omitempty"`
-	Absolute    bool   `protobuf:"varint,6,opt,name=absolute,proto3" json:"absolute,omitempty"`
+	Name        string `protobuf:"bytes,1,opt,name=name,proto3" json:"name"`
+	Size        int64  `protobuf:"varint,2,opt,name=size,proto3" json:"size"`
+	ContentType string `protobuf:"bytes,3,opt,name=contentType,proto3" json:"contentType"`
+	Group       string `protobuf:"bytes,4,opt,name=group,proto3" json:"group"`
+	Millisecond int64  `protobuf:"varint,5,opt,name=millisecond,proto3" json:"millisecond"`
+	Absolute    bool   `protobuf:"varint,6,opt,name=absolute,proto3" json:"absolute"`
 }
 
 func (x *InitiateFormDataReq) Reset() {
@@ -1118,13 +1122,13 @@ type InitiateFormDataResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id           string            `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Url          string            `protobuf:"bytes,2,opt,name=url,proto3" json:"url,omitempty"`
-	File         string            `protobuf:"bytes,3,opt,name=file,proto3" json:"file,omitempty"`
-	Header       []*KeyValues      `protobuf:"bytes,4,rep,name=header,proto3" json:"header,omitempty"`
+	Id           string            `protobuf:"bytes,1,opt,name=id,proto3" json:"id"`
+	Url          string            `protobuf:"bytes,2,opt,name=url,proto3" json:"url"`
+	File         string            `protobuf:"bytes,3,opt,name=file,proto3" json:"file"`
+	Header       []*KeyValues      `protobuf:"bytes,4,rep,name=header,proto3" json:"header"`
 	FormData     map[string]string `protobuf:"bytes,5,rep,name=formData,proto3" json:"formData,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	Expires      int64             `protobuf:"varint,6,opt,name=expires,proto3" json:"expires,omitempty"`
-	SuccessCodes []int32           `protobuf:"varint,7,rep,packed,name=successCodes,proto3" json:"successCodes,omitempty"`
+	Expires      int64             `protobuf:"varint,6,opt,name=expires,proto3" json:"expires"`
+	SuccessCodes []int32           `protobuf:"varint,7,rep,packed,name=successCodes,proto3" json:"successCodes"`
 }
 
 func (x *InitiateFormDataResp) Reset() {
@@ -1213,8 +1217,8 @@ type CompleteFormDataReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id        string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	UrlPrefix string `protobuf:"bytes,2,opt,name=urlPrefix,proto3" json:"urlPrefix,omitempty"`
+	Id        string `protobuf:"bytes,1,opt,name=id,proto3" json:"id"`
+	UrlPrefix string `protobuf:"bytes,2,opt,name=urlPrefix,proto3" json:"urlPrefix"`
 }
 
 func (x *CompleteFormDataReq) Reset() {
@@ -1268,7 +1272,7 @@ type CompleteFormDataResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url"`
 }
 
 func (x *CompleteFormDataResp) Reset() {
@@ -1315,10 +1319,10 @@ type FcmUpdateTokenReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	PlatformID int32  `protobuf:"varint,1,opt,name=platformID,proto3" json:"platformID,omitempty"`
-	FcmToken   string `protobuf:"bytes,2,opt,name=fcmToken,proto3" json:"fcmToken,omitempty"`
-	Account    string `protobuf:"bytes,3,opt,name=account,proto3" json:"account,omitempty"`
-	ExpireTime int64  `protobuf:"varint,4,opt,name=expireTime,proto3" json:"expireTime,omitempty"`
+	PlatformID int32  `protobuf:"varint,1,opt,name=platformID,proto3" json:"platformID"`
+	FcmToken   string `protobuf:"bytes,2,opt,name=fcmToken,proto3" json:"fcmToken"`
+	Account    string `protobuf:"bytes,3,opt,name=account,proto3" json:"account"`
+	ExpireTime int64  `protobuf:"varint,4,opt,name=expireTime,proto3" json:"expireTime"`
 }
 
 func (x *FcmUpdateTokenReq) Reset() {
@@ -1424,8 +1428,8 @@ type SetAppBadgeReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserID         string `protobuf:"bytes,1,opt,name=userID,proto3" json:"userID,omitempty"`
-	AppUnreadCount int32  `protobuf:"varint,2,opt,name=appUnreadCount,proto3" json:"appUnreadCount,omitempty"`
+	UserID         string `protobuf:"bytes,1,opt,name=userID,proto3" json:"userID"`
+	AppUnreadCount int32  `protobuf:"varint,2,opt,name=appUnreadCount,proto3" json:"appUnreadCount"`
 }
 
 func (x *SetAppBadgeReq) Reset() {
@@ -1517,8 +1521,8 @@ type FileURL struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Filename string `protobuf:"bytes,1,opt,name=filename,proto3" json:"filename,omitempty"`
-	URL      string `protobuf:"bytes,2,opt,name=URL,proto3" json:"URL,omitempty"`
+	Filename string `protobuf:"bytes,1,opt,name=filename,proto3" json:"filename"`
+	URL      string `protobuf:"bytes,2,opt,name=URL,proto3" json:"URL"`
 }
 
 func (x *FileURL) Reset() {
@@ -1572,11 +1576,11 @@ type UploadLogsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Platform   int32      `protobuf:"varint,1,opt,name=platform,proto3" json:"platform,omitempty"`
-	FileURLs   []*FileURL `protobuf:"bytes,2,rep,name=fileURLs,proto3" json:"fileURLs,omitempty"`
-	SystemType string     `protobuf:"bytes,3,opt,name=systemType,proto3" json:"systemType,omitempty"`
-	Version    string     `protobuf:"bytes,5,opt,name=version,proto3" json:"version,omitempty"`
-	Ex         string     `protobuf:"bytes,4,opt,name=ex,proto3" json:"ex,omitempty"`
+	Platform   int32      `protobuf:"varint,1,opt,name=platform,proto3" json:"platform"`
+	FileURLs   []*FileURL `protobuf:"bytes,2,rep,name=fileURLs,proto3" json:"fileURLs"`
+	SystemType string     `protobuf:"bytes,3,opt,name=systemType,proto3" json:"systemType"`
+	Version    string     `protobuf:"bytes,5,opt,name=version,proto3" json:"version"`
+	Ex         string     `protobuf:"bytes,4,opt,name=ex,proto3" json:"ex"`
 }
 
 func (x *UploadLogsReq) Reset() {
@@ -1689,7 +1693,7 @@ type DeleteLogsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	LogIDs []string `protobuf:"bytes,1,rep,name=logIDs,proto3" json:"logIDs,omitempty"`
+	LogIDs []string `protobuf:"bytes,1,rep,name=logIDs,proto3" json:"logIDs"`
 }
 
 func (x *DeleteLogsReq) Reset() {
@@ -1774,10 +1778,10 @@ type SearchLogsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Keyword    string                   `protobuf:"bytes,1,opt,name=keyword,proto3" json:"keyword,omitempty"`
-	StartTime  int64                    `protobuf:"varint,2,opt,name=startTime,proto3" json:"startTime,omitempty"`
-	EndTime    int64                    `protobuf:"varint,3,opt,name=endTime,proto3" json:"endTime,omitempty"`
-	Pagination *sdkws.RequestPagination `protobuf:"bytes,4,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	Keyword    string                   `protobuf:"bytes,1,opt,name=keyword,proto3" json:"keyword"`
+	StartTime  int64                    `protobuf:"varint,2,opt,name=startTime,proto3" json:"startTime"`
+	EndTime    int64                    `protobuf:"varint,3,opt,name=endTime,proto3" json:"endTime"`
+	Pagination *sdkws.RequestPagination `protobuf:"bytes,4,opt,name=pagination,proto3" json:"pagination"`
 }
 
 func (x *SearchLogsReq) Reset() {
@@ -1845,16 +1849,16 @@ type LogInfo struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserID     string `protobuf:"bytes,1,opt,name=userID,proto3" json:"userID,omitempty"`
-	Platform   int32  `protobuf:"varint,2,opt,name=platform,proto3" json:"platform,omitempty"`
-	Url        string `protobuf:"bytes,3,opt,name=url,proto3" json:"url,omitempty"`
-	CreateTime int64  `protobuf:"varint,4,opt,name=createTime,proto3" json:"createTime,omitempty"`
-	Nickname   string `protobuf:"bytes,5,opt,name=nickname,proto3" json:"nickname,omitempty"`
-	LogID      string `protobuf:"bytes,6,opt,name=logID,proto3" json:"logID,omitempty"`
-	Filename   string `protobuf:"bytes,7,opt,name=filename,proto3" json:"filename,omitempty"`
-	SystemType string `protobuf:"bytes,8,opt,name=systemType,proto3" json:"systemType,omitempty"`
-	Ex         string `protobuf:"bytes,9,opt,name=ex,proto3" json:"ex,omitempty"`
-	Version    string `protobuf:"bytes,10,opt,name=version,proto3" json:"version,omitempty"`
+	UserID     string `protobuf:"bytes,1,opt,name=userID,proto3" json:"userID"`
+	Platform   int32  `protobuf:"varint,2,opt,name=platform,proto3" json:"platform"`
+	Url        string `protobuf:"bytes,3,opt,name=url,proto3" json:"url"`
+	CreateTime int64  `protobuf:"varint,4,opt,name=createTime,proto3" json:"createTime"`
+	Nickname   string `protobuf:"bytes,5,opt,name=nickname,proto3" json:"nickname"`
+	LogID      string `protobuf:"bytes,6,opt,name=logID,proto3" json:"logID"`
+	Filename   string `protobuf:"bytes,7,opt,name=filename,proto3" json:"filename"`
+	SystemType string `protobuf:"bytes,8,opt,name=systemType,proto3" json:"systemType"`
+	Ex         string `protobuf:"bytes,9,opt,name=ex,proto3" json:"ex"`
+	Version    string `protobuf:"bytes,10,opt,name=version,proto3" json:"version"`
 }
 
 func (x *LogInfo) Reset() {
@@ -1964,8 +1968,8 @@ type SearchLogsResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	LogsInfos []*LogInfo `protobuf:"bytes,1,rep,name=logsInfos,proto3" json:"logsInfos,omitempty"`
-	Total     uint32     `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	LogsInfos []*LogInfo `protobuf:"bytes,1,rep,name=logsInfos,proto3" json:"logsInfos"`
+	Total     uint32     `protobuf:"varint,2,opt,name=total,proto3" json:"total"`
 }
 
 func (x *SearchLogsResp) Reset() {
@@ -2821,4 +2825,518 @@ func file_third_third_proto_init() {
 	file_third_third_proto_rawDesc = nil
 	file_third_third_proto_goTypes = nil
 	file_third_third_proto_depIdxs = nil
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConnInterface
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion6
+
+// ThirdClient is the client API for Third service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type ThirdClient interface {
+	PartLimit(ctx context.Context, in *PartLimitReq, opts ...grpc.CallOption) (*PartLimitResp, error)
+	PartSize(ctx context.Context, in *PartSizeReq, opts ...grpc.CallOption) (*PartSizeResp, error)
+	InitiateMultipartUpload(ctx context.Context, in *InitiateMultipartUploadReq, opts ...grpc.CallOption) (*InitiateMultipartUploadResp, error)
+	AuthSign(ctx context.Context, in *AuthSignReq, opts ...grpc.CallOption) (*AuthSignResp, error)
+	CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadReq, opts ...grpc.CallOption) (*CompleteMultipartUploadResp, error)
+	AccessURL(ctx context.Context, in *AccessURLReq, opts ...grpc.CallOption) (*AccessURLResp, error)
+	InitiateFormData(ctx context.Context, in *InitiateFormDataReq, opts ...grpc.CallOption) (*InitiateFormDataResp, error)
+	CompleteFormData(ctx context.Context, in *CompleteFormDataReq, opts ...grpc.CallOption) (*CompleteFormDataResp, error)
+	FcmUpdateToken(ctx context.Context, in *FcmUpdateTokenReq, opts ...grpc.CallOption) (*FcmUpdateTokenResp, error)
+	SetAppBadge(ctx context.Context, in *SetAppBadgeReq, opts ...grpc.CallOption) (*SetAppBadgeResp, error)
+	// 日志
+	UploadLogs(ctx context.Context, in *UploadLogsReq, opts ...grpc.CallOption) (*UploadLogsResp, error)
+	DeleteLogs(ctx context.Context, in *DeleteLogsReq, opts ...grpc.CallOption) (*DeleteLogsResp, error)
+	SearchLogs(ctx context.Context, in *SearchLogsReq, opts ...grpc.CallOption) (*SearchLogsResp, error)
+}
+
+type thirdClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewThirdClient(cc grpc.ClientConnInterface) ThirdClient {
+	return &thirdClient{cc}
+}
+
+func (c *thirdClient) PartLimit(ctx context.Context, in *PartLimitReq, opts ...grpc.CallOption) (*PartLimitResp, error) {
+	out := new(PartLimitResp)
+	err := c.cc.Invoke(ctx, "/openim.third.third/PartLimit", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *thirdClient) PartSize(ctx context.Context, in *PartSizeReq, opts ...grpc.CallOption) (*PartSizeResp, error) {
+	out := new(PartSizeResp)
+	err := c.cc.Invoke(ctx, "/openim.third.third/PartSize", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *thirdClient) InitiateMultipartUpload(ctx context.Context, in *InitiateMultipartUploadReq, opts ...grpc.CallOption) (*InitiateMultipartUploadResp, error) {
+	out := new(InitiateMultipartUploadResp)
+	err := c.cc.Invoke(ctx, "/openim.third.third/InitiateMultipartUpload", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *thirdClient) AuthSign(ctx context.Context, in *AuthSignReq, opts ...grpc.CallOption) (*AuthSignResp, error) {
+	out := new(AuthSignResp)
+	err := c.cc.Invoke(ctx, "/openim.third.third/AuthSign", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *thirdClient) CompleteMultipartUpload(ctx context.Context, in *CompleteMultipartUploadReq, opts ...grpc.CallOption) (*CompleteMultipartUploadResp, error) {
+	out := new(CompleteMultipartUploadResp)
+	err := c.cc.Invoke(ctx, "/openim.third.third/CompleteMultipartUpload", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *thirdClient) AccessURL(ctx context.Context, in *AccessURLReq, opts ...grpc.CallOption) (*AccessURLResp, error) {
+	out := new(AccessURLResp)
+	err := c.cc.Invoke(ctx, "/openim.third.third/AccessURL", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *thirdClient) InitiateFormData(ctx context.Context, in *InitiateFormDataReq, opts ...grpc.CallOption) (*InitiateFormDataResp, error) {
+	out := new(InitiateFormDataResp)
+	err := c.cc.Invoke(ctx, "/openim.third.third/InitiateFormData", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *thirdClient) CompleteFormData(ctx context.Context, in *CompleteFormDataReq, opts ...grpc.CallOption) (*CompleteFormDataResp, error) {
+	out := new(CompleteFormDataResp)
+	err := c.cc.Invoke(ctx, "/openim.third.third/CompleteFormData", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *thirdClient) FcmUpdateToken(ctx context.Context, in *FcmUpdateTokenReq, opts ...grpc.CallOption) (*FcmUpdateTokenResp, error) {
+	out := new(FcmUpdateTokenResp)
+	err := c.cc.Invoke(ctx, "/openim.third.third/FcmUpdateToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *thirdClient) SetAppBadge(ctx context.Context, in *SetAppBadgeReq, opts ...grpc.CallOption) (*SetAppBadgeResp, error) {
+	out := new(SetAppBadgeResp)
+	err := c.cc.Invoke(ctx, "/openim.third.third/SetAppBadge", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *thirdClient) UploadLogs(ctx context.Context, in *UploadLogsReq, opts ...grpc.CallOption) (*UploadLogsResp, error) {
+	out := new(UploadLogsResp)
+	err := c.cc.Invoke(ctx, "/openim.third.third/UploadLogs", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *thirdClient) DeleteLogs(ctx context.Context, in *DeleteLogsReq, opts ...grpc.CallOption) (*DeleteLogsResp, error) {
+	out := new(DeleteLogsResp)
+	err := c.cc.Invoke(ctx, "/openim.third.third/DeleteLogs", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *thirdClient) SearchLogs(ctx context.Context, in *SearchLogsReq, opts ...grpc.CallOption) (*SearchLogsResp, error) {
+	out := new(SearchLogsResp)
+	err := c.cc.Invoke(ctx, "/openim.third.third/SearchLogs", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// ThirdServer is the server API for Third service.
+type ThirdServer interface {
+	PartLimit(context.Context, *PartLimitReq) (*PartLimitResp, error)
+	PartSize(context.Context, *PartSizeReq) (*PartSizeResp, error)
+	InitiateMultipartUpload(context.Context, *InitiateMultipartUploadReq) (*InitiateMultipartUploadResp, error)
+	AuthSign(context.Context, *AuthSignReq) (*AuthSignResp, error)
+	CompleteMultipartUpload(context.Context, *CompleteMultipartUploadReq) (*CompleteMultipartUploadResp, error)
+	AccessURL(context.Context, *AccessURLReq) (*AccessURLResp, error)
+	InitiateFormData(context.Context, *InitiateFormDataReq) (*InitiateFormDataResp, error)
+	CompleteFormData(context.Context, *CompleteFormDataReq) (*CompleteFormDataResp, error)
+	FcmUpdateToken(context.Context, *FcmUpdateTokenReq) (*FcmUpdateTokenResp, error)
+	SetAppBadge(context.Context, *SetAppBadgeReq) (*SetAppBadgeResp, error)
+	// 日志
+	UploadLogs(context.Context, *UploadLogsReq) (*UploadLogsResp, error)
+	DeleteLogs(context.Context, *DeleteLogsReq) (*DeleteLogsResp, error)
+	SearchLogs(context.Context, *SearchLogsReq) (*SearchLogsResp, error)
+}
+
+// UnimplementedThirdServer can be embedded to have forward compatible implementations.
+type UnimplementedThirdServer struct {
+}
+
+func (*UnimplementedThirdServer) PartLimit(context.Context, *PartLimitReq) (*PartLimitResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PartLimit not implemented")
+}
+func (*UnimplementedThirdServer) PartSize(context.Context, *PartSizeReq) (*PartSizeResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PartSize not implemented")
+}
+func (*UnimplementedThirdServer) InitiateMultipartUpload(context.Context, *InitiateMultipartUploadReq) (*InitiateMultipartUploadResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method InitiateMultipartUpload not implemented")
+}
+func (*UnimplementedThirdServer) AuthSign(context.Context, *AuthSignReq) (*AuthSignResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AuthSign not implemented")
+}
+func (*UnimplementedThirdServer) CompleteMultipartUpload(context.Context, *CompleteMultipartUploadReq) (*CompleteMultipartUploadResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CompleteMultipartUpload not implemented")
+}
+func (*UnimplementedThirdServer) AccessURL(context.Context, *AccessURLReq) (*AccessURLResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AccessURL not implemented")
+}
+func (*UnimplementedThirdServer) InitiateFormData(context.Context, *InitiateFormDataReq) (*InitiateFormDataResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method InitiateFormData not implemented")
+}
+func (*UnimplementedThirdServer) CompleteFormData(context.Context, *CompleteFormDataReq) (*CompleteFormDataResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CompleteFormData not implemented")
+}
+func (*UnimplementedThirdServer) FcmUpdateToken(context.Context, *FcmUpdateTokenReq) (*FcmUpdateTokenResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FcmUpdateToken not implemented")
+}
+func (*UnimplementedThirdServer) SetAppBadge(context.Context, *SetAppBadgeReq) (*SetAppBadgeResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetAppBadge not implemented")
+}
+func (*UnimplementedThirdServer) UploadLogs(context.Context, *UploadLogsReq) (*UploadLogsResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UploadLogs not implemented")
+}
+func (*UnimplementedThirdServer) DeleteLogs(context.Context, *DeleteLogsReq) (*DeleteLogsResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteLogs not implemented")
+}
+func (*UnimplementedThirdServer) SearchLogs(context.Context, *SearchLogsReq) (*SearchLogsResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchLogs not implemented")
+}
+
+func RegisterThirdServer(s *grpc.Server, srv ThirdServer) {
+	s.RegisterService(&_Third_serviceDesc, srv)
+}
+
+func _Third_PartLimit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PartLimitReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ThirdServer).PartLimit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.third.third/PartLimit",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ThirdServer).PartLimit(ctx, req.(*PartLimitReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Third_PartSize_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PartSizeReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ThirdServer).PartSize(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.third.third/PartSize",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ThirdServer).PartSize(ctx, req.(*PartSizeReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Third_InitiateMultipartUpload_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(InitiateMultipartUploadReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ThirdServer).InitiateMultipartUpload(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.third.third/InitiateMultipartUpload",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ThirdServer).InitiateMultipartUpload(ctx, req.(*InitiateMultipartUploadReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Third_AuthSign_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AuthSignReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ThirdServer).AuthSign(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.third.third/AuthSign",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ThirdServer).AuthSign(ctx, req.(*AuthSignReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Third_CompleteMultipartUpload_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CompleteMultipartUploadReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ThirdServer).CompleteMultipartUpload(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.third.third/CompleteMultipartUpload",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ThirdServer).CompleteMultipartUpload(ctx, req.(*CompleteMultipartUploadReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Third_AccessURL_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AccessURLReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ThirdServer).AccessURL(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.third.third/AccessURL",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ThirdServer).AccessURL(ctx, req.(*AccessURLReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Third_InitiateFormData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(InitiateFormDataReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ThirdServer).InitiateFormData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.third.third/InitiateFormData",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ThirdServer).InitiateFormData(ctx, req.(*InitiateFormDataReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Third_CompleteFormData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CompleteFormDataReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ThirdServer).CompleteFormData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.third.third/CompleteFormData",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ThirdServer).CompleteFormData(ctx, req.(*CompleteFormDataReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Third_FcmUpdateToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FcmUpdateTokenReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ThirdServer).FcmUpdateToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.third.third/FcmUpdateToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ThirdServer).FcmUpdateToken(ctx, req.(*FcmUpdateTokenReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Third_SetAppBadge_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetAppBadgeReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ThirdServer).SetAppBadge(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.third.third/SetAppBadge",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ThirdServer).SetAppBadge(ctx, req.(*SetAppBadgeReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Third_UploadLogs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UploadLogsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ThirdServer).UploadLogs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.third.third/UploadLogs",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ThirdServer).UploadLogs(ctx, req.(*UploadLogsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Third_DeleteLogs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteLogsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ThirdServer).DeleteLogs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.third.third/DeleteLogs",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ThirdServer).DeleteLogs(ctx, req.(*DeleteLogsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Third_SearchLogs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchLogsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ThirdServer).SearchLogs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.third.third/SearchLogs",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ThirdServer).SearchLogs(ctx, req.(*SearchLogsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _Third_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "openim.third.third",
+	HandlerType: (*ThirdServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "PartLimit",
+			Handler:    _Third_PartLimit_Handler,
+		},
+		{
+			MethodName: "PartSize",
+			Handler:    _Third_PartSize_Handler,
+		},
+		{
+			MethodName: "InitiateMultipartUpload",
+			Handler:    _Third_InitiateMultipartUpload_Handler,
+		},
+		{
+			MethodName: "AuthSign",
+			Handler:    _Third_AuthSign_Handler,
+		},
+		{
+			MethodName: "CompleteMultipartUpload",
+			Handler:    _Third_CompleteMultipartUpload_Handler,
+		},
+		{
+			MethodName: "AccessURL",
+			Handler:    _Third_AccessURL_Handler,
+		},
+		{
+			MethodName: "InitiateFormData",
+			Handler:    _Third_InitiateFormData_Handler,
+		},
+		{
+			MethodName: "CompleteFormData",
+			Handler:    _Third_CompleteFormData_Handler,
+		},
+		{
+			MethodName: "FcmUpdateToken",
+			Handler:    _Third_FcmUpdateToken_Handler,
+		},
+		{
+			MethodName: "SetAppBadge",
+			Handler:    _Third_SetAppBadge_Handler,
+		},
+		{
+			MethodName: "UploadLogs",
+			Handler:    _Third_UploadLogs_Handler,
+		},
+		{
+			MethodName: "DeleteLogs",
+			Handler:    _Third_DeleteLogs_Handler,
+		},
+		{
+			MethodName: "SearchLogs",
+			Handler:    _Third_SearchLogs_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "third/third.proto",
 }

@@ -21,7 +21,11 @@
 package msg
 
 import (
+	context "context"
 	sdkws "github.com/openimsdk/protocol/sdkws"
+	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -40,8 +44,8 @@ type MsgDataToMQ struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Token   string         `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
-	MsgData *sdkws.MsgData `protobuf:"bytes,2,opt,name=msgData,proto3" json:"msgData,omitempty"`
+	Token   string         `protobuf:"bytes,1,opt,name=token,proto3" json:"token"`
+	MsgData *sdkws.MsgData `protobuf:"bytes,2,opt,name=msgData,proto3" json:"msgData"`
 }
 
 func (x *MsgDataToMQ) Reset() {
@@ -95,7 +99,7 @@ type MsgDataToDB struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	MsgData *sdkws.MsgData `protobuf:"bytes,1,opt,name=msgData,proto3" json:"msgData,omitempty"`
+	MsgData *sdkws.MsgData `protobuf:"bytes,1,opt,name=msgData,proto3" json:"msgData"`
 }
 
 func (x *MsgDataToDB) Reset() {
@@ -142,8 +146,8 @@ type PushMsgDataToMQ struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	MsgData        *sdkws.MsgData `protobuf:"bytes,1,opt,name=msgData,proto3" json:"msgData,omitempty"`
-	ConversationID string         `protobuf:"bytes,2,opt,name=conversationID,proto3" json:"conversationID,omitempty"`
+	MsgData        *sdkws.MsgData `protobuf:"bytes,1,opt,name=msgData,proto3" json:"msgData"`
+	ConversationID string         `protobuf:"bytes,2,opt,name=conversationID,proto3" json:"conversationID"`
 }
 
 func (x *PushMsgDataToMQ) Reset() {
@@ -197,9 +201,9 @@ type MsgDataToMongoByMQ struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	LastSeq        int64            `protobuf:"varint,1,opt,name=lastSeq,proto3" json:"lastSeq,omitempty"`
-	ConversationID string           `protobuf:"bytes,2,opt,name=conversationID,proto3" json:"conversationID,omitempty"`
-	MsgData        []*sdkws.MsgData `protobuf:"bytes,3,rep,name=msgData,proto3" json:"msgData,omitempty"`
+	LastSeq        int64            `protobuf:"varint,1,opt,name=lastSeq,proto3" json:"lastSeq"`
+	ConversationID string           `protobuf:"bytes,2,opt,name=conversationID,proto3" json:"conversationID"`
+	MsgData        []*sdkws.MsgData `protobuf:"bytes,3,rep,name=msgData,proto3" json:"msgData"`
 }
 
 func (x *MsgDataToMongoByMQ) Reset() {
@@ -260,7 +264,7 @@ type GetMaxAndMinSeqReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserID string `protobuf:"bytes,1,opt,name=UserID,proto3" json:"UserID,omitempty"`
+	UserID string `protobuf:"bytes,1,opt,name=UserID,proto3" json:"UserID"`
 }
 
 func (x *GetMaxAndMinSeqReq) Reset() {
@@ -307,8 +311,8 @@ type GetMaxAndMinSeqResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	MaxSeq int64 `protobuf:"varint,1,opt,name=MaxSeq,proto3" json:"MaxSeq,omitempty"`
-	MinSeq int64 `protobuf:"varint,2,opt,name=MinSeq,proto3" json:"MinSeq,omitempty"`
+	MaxSeq int64 `protobuf:"varint,1,opt,name=MaxSeq,proto3" json:"MaxSeq"`
+	MinSeq int64 `protobuf:"varint,2,opt,name=MinSeq,proto3" json:"MinSeq"`
 }
 
 func (x *GetMaxAndMinSeqResp) Reset() {
@@ -362,7 +366,7 @@ type SendMsgReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	MsgData *sdkws.MsgData `protobuf:"bytes,3,opt,name=msgData,proto3" json:"msgData,omitempty"`
+	MsgData *sdkws.MsgData `protobuf:"bytes,3,opt,name=msgData,proto3" json:"msgData"`
 }
 
 func (x *SendMsgReq) Reset() {
@@ -409,9 +413,9 @@ type SendMsgResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ServerMsgID string `protobuf:"bytes,1,opt,name=serverMsgID,proto3" json:"serverMsgID,omitempty"`
-	ClientMsgID string `protobuf:"bytes,2,opt,name=clientMsgID,proto3" json:"clientMsgID,omitempty"`
-	SendTime    int64  `protobuf:"varint,3,opt,name=sendTime,proto3" json:"sendTime,omitempty"`
+	ServerMsgID string `protobuf:"bytes,1,opt,name=serverMsgID,proto3" json:"serverMsgID"`
+	ClientMsgID string `protobuf:"bytes,2,opt,name=clientMsgID,proto3" json:"clientMsgID"`
+	SendTime    int64  `protobuf:"varint,3,opt,name=sendTime,proto3" json:"sendTime"`
 }
 
 func (x *SendMsgResp) Reset() {
@@ -472,7 +476,7 @@ type SetSendMsgStatusReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Status int32 `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
+	Status int32 `protobuf:"varint,1,opt,name=status,proto3" json:"status"`
 }
 
 func (x *SetSendMsgStatusReq) Reset() {
@@ -595,7 +599,7 @@ type GetSendMsgStatusResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Status int32 `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
+	Status int32 `protobuf:"varint,1,opt,name=status,proto3" json:"status"`
 }
 
 func (x *GetSendMsgStatusResp) Reset() {
@@ -642,8 +646,8 @@ type MsgDataToModifyByMQ struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Messages       []*sdkws.MsgData `protobuf:"bytes,1,rep,name=messages,proto3" json:"messages,omitempty"`
-	ConversationID string           `protobuf:"bytes,2,opt,name=conversationID,proto3" json:"conversationID,omitempty"`
+	Messages       []*sdkws.MsgData `protobuf:"bytes,1,rep,name=messages,proto3" json:"messages"`
+	ConversationID string           `protobuf:"bytes,2,opt,name=conversationID,proto3" json:"conversationID"`
 }
 
 func (x *MsgDataToModifyByMQ) Reset() {
@@ -773,9 +777,9 @@ type RevokeMsgReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ConversationID string `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID,omitempty"`
-	Seq            int64  `protobuf:"varint,2,opt,name=seq,proto3" json:"seq,omitempty"`
-	UserID         string `protobuf:"bytes,3,opt,name=userID,proto3" json:"userID,omitempty"`
+	ConversationID string `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID"`
+	Seq            int64  `protobuf:"varint,2,opt,name=seq,proto3" json:"seq"`
+	UserID         string `protobuf:"bytes,3,opt,name=userID,proto3" json:"userID"`
 }
 
 func (x *RevokeMsgReq) Reset() {
@@ -874,9 +878,9 @@ type MarkMsgsAsReadReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ConversationID string  `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID,omitempty"`
-	Seqs           []int64 `protobuf:"varint,2,rep,packed,name=seqs,proto3" json:"seqs,omitempty"`
-	UserID         string  `protobuf:"bytes,3,opt,name=userID,proto3" json:"userID,omitempty"`
+	ConversationID string  `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID"`
+	Seqs           []int64 `protobuf:"varint,2,rep,packed,name=seqs,proto3" json:"seqs"`
+	UserID         string  `protobuf:"bytes,3,opt,name=userID,proto3" json:"userID"`
 }
 
 func (x *MarkMsgsAsReadReq) Reset() {
@@ -975,10 +979,10 @@ type MarkConversationAsReadReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ConversationID string  `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID,omitempty"`
-	UserID         string  `protobuf:"bytes,2,opt,name=userID,proto3" json:"userID,omitempty"`
-	HasReadSeq     int64   `protobuf:"varint,3,opt,name=hasReadSeq,proto3" json:"hasReadSeq,omitempty"`
-	Seqs           []int64 `protobuf:"varint,4,rep,packed,name=seqs,proto3" json:"seqs,omitempty"`
+	ConversationID string  `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID"`
+	UserID         string  `protobuf:"bytes,2,opt,name=userID,proto3" json:"userID"`
+	HasReadSeq     int64   `protobuf:"varint,3,opt,name=hasReadSeq,proto3" json:"hasReadSeq"`
+	Seqs           []int64 `protobuf:"varint,4,rep,packed,name=seqs,proto3" json:"seqs"`
 }
 
 func (x *MarkConversationAsReadReq) Reset() {
@@ -1084,9 +1088,9 @@ type SetConversationHasReadSeqReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ConversationID string `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID,omitempty"`
-	UserID         string `protobuf:"bytes,2,opt,name=userID,proto3" json:"userID,omitempty"`
-	HasReadSeq     int64  `protobuf:"varint,3,opt,name=hasReadSeq,proto3" json:"hasReadSeq,omitempty"`
+	ConversationID string `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID"`
+	UserID         string `protobuf:"bytes,2,opt,name=userID,proto3" json:"userID"`
+	HasReadSeq     int64  `protobuf:"varint,3,opt,name=hasReadSeq,proto3" json:"hasReadSeq"`
 }
 
 func (x *SetConversationHasReadSeqReq) Reset() {
@@ -1185,8 +1189,8 @@ type DeleteSyncOpt struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	IsSyncSelf  bool `protobuf:"varint,3,opt,name=IsSyncSelf,proto3" json:"IsSyncSelf,omitempty"`
-	IsSyncOther bool `protobuf:"varint,4,opt,name=IsSyncOther,proto3" json:"IsSyncOther,omitempty"`
+	IsSyncSelf  bool `protobuf:"varint,3,opt,name=IsSyncSelf,proto3" json:"IsSyncSelf"`
+	IsSyncOther bool `protobuf:"varint,4,opt,name=IsSyncOther,proto3" json:"IsSyncOther"`
 }
 
 func (x *DeleteSyncOpt) Reset() {
@@ -1240,9 +1244,9 @@ type ClearConversationsMsgReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ConversationIDs []string       `protobuf:"bytes,1,rep,name=conversationIDs,proto3" json:"conversationIDs,omitempty"`
-	UserID          string         `protobuf:"bytes,2,opt,name=userID,proto3" json:"userID,omitempty"`
-	DeleteSyncOpt   *DeleteSyncOpt `protobuf:"bytes,3,opt,name=deleteSyncOpt,proto3" json:"deleteSyncOpt,omitempty"`
+	ConversationIDs []string       `protobuf:"bytes,1,rep,name=conversationIDs,proto3" json:"conversationIDs"`
+	UserID          string         `protobuf:"bytes,2,opt,name=userID,proto3" json:"userID"`
+	DeleteSyncOpt   *DeleteSyncOpt `protobuf:"bytes,3,opt,name=deleteSyncOpt,proto3" json:"deleteSyncOpt"`
 }
 
 func (x *ClearConversationsMsgReq) Reset() {
@@ -1341,8 +1345,8 @@ type UserClearAllMsgReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserID        string         `protobuf:"bytes,1,opt,name=userID,proto3" json:"userID,omitempty"`
-	DeleteSyncOpt *DeleteSyncOpt `protobuf:"bytes,3,opt,name=deleteSyncOpt,proto3" json:"deleteSyncOpt,omitempty"`
+	UserID        string         `protobuf:"bytes,1,opt,name=userID,proto3" json:"userID"`
+	DeleteSyncOpt *DeleteSyncOpt `protobuf:"bytes,3,opt,name=deleteSyncOpt,proto3" json:"deleteSyncOpt"`
 }
 
 func (x *UserClearAllMsgReq) Reset() {
@@ -1434,10 +1438,10 @@ type DeleteMsgsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ConversationID string         `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID,omitempty"`
-	Seqs           []int64        `protobuf:"varint,2,rep,packed,name=seqs,proto3" json:"seqs,omitempty"`
-	UserID         string         `protobuf:"bytes,3,opt,name=userID,proto3" json:"userID,omitempty"`
-	DeleteSyncOpt  *DeleteSyncOpt `protobuf:"bytes,4,opt,name=deleteSyncOpt,proto3" json:"deleteSyncOpt,omitempty"`
+	ConversationID string         `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID"`
+	Seqs           []int64        `protobuf:"varint,2,rep,packed,name=seqs,proto3" json:"seqs"`
+	UserID         string         `protobuf:"bytes,3,opt,name=userID,proto3" json:"userID"`
+	DeleteSyncOpt  *DeleteSyncOpt `protobuf:"bytes,4,opt,name=deleteSyncOpt,proto3" json:"deleteSyncOpt"`
 }
 
 func (x *DeleteMsgsReq) Reset() {
@@ -1543,8 +1547,8 @@ type DeleteMsgPhysicalReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ConversationIDs []string `protobuf:"bytes,1,rep,name=conversationIDs,proto3" json:"conversationIDs,omitempty"`
-	Timestamp       int64    `protobuf:"varint,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	ConversationIDs []string `protobuf:"bytes,1,rep,name=conversationIDs,proto3" json:"conversationIDs"`
+	Timestamp       int64    `protobuf:"varint,2,opt,name=timestamp,proto3" json:"timestamp"`
 }
 
 func (x *DeleteMsgPhysicalReq) Reset() {
@@ -1636,8 +1640,8 @@ type DeleteMsgPhysicalBySeqReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ConversationID string  `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID,omitempty"`
-	Seqs           []int64 `protobuf:"varint,2,rep,packed,name=seqs,proto3" json:"seqs,omitempty"`
+	ConversationID string  `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID"`
+	Seqs           []int64 `protobuf:"varint,2,rep,packed,name=seqs,proto3" json:"seqs"`
 }
 
 func (x *DeleteMsgPhysicalBySeqReq) Reset() {
@@ -1729,7 +1733,7 @@ type GetMaxSeqsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ConversationIDs []string `protobuf:"bytes,2,rep,name=conversationIDs,proto3" json:"conversationIDs,omitempty"`
+	ConversationIDs []string `protobuf:"bytes,2,rep,name=conversationIDs,proto3" json:"conversationIDs"`
 }
 
 func (x *GetMaxSeqsReq) Reset() {
@@ -1776,8 +1780,8 @@ type GetHasReadSeqsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserID          string   `protobuf:"bytes,1,opt,name=userID,proto3" json:"userID,omitempty"`
-	ConversationIDs []string `protobuf:"bytes,2,rep,name=conversationIDs,proto3" json:"conversationIDs,omitempty"`
+	UserID          string   `protobuf:"bytes,1,opt,name=userID,proto3" json:"userID"`
+	ConversationIDs []string `protobuf:"bytes,2,rep,name=conversationIDs,proto3" json:"conversationIDs"`
 }
 
 func (x *GetHasReadSeqsReq) Reset() {
@@ -1878,7 +1882,7 @@ type GetMsgByConversationIDsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ConversationIDs []string         `protobuf:"bytes,1,rep,name=conversationIDs,proto3" json:"conversationIDs,omitempty"`
+	ConversationIDs []string         `protobuf:"bytes,1,rep,name=conversationIDs,proto3" json:"conversationIDs"`
 	MaxSeqs         map[string]int64 `protobuf:"bytes,2,rep,name=maxSeqs,proto3" json:"maxSeqs,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3"`
 }
 
@@ -1980,7 +1984,7 @@ type GetConversationMaxSeqReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ConversationID string `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID,omitempty"`
+	ConversationID string `protobuf:"bytes,1,opt,name=conversationID,proto3" json:"conversationID"`
 }
 
 func (x *GetConversationMaxSeqReq) Reset() {
@@ -2027,7 +2031,7 @@ type GetConversationMaxSeqResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	MaxSeq int64 `protobuf:"varint,1,opt,name=maxSeq,proto3" json:"maxSeq,omitempty"`
+	MaxSeq int64 `protobuf:"varint,1,opt,name=maxSeq,proto3" json:"maxSeq"`
 }
 
 func (x *GetConversationMaxSeqResp) Reset() {
@@ -2074,8 +2078,8 @@ type GetConversationsHasReadAndMaxSeqReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserID          string   `protobuf:"bytes,1,opt,name=userID,proto3" json:"userID,omitempty"`
-	ConversationIDs []string `protobuf:"bytes,2,rep,name=conversationIDs,proto3" json:"conversationIDs,omitempty"`
+	UserID          string   `protobuf:"bytes,1,opt,name=userID,proto3" json:"userID"`
+	ConversationIDs []string `protobuf:"bytes,2,rep,name=conversationIDs,proto3" json:"conversationIDs"`
 }
 
 func (x *GetConversationsHasReadAndMaxSeqReq) Reset() {
@@ -2129,8 +2133,8 @@ type Seqs struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	MaxSeq     int64 `protobuf:"varint,1,opt,name=maxSeq,proto3" json:"maxSeq,omitempty"`
-	HasReadSeq int64 `protobuf:"varint,2,opt,name=hasReadSeq,proto3" json:"hasReadSeq,omitempty"`
+	MaxSeq     int64 `protobuf:"varint,1,opt,name=maxSeq,proto3" json:"maxSeq"`
+	HasReadSeq int64 `protobuf:"varint,2,opt,name=hasReadSeq,proto3" json:"hasReadSeq"`
 }
 
 func (x *Seqs) Reset() {
@@ -2231,11 +2235,11 @@ type GetActiveUserReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Start      int64                    `protobuf:"varint,1,opt,name=start,proto3" json:"start,omitempty"`
-	End        int64                    `protobuf:"varint,2,opt,name=end,proto3" json:"end,omitempty"`
-	Ase        bool                     `protobuf:"varint,3,opt,name=ase,proto3" json:"ase,omitempty"`
-	Group      bool                     `protobuf:"varint,4,opt,name=group,proto3" json:"group,omitempty"`
-	Pagination *sdkws.RequestPagination `protobuf:"bytes,5,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	Start      int64                    `protobuf:"varint,1,opt,name=start,proto3" json:"start"`
+	End        int64                    `protobuf:"varint,2,opt,name=end,proto3" json:"end"`
+	Ase        bool                     `protobuf:"varint,3,opt,name=ase,proto3" json:"ase"`
+	Group      bool                     `protobuf:"varint,4,opt,name=group,proto3" json:"group"`
+	Pagination *sdkws.RequestPagination `protobuf:"bytes,5,opt,name=pagination,proto3" json:"pagination"`
 }
 
 func (x *GetActiveUserReq) Reset() {
@@ -2310,8 +2314,8 @@ type ActiveUser struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	User  *sdkws.UserInfo `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
-	Count int64           `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
+	User  *sdkws.UserInfo `protobuf:"bytes,1,opt,name=user,proto3" json:"user"`
+	Count int64           `protobuf:"varint,2,opt,name=count,proto3" json:"count"`
 }
 
 func (x *ActiveUser) Reset() {
@@ -2365,10 +2369,10 @@ type GetActiveUserResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	MsgCount  int64            `protobuf:"varint,1,opt,name=msgCount,proto3" json:"msgCount,omitempty"`
-	UserCount int64            `protobuf:"varint,2,opt,name=userCount,proto3" json:"userCount,omitempty"`
+	MsgCount  int64            `protobuf:"varint,1,opt,name=msgCount,proto3" json:"msgCount"`
+	UserCount int64            `protobuf:"varint,2,opt,name=userCount,proto3" json:"userCount"`
 	DateCount map[string]int64 `protobuf:"bytes,3,rep,name=dateCount,proto3" json:"dateCount,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3"`
-	Users     []*ActiveUser    `protobuf:"bytes,4,rep,name=users,proto3" json:"users,omitempty"`
+	Users     []*ActiveUser    `protobuf:"bytes,4,rep,name=users,proto3" json:"users"`
 }
 
 func (x *GetActiveUserResp) Reset() {
@@ -2436,10 +2440,10 @@ type GetActiveGroupReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Start      int64                    `protobuf:"varint,1,opt,name=start,proto3" json:"start,omitempty"`
-	End        int64                    `protobuf:"varint,2,opt,name=end,proto3" json:"end,omitempty"`
-	Ase        bool                     `protobuf:"varint,3,opt,name=ase,proto3" json:"ase,omitempty"`
-	Pagination *sdkws.RequestPagination `protobuf:"bytes,4,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	Start      int64                    `protobuf:"varint,1,opt,name=start,proto3" json:"start"`
+	End        int64                    `protobuf:"varint,2,opt,name=end,proto3" json:"end"`
+	Ase        bool                     `protobuf:"varint,3,opt,name=ase,proto3" json:"ase"`
+	Pagination *sdkws.RequestPagination `protobuf:"bytes,4,opt,name=pagination,proto3" json:"pagination"`
 }
 
 func (x *GetActiveGroupReq) Reset() {
@@ -2507,8 +2511,8 @@ type ActiveGroup struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Group *sdkws.GroupInfo `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty"`
-	Count int64            `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
+	Group *sdkws.GroupInfo `protobuf:"bytes,1,opt,name=group,proto3" json:"group"`
+	Count int64            `protobuf:"varint,2,opt,name=count,proto3" json:"count"`
 }
 
 func (x *ActiveGroup) Reset() {
@@ -2562,10 +2566,10 @@ type GetActiveGroupResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	MsgCount   int64            `protobuf:"varint,1,opt,name=msgCount,proto3" json:"msgCount,omitempty"`
-	GroupCount int64            `protobuf:"varint,2,opt,name=groupCount,proto3" json:"groupCount,omitempty"`
+	MsgCount   int64            `protobuf:"varint,1,opt,name=msgCount,proto3" json:"msgCount"`
+	GroupCount int64            `protobuf:"varint,2,opt,name=groupCount,proto3" json:"groupCount"`
 	DateCount  map[string]int64 `protobuf:"bytes,3,rep,name=dateCount,proto3" json:"dateCount,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3"`
-	Groups     []*ActiveGroup   `protobuf:"bytes,4,rep,name=groups,proto3" json:"groups,omitempty"`
+	Groups     []*ActiveGroup   `protobuf:"bytes,4,rep,name=groups,proto3" json:"groups"`
 }
 
 func (x *GetActiveGroupResp) Reset() {
@@ -2633,12 +2637,12 @@ type SearchMessageReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	SendID      string                   `protobuf:"bytes,1,opt,name=sendID,proto3" json:"sendID,omitempty"` //发送者ID
-	RecvID      string                   `protobuf:"bytes,2,opt,name=recvID,proto3" json:"recvID,omitempty"` //接收者ID
-	ContentType int32                    `protobuf:"varint,3,opt,name=contentType,proto3" json:"contentType,omitempty"`
-	SendTime    string                   `protobuf:"bytes,4,opt,name=sendTime,proto3" json:"sendTime,omitempty"`
-	SessionType int32                    `protobuf:"varint,5,opt,name=sessionType,proto3" json:"sessionType,omitempty"`
-	Pagination  *sdkws.RequestPagination `protobuf:"bytes,6,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	SendID      string                   `protobuf:"bytes,1,opt,name=sendID,proto3" json:"sendID"` //发送者ID
+	RecvID      string                   `protobuf:"bytes,2,opt,name=recvID,proto3" json:"recvID"` //接收者ID
+	ContentType int32                    `protobuf:"varint,3,opt,name=contentType,proto3" json:"contentType"`
+	SendTime    string                   `protobuf:"bytes,4,opt,name=sendTime,proto3" json:"sendTime"`
+	SessionType int32                    `protobuf:"varint,5,opt,name=sessionType,proto3" json:"sessionType"`
+	Pagination  *sdkws.RequestPagination `protobuf:"bytes,6,opt,name=pagination,proto3" json:"pagination"`
 }
 
 func (x *SearchMessageReq) Reset() {
@@ -2720,8 +2724,8 @@ type SearchMessageResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ChatLogs    []*ChatLog `protobuf:"bytes,1,rep,name=chatLogs,proto3" json:"chatLogs,omitempty"`
-	ChatLogsNum int32      `protobuf:"varint,2,opt,name=chatLogsNum,proto3" json:"chatLogsNum,omitempty"`
+	ChatLogs    []*ChatLog `protobuf:"bytes,1,rep,name=chatLogs,proto3" json:"chatLogs"`
+	ChatLogsNum int32      `protobuf:"varint,2,opt,name=chatLogsNum,proto3" json:"chatLogsNum"`
 }
 
 func (x *SearchMessageResp) Reset() {
@@ -2775,29 +2779,29 @@ type ChatLog struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ServerMsgID      string `protobuf:"bytes,1,opt,name=serverMsgID,proto3" json:"serverMsgID,omitempty"`
-	ClientMsgID      string `protobuf:"bytes,2,opt,name=clientMsgID,proto3" json:"clientMsgID,omitempty"`
-	SendID           string `protobuf:"bytes,3,opt,name=sendID,proto3" json:"sendID,omitempty"`
-	RecvID           string `protobuf:"bytes,4,opt,name=recvID,proto3" json:"recvID,omitempty"`
-	GroupID          string `protobuf:"bytes,5,opt,name=groupID,proto3" json:"groupID,omitempty"`
-	RecvNickname     string `protobuf:"bytes,6,opt,name=recvNickname,proto3" json:"recvNickname,omitempty"`
-	SenderPlatformID int32  `protobuf:"varint,7,opt,name=senderPlatformID,proto3" json:"senderPlatformID,omitempty"`
-	SenderNickname   string `protobuf:"bytes,8,opt,name=senderNickname,proto3" json:"senderNickname,omitempty"`
-	SenderFaceURL    string `protobuf:"bytes,9,opt,name=senderFaceURL,proto3" json:"senderFaceURL,omitempty"`
-	GroupName        string `protobuf:"bytes,10,opt,name=groupName,proto3" json:"groupName,omitempty"`
-	SessionType      int32  `protobuf:"varint,11,opt,name=sessionType,proto3" json:"sessionType,omitempty"`
-	MsgFrom          int32  `protobuf:"varint,12,opt,name=msgFrom,proto3" json:"msgFrom,omitempty"`
-	ContentType      int32  `protobuf:"varint,13,opt,name=contentType,proto3" json:"contentType,omitempty"`
-	Content          string `protobuf:"bytes,14,opt,name=content,proto3" json:"content,omitempty"`
-	Status           int32  `protobuf:"varint,15,opt,name=status,proto3" json:"status,omitempty"`
-	SendTime         int64  `protobuf:"varint,16,opt,name=sendTime,proto3" json:"sendTime,omitempty"`
-	CreateTime       int64  `protobuf:"varint,17,opt,name=createTime,proto3" json:"createTime,omitempty"`
-	Ex               string `protobuf:"bytes,18,opt,name=ex,proto3" json:"ex,omitempty"`
-	GroupFaceURL     string `protobuf:"bytes,19,opt,name=groupFaceURL,proto3" json:"groupFaceURL,omitempty"`
-	GroupMemberCount uint32 `protobuf:"varint,20,opt,name=groupMemberCount,proto3" json:"groupMemberCount,omitempty"`
-	Seq              int64  `protobuf:"varint,21,opt,name=seq,proto3" json:"seq,omitempty"`
-	GroupOwner       string `protobuf:"bytes,22,opt,name=groupOwner,proto3" json:"groupOwner,omitempty"`
-	GroupType        int32  `protobuf:"varint,23,opt,name=groupType,proto3" json:"groupType,omitempty"`
+	ServerMsgID      string `protobuf:"bytes,1,opt,name=serverMsgID,proto3" json:"serverMsgID"`
+	ClientMsgID      string `protobuf:"bytes,2,opt,name=clientMsgID,proto3" json:"clientMsgID"`
+	SendID           string `protobuf:"bytes,3,opt,name=sendID,proto3" json:"sendID"`
+	RecvID           string `protobuf:"bytes,4,opt,name=recvID,proto3" json:"recvID"`
+	GroupID          string `protobuf:"bytes,5,opt,name=groupID,proto3" json:"groupID"`
+	RecvNickname     string `protobuf:"bytes,6,opt,name=recvNickname,proto3" json:"recvNickname"`
+	SenderPlatformID int32  `protobuf:"varint,7,opt,name=senderPlatformID,proto3" json:"senderPlatformID"`
+	SenderNickname   string `protobuf:"bytes,8,opt,name=senderNickname,proto3" json:"senderNickname"`
+	SenderFaceURL    string `protobuf:"bytes,9,opt,name=senderFaceURL,proto3" json:"senderFaceURL"`
+	GroupName        string `protobuf:"bytes,10,opt,name=groupName,proto3" json:"groupName"`
+	SessionType      int32  `protobuf:"varint,11,opt,name=sessionType,proto3" json:"sessionType"`
+	MsgFrom          int32  `protobuf:"varint,12,opt,name=msgFrom,proto3" json:"msgFrom"`
+	ContentType      int32  `protobuf:"varint,13,opt,name=contentType,proto3" json:"contentType"`
+	Content          string `protobuf:"bytes,14,opt,name=content,proto3" json:"content"`
+	Status           int32  `protobuf:"varint,15,opt,name=status,proto3" json:"status"`
+	SendTime         int64  `protobuf:"varint,16,opt,name=sendTime,proto3" json:"sendTime"`
+	CreateTime       int64  `protobuf:"varint,17,opt,name=createTime,proto3" json:"createTime"`
+	Ex               string `protobuf:"bytes,18,opt,name=ex,proto3" json:"ex"`
+	GroupFaceURL     string `protobuf:"bytes,19,opt,name=groupFaceURL,proto3" json:"groupFaceURL"`
+	GroupMemberCount uint32 `protobuf:"varint,20,opt,name=groupMemberCount,proto3" json:"groupMemberCount"`
+	Seq              int64  `protobuf:"varint,21,opt,name=seq,proto3" json:"seq"`
+	GroupOwner       string `protobuf:"bytes,22,opt,name=groupOwner,proto3" json:"groupOwner"`
+	GroupType        int32  `protobuf:"varint,23,opt,name=groupType,proto3" json:"groupType"`
 }
 
 func (x *ChatLog) Reset() {
@@ -2998,8 +3002,8 @@ type BatchSendMessageReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	RecvIDList []string       `protobuf:"bytes,1,rep,name=recvIDList,proto3" json:"recvIDList,omitempty"`
-	MsgData    *sdkws.MsgData `protobuf:"bytes,2,opt,name=msgData,proto3" json:"msgData,omitempty"`
+	RecvIDList []string       `protobuf:"bytes,1,rep,name=recvIDList,proto3" json:"recvIDList"`
+	MsgData    *sdkws.MsgData `protobuf:"bytes,2,opt,name=msgData,proto3" json:"msgData"`
 }
 
 func (x *BatchSendMessageReq) Reset() {
@@ -3129,7 +3133,7 @@ type GetServerTimeResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ServerTime int64 `protobuf:"varint,1,opt,name=serverTime,proto3" json:"serverTime,omitempty"`
+	ServerTime int64 `protobuf:"varint,1,opt,name=serverTime,proto3" json:"serverTime"`
 }
 
 func (x *GetServerTimeResp) Reset() {
@@ -3169,6 +3173,91 @@ func (x *GetServerTimeResp) GetServerTime() int64 {
 		return x.ServerTime
 	}
 	return 0
+}
+
+type ClearMsgReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Timestamp int64 `protobuf:"varint,1,opt,name=timestamp,proto3" json:"timestamp"`
+}
+
+func (x *ClearMsgReq) Reset() {
+	*x = ClearMsgReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_msg_msg_proto_msgTypes[57]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ClearMsgReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ClearMsgReq) ProtoMessage() {}
+
+func (x *ClearMsgReq) ProtoReflect() protoreflect.Message {
+	mi := &file_msg_msg_proto_msgTypes[57]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ClearMsgReq.ProtoReflect.Descriptor instead.
+func (*ClearMsgReq) Descriptor() ([]byte, []int) {
+	return file_msg_msg_proto_rawDescGZIP(), []int{57}
+}
+
+func (x *ClearMsgReq) GetTimestamp() int64 {
+	if x != nil {
+		return x.Timestamp
+	}
+	return 0
+}
+
+type ClearMsgResp struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *ClearMsgResp) Reset() {
+	*x = ClearMsgResp{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_msg_msg_proto_msgTypes[58]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ClearMsgResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ClearMsgResp) ProtoMessage() {}
+
+func (x *ClearMsgResp) ProtoReflect() protoreflect.Message {
+	mi := &file_msg_msg_proto_msgTypes[58]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ClearMsgResp.ProtoReflect.Descriptor instead.
+func (*ClearMsgResp) Descriptor() ([]byte, []int) {
+	return file_msg_msg_proto_rawDescGZIP(), []int{58}
 }
 
 var File_msg_msg_proto protoreflect.FileDescriptor
@@ -3541,136 +3630,144 @@ var file_msg_msg_proto_rawDesc = []byte{
 	0x52, 0x65, 0x71, 0x22, 0x33, 0x0a, 0x11, 0x47, 0x65, 0x74, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72,
 	0x54, 0x69, 0x6d, 0x65, 0x52, 0x65, 0x73, 0x70, 0x12, 0x1e, 0x0a, 0x0a, 0x73, 0x65, 0x72, 0x76,
 	0x65, 0x72, 0x54, 0x69, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0a, 0x73, 0x65,
-	0x72, 0x76, 0x65, 0x72, 0x54, 0x69, 0x6d, 0x65, 0x32, 0xe6, 0x0f, 0x0a, 0x03, 0x6d, 0x73, 0x67,
-	0x12, 0x44, 0x0a, 0x09, 0x47, 0x65, 0x74, 0x4d, 0x61, 0x78, 0x53, 0x65, 0x71, 0x12, 0x1a, 0x2e,
-	0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x73, 0x64, 0x6b, 0x77, 0x73, 0x2e, 0x47, 0x65, 0x74,
-	0x4d, 0x61, 0x78, 0x53, 0x65, 0x71, 0x52, 0x65, 0x71, 0x1a, 0x1b, 0x2e, 0x6f, 0x70, 0x65, 0x6e,
-	0x69, 0x6d, 0x2e, 0x73, 0x64, 0x6b, 0x77, 0x73, 0x2e, 0x47, 0x65, 0x74, 0x4d, 0x61, 0x78, 0x53,
-	0x65, 0x71, 0x52, 0x65, 0x73, 0x70, 0x12, 0x41, 0x0a, 0x0a, 0x47, 0x65, 0x74, 0x4d, 0x61, 0x78,
-	0x53, 0x65, 0x71, 0x73, 0x12, 0x19, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73,
-	0x67, 0x2e, 0x47, 0x65, 0x74, 0x4d, 0x61, 0x78, 0x53, 0x65, 0x71, 0x73, 0x52, 0x65, 0x71, 0x1a,
-	0x18, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x53, 0x65, 0x71,
-	0x73, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x12, 0x49, 0x0a, 0x0e, 0x47, 0x65, 0x74,
-	0x48, 0x61, 0x73, 0x52, 0x65, 0x61, 0x64, 0x53, 0x65, 0x71, 0x73, 0x12, 0x1d, 0x2e, 0x6f, 0x70,
-	0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x48, 0x61, 0x73, 0x52,
-	0x65, 0x61, 0x64, 0x53, 0x65, 0x71, 0x73, 0x52, 0x65, 0x71, 0x1a, 0x18, 0x2e, 0x6f, 0x70, 0x65,
-	0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x53, 0x65, 0x71, 0x73, 0x49, 0x6e, 0x66, 0x6f,
-	0x52, 0x65, 0x73, 0x70, 0x12, 0x6a, 0x0a, 0x17, 0x47, 0x65, 0x74, 0x4d, 0x73, 0x67, 0x42, 0x79,
-	0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x44, 0x73, 0x12,
-	0x26, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x47, 0x65, 0x74,
-	0x4d, 0x73, 0x67, 0x42, 0x79, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x49, 0x44, 0x73, 0x52, 0x65, 0x71, 0x1a, 0x27, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d,
-	0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x4d, 0x73, 0x67, 0x42, 0x79, 0x43, 0x6f, 0x6e,
-	0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x44, 0x73, 0x52, 0x65, 0x73, 0x70,
-	0x12, 0x64, 0x0a, 0x15, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x4d, 0x61, 0x78, 0x53, 0x65, 0x71, 0x12, 0x24, 0x2e, 0x6f, 0x70, 0x65, 0x6e,
-	0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72,
-	0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x61, 0x78, 0x53, 0x65, 0x71, 0x52, 0x65, 0x71, 0x1a,
-	0x25, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x47, 0x65, 0x74,
-	0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x61, 0x78, 0x53,
-	0x65, 0x71, 0x52, 0x65, 0x73, 0x70, 0x12, 0x5c, 0x0a, 0x11, 0x50, 0x75, 0x6c, 0x6c, 0x4d, 0x65,
-	0x73, 0x73, 0x61, 0x67, 0x65, 0x42, 0x79, 0x53, 0x65, 0x71, 0x73, 0x12, 0x22, 0x2e, 0x6f, 0x70,
-	0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x73, 0x64, 0x6b, 0x77, 0x73, 0x2e, 0x50, 0x75, 0x6c, 0x6c, 0x4d,
-	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x42, 0x79, 0x53, 0x65, 0x71, 0x73, 0x52, 0x65, 0x71, 0x1a,
-	0x23, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x73, 0x64, 0x6b, 0x77, 0x73, 0x2e, 0x50,
-	0x75, 0x6c, 0x6c, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x42, 0x79, 0x53, 0x65, 0x71, 0x73,
-	0x52, 0x65, 0x73, 0x70, 0x12, 0x4c, 0x0a, 0x0d, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x4d, 0x65,
-	0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x1c, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d,
-	0x73, 0x67, 0x2e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
-	0x52, 0x65, 0x71, 0x1a, 0x1d, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67,
-	0x2e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x52, 0x65,
-	0x73, 0x70, 0x12, 0x3a, 0x0a, 0x07, 0x53, 0x65, 0x6e, 0x64, 0x4d, 0x73, 0x67, 0x12, 0x16, 0x2e,
-	0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x53, 0x65, 0x6e, 0x64, 0x4d,
-	0x73, 0x67, 0x52, 0x65, 0x71, 0x1a, 0x17, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d,
-	0x73, 0x67, 0x2e, 0x53, 0x65, 0x6e, 0x64, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x73, 0x70, 0x12, 0x64,
-	0x0a, 0x15, 0x43, 0x6c, 0x65, 0x61, 0x72, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x73, 0x4d, 0x73, 0x67, 0x12, 0x24, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d,
-	0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x43, 0x6c, 0x65, 0x61, 0x72, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72,
-	0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x71, 0x1a, 0x25, 0x2e,
-	0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x43, 0x6c, 0x65, 0x61, 0x72,
-	0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x4d, 0x73, 0x67,
-	0x52, 0x65, 0x73, 0x70, 0x12, 0x52, 0x0a, 0x0f, 0x55, 0x73, 0x65, 0x72, 0x43, 0x6c, 0x65, 0x61,
-	0x72, 0x41, 0x6c, 0x6c, 0x4d, 0x73, 0x67, 0x12, 0x1e, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d,
-	0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x43, 0x6c, 0x65, 0x61, 0x72, 0x41, 0x6c,
-	0x6c, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x71, 0x1a, 0x1f, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d,
-	0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x43, 0x6c, 0x65, 0x61, 0x72, 0x41, 0x6c,
-	0x6c, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x73, 0x70, 0x12, 0x43, 0x0a, 0x0a, 0x44, 0x65, 0x6c, 0x65,
-	0x74, 0x65, 0x4d, 0x73, 0x67, 0x73, 0x12, 0x19, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e,
-	0x6d, 0x73, 0x67, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4d, 0x73, 0x67, 0x73, 0x52, 0x65,
-	0x71, 0x1a, 0x1a, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x44,
-	0x65, 0x6c, 0x65, 0x74, 0x65, 0x4d, 0x73, 0x67, 0x73, 0x52, 0x65, 0x73, 0x70, 0x12, 0x67, 0x0a,
-	0x16, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4d, 0x73, 0x67, 0x50, 0x68, 0x79, 0x73, 0x69, 0x63,
-	0x61, 0x6c, 0x42, 0x79, 0x53, 0x65, 0x71, 0x12, 0x25, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d,
-	0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4d, 0x73, 0x67, 0x50, 0x68,
-	0x79, 0x73, 0x69, 0x63, 0x61, 0x6c, 0x42, 0x79, 0x53, 0x65, 0x71, 0x52, 0x65, 0x71, 0x1a, 0x26,
+	0x72, 0x76, 0x65, 0x72, 0x54, 0x69, 0x6d, 0x65, 0x22, 0x2b, 0x0a, 0x0b, 0x43, 0x6c, 0x65, 0x61,
+	0x72, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x71, 0x12, 0x1c, 0x0a, 0x09, 0x74, 0x69, 0x6d, 0x65, 0x73,
+	0x74, 0x61, 0x6d, 0x70, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x09, 0x74, 0x69, 0x6d, 0x65,
+	0x73, 0x74, 0x61, 0x6d, 0x70, 0x22, 0x0e, 0x0a, 0x0c, 0x43, 0x6c, 0x65, 0x61, 0x72, 0x4d, 0x73,
+	0x67, 0x52, 0x65, 0x73, 0x70, 0x32, 0xa5, 0x10, 0x0a, 0x03, 0x6d, 0x73, 0x67, 0x12, 0x44, 0x0a,
+	0x09, 0x47, 0x65, 0x74, 0x4d, 0x61, 0x78, 0x53, 0x65, 0x71, 0x12, 0x1a, 0x2e, 0x6f, 0x70, 0x65,
+	0x6e, 0x69, 0x6d, 0x2e, 0x73, 0x64, 0x6b, 0x77, 0x73, 0x2e, 0x47, 0x65, 0x74, 0x4d, 0x61, 0x78,
+	0x53, 0x65, 0x71, 0x52, 0x65, 0x71, 0x1a, 0x1b, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e,
+	0x73, 0x64, 0x6b, 0x77, 0x73, 0x2e, 0x47, 0x65, 0x74, 0x4d, 0x61, 0x78, 0x53, 0x65, 0x71, 0x52,
+	0x65, 0x73, 0x70, 0x12, 0x41, 0x0a, 0x0a, 0x47, 0x65, 0x74, 0x4d, 0x61, 0x78, 0x53, 0x65, 0x71,
+	0x73, 0x12, 0x19, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x47,
+	0x65, 0x74, 0x4d, 0x61, 0x78, 0x53, 0x65, 0x71, 0x73, 0x52, 0x65, 0x71, 0x1a, 0x18, 0x2e, 0x6f,
+	0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x53, 0x65, 0x71, 0x73, 0x49, 0x6e,
+	0x66, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x12, 0x49, 0x0a, 0x0e, 0x47, 0x65, 0x74, 0x48, 0x61, 0x73,
+	0x52, 0x65, 0x61, 0x64, 0x53, 0x65, 0x71, 0x73, 0x12, 0x1d, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69,
+	0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x48, 0x61, 0x73, 0x52, 0x65, 0x61, 0x64,
+	0x53, 0x65, 0x71, 0x73, 0x52, 0x65, 0x71, 0x1a, 0x18, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d,
+	0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x53, 0x65, 0x71, 0x73, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x65, 0x73,
+	0x70, 0x12, 0x6a, 0x0a, 0x17, 0x47, 0x65, 0x74, 0x4d, 0x73, 0x67, 0x42, 0x79, 0x43, 0x6f, 0x6e,
+	0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x44, 0x73, 0x12, 0x26, 0x2e, 0x6f,
+	0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x4d, 0x73, 0x67,
+	0x42, 0x79, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x44,
+	0x73, 0x52, 0x65, 0x71, 0x1a, 0x27, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73,
+	0x67, 0x2e, 0x47, 0x65, 0x74, 0x4d, 0x73, 0x67, 0x42, 0x79, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72,
+	0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x44, 0x73, 0x52, 0x65, 0x73, 0x70, 0x12, 0x64, 0x0a,
+	0x15, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x4d, 0x61, 0x78, 0x53, 0x65, 0x71, 0x12, 0x24, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e,
+	0x6d, 0x73, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x4d, 0x61, 0x78, 0x53, 0x65, 0x71, 0x52, 0x65, 0x71, 0x1a, 0x25, 0x2e, 0x6f,
+	0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6e,
+	0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x61, 0x78, 0x53, 0x65, 0x71, 0x52,
+	0x65, 0x73, 0x70, 0x12, 0x5c, 0x0a, 0x11, 0x50, 0x75, 0x6c, 0x6c, 0x4d, 0x65, 0x73, 0x73, 0x61,
+	0x67, 0x65, 0x42, 0x79, 0x53, 0x65, 0x71, 0x73, 0x12, 0x22, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69,
+	0x6d, 0x2e, 0x73, 0x64, 0x6b, 0x77, 0x73, 0x2e, 0x50, 0x75, 0x6c, 0x6c, 0x4d, 0x65, 0x73, 0x73,
+	0x61, 0x67, 0x65, 0x42, 0x79, 0x53, 0x65, 0x71, 0x73, 0x52, 0x65, 0x71, 0x1a, 0x23, 0x2e, 0x6f,
+	0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x73, 0x64, 0x6b, 0x77, 0x73, 0x2e, 0x50, 0x75, 0x6c, 0x6c,
+	0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x42, 0x79, 0x53, 0x65, 0x71, 0x73, 0x52, 0x65, 0x73,
+	0x70, 0x12, 0x4c, 0x0a, 0x0d, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x4d, 0x65, 0x73, 0x73, 0x61,
+	0x67, 0x65, 0x12, 0x1c, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e,
+	0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71,
+	0x1a, 0x1d, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x53, 0x65,
+	0x61, 0x72, 0x63, 0x68, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x12,
+	0x3a, 0x0a, 0x07, 0x53, 0x65, 0x6e, 0x64, 0x4d, 0x73, 0x67, 0x12, 0x16, 0x2e, 0x6f, 0x70, 0x65,
+	0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x53, 0x65, 0x6e, 0x64, 0x4d, 0x73, 0x67, 0x52,
+	0x65, 0x71, 0x1a, 0x17, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e,
+	0x53, 0x65, 0x6e, 0x64, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x73, 0x70, 0x12, 0x64, 0x0a, 0x15, 0x43,
+	0x6c, 0x65, 0x61, 0x72, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x73, 0x4d, 0x73, 0x67, 0x12, 0x24, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73,
+	0x67, 0x2e, 0x43, 0x6c, 0x65, 0x61, 0x72, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x73, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x71, 0x1a, 0x25, 0x2e, 0x6f, 0x70, 0x65,
+	0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x43, 0x6c, 0x65, 0x61, 0x72, 0x43, 0x6f, 0x6e,
+	0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x73,
+	0x70, 0x12, 0x52, 0x0a, 0x0f, 0x55, 0x73, 0x65, 0x72, 0x43, 0x6c, 0x65, 0x61, 0x72, 0x41, 0x6c,
+	0x6c, 0x4d, 0x73, 0x67, 0x12, 0x1e, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73,
+	0x67, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x43, 0x6c, 0x65, 0x61, 0x72, 0x41, 0x6c, 0x6c, 0x4d, 0x73,
+	0x67, 0x52, 0x65, 0x71, 0x1a, 0x1f, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73,
+	0x67, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x43, 0x6c, 0x65, 0x61, 0x72, 0x41, 0x6c, 0x6c, 0x4d, 0x73,
+	0x67, 0x52, 0x65, 0x73, 0x70, 0x12, 0x43, 0x0a, 0x0a, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4d,
+	0x73, 0x67, 0x73, 0x12, 0x19, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67,
+	0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4d, 0x73, 0x67, 0x73, 0x52, 0x65, 0x71, 0x1a, 0x1a,
 	0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x44, 0x65, 0x6c, 0x65,
-	0x74, 0x65, 0x4d, 0x73, 0x67, 0x50, 0x68, 0x79, 0x73, 0x69, 0x63, 0x61, 0x6c, 0x42, 0x79, 0x53,
-	0x65, 0x71, 0x52, 0x65, 0x73, 0x70, 0x12, 0x58, 0x0a, 0x11, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65,
-	0x4d, 0x73, 0x67, 0x50, 0x68, 0x79, 0x73, 0x69, 0x63, 0x61, 0x6c, 0x12, 0x20, 0x2e, 0x6f, 0x70,
+	0x74, 0x65, 0x4d, 0x73, 0x67, 0x73, 0x52, 0x65, 0x73, 0x70, 0x12, 0x67, 0x0a, 0x16, 0x44, 0x65,
+	0x6c, 0x65, 0x74, 0x65, 0x4d, 0x73, 0x67, 0x50, 0x68, 0x79, 0x73, 0x69, 0x63, 0x61, 0x6c, 0x42,
+	0x79, 0x53, 0x65, 0x71, 0x12, 0x25, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73,
+	0x67, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4d, 0x73, 0x67, 0x50, 0x68, 0x79, 0x73, 0x69,
+	0x63, 0x61, 0x6c, 0x42, 0x79, 0x53, 0x65, 0x71, 0x52, 0x65, 0x71, 0x1a, 0x26, 0x2e, 0x6f, 0x70,
 	0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4d,
-	0x73, 0x67, 0x50, 0x68, 0x79, 0x73, 0x69, 0x63, 0x61, 0x6c, 0x52, 0x65, 0x71, 0x1a, 0x21, 0x2e,
-	0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74,
-	0x65, 0x4d, 0x73, 0x67, 0x50, 0x68, 0x79, 0x73, 0x69, 0x63, 0x61, 0x6c, 0x52, 0x65, 0x73, 0x70,
-	0x12, 0x55, 0x0a, 0x10, 0x53, 0x65, 0x74, 0x53, 0x65, 0x6e, 0x64, 0x4d, 0x73, 0x67, 0x53, 0x74,
-	0x61, 0x74, 0x75, 0x73, 0x12, 0x1f, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73,
-	0x67, 0x2e, 0x53, 0x65, 0x74, 0x53, 0x65, 0x6e, 0x64, 0x4d, 0x73, 0x67, 0x53, 0x74, 0x61, 0x74,
-	0x75, 0x73, 0x52, 0x65, 0x71, 0x1a, 0x20, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d,
-	0x73, 0x67, 0x2e, 0x53, 0x65, 0x74, 0x53, 0x65, 0x6e, 0x64, 0x4d, 0x73, 0x67, 0x53, 0x74, 0x61,
-	0x74, 0x75, 0x73, 0x52, 0x65, 0x73, 0x70, 0x12, 0x55, 0x0a, 0x10, 0x47, 0x65, 0x74, 0x53, 0x65,
-	0x6e, 0x64, 0x4d, 0x73, 0x67, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x1f, 0x2e, 0x6f, 0x70,
-	0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x65, 0x6e, 0x64,
-	0x4d, 0x73, 0x67, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65, 0x71, 0x1a, 0x20, 0x2e, 0x6f,
-	0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x65, 0x6e,
-	0x64, 0x4d, 0x73, 0x67, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65, 0x73, 0x70, 0x12, 0x40,
-	0x0a, 0x09, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x4d, 0x73, 0x67, 0x12, 0x18, 0x2e, 0x6f, 0x70,
-	0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x4d,
-	0x73, 0x67, 0x52, 0x65, 0x71, 0x1a, 0x19, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d,
-	0x73, 0x67, 0x2e, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x73, 0x70,
-	0x12, 0x4f, 0x0a, 0x0e, 0x4d, 0x61, 0x72, 0x6b, 0x4d, 0x73, 0x67, 0x73, 0x41, 0x73, 0x52, 0x65,
-	0x61, 0x64, 0x12, 0x1d, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e,
-	0x4d, 0x61, 0x72, 0x6b, 0x4d, 0x73, 0x67, 0x73, 0x41, 0x73, 0x52, 0x65, 0x61, 0x64, 0x52, 0x65,
-	0x71, 0x1a, 0x1e, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x4d,
-	0x61, 0x72, 0x6b, 0x4d, 0x73, 0x67, 0x73, 0x41, 0x73, 0x52, 0x65, 0x61, 0x64, 0x52, 0x65, 0x73,
-	0x70, 0x12, 0x67, 0x0a, 0x16, 0x4d, 0x61, 0x72, 0x6b, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x41, 0x73, 0x52, 0x65, 0x61, 0x64, 0x12, 0x25, 0x2e, 0x6f, 0x70,
-	0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x4d, 0x61, 0x72, 0x6b, 0x43, 0x6f, 0x6e,
-	0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x41, 0x73, 0x52, 0x65, 0x61, 0x64, 0x52,
-	0x65, 0x71, 0x1a, 0x26, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e,
-	0x4d, 0x61, 0x72, 0x6b, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x41, 0x73, 0x52, 0x65, 0x61, 0x64, 0x52, 0x65, 0x73, 0x70, 0x12, 0x70, 0x0a, 0x19, 0x53, 0x65,
-	0x74, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x61, 0x73,
-	0x52, 0x65, 0x61, 0x64, 0x53, 0x65, 0x71, 0x12, 0x28, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d,
-	0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x53, 0x65, 0x74, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x48, 0x61, 0x73, 0x52, 0x65, 0x61, 0x64, 0x53, 0x65, 0x71, 0x52, 0x65,
-	0x71, 0x1a, 0x29, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x53,
-	0x65, 0x74, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x61,
-	0x73, 0x52, 0x65, 0x61, 0x64, 0x53, 0x65, 0x71, 0x52, 0x65, 0x73, 0x70, 0x12, 0x85, 0x01, 0x0a,
-	0x20, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x73, 0x48, 0x61, 0x73, 0x52, 0x65, 0x61, 0x64, 0x41, 0x6e, 0x64, 0x4d, 0x61, 0x78, 0x53, 0x65,
-	0x71, 0x12, 0x2f, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x47,
-	0x65, 0x74, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x48,
-	0x61, 0x73, 0x52, 0x65, 0x61, 0x64, 0x41, 0x6e, 0x64, 0x4d, 0x61, 0x78, 0x53, 0x65, 0x71, 0x52,
-	0x65, 0x71, 0x1a, 0x30, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e,
-	0x47, 0x65, 0x74, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73,
-	0x48, 0x61, 0x73, 0x52, 0x65, 0x61, 0x64, 0x41, 0x6e, 0x64, 0x4d, 0x61, 0x78, 0x53, 0x65, 0x71,
-	0x52, 0x65, 0x73, 0x70, 0x12, 0x4c, 0x0a, 0x0d, 0x47, 0x65, 0x74, 0x41, 0x63, 0x74, 0x69, 0x76,
-	0x65, 0x55, 0x73, 0x65, 0x72, 0x12, 0x1c, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d,
-	0x73, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x55, 0x73, 0x65, 0x72,
-	0x52, 0x65, 0x71, 0x1a, 0x1d, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67,
-	0x2e, 0x47, 0x65, 0x74, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65,
-	0x73, 0x70, 0x12, 0x4f, 0x0a, 0x0e, 0x47, 0x65, 0x74, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x47,
-	0x72, 0x6f, 0x75, 0x70, 0x12, 0x1d, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73,
-	0x67, 0x2e, 0x47, 0x65, 0x74, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x47, 0x72, 0x6f, 0x75, 0x70,
-	0x52, 0x65, 0x71, 0x1a, 0x1e, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67,
-	0x2e, 0x47, 0x65, 0x74, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x52,
-	0x65, 0x73, 0x70, 0x12, 0x4c, 0x0a, 0x0d, 0x47, 0x65, 0x74, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72,
-	0x54, 0x69, 0x6d, 0x65, 0x12, 0x1c, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73,
-	0x67, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x54, 0x69, 0x6d, 0x65, 0x52,
-	0x65, 0x71, 0x1a, 0x1d, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e,
-	0x47, 0x65, 0x74, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x54, 0x69, 0x6d, 0x65, 0x52, 0x65, 0x73,
-	0x70, 0x42, 0x23, 0x5a, 0x21, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
-	0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x73, 0x64, 0x6b, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63,
-	0x6f, 0x6c, 0x2f, 0x6d, 0x73, 0x67, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x73, 0x67, 0x50, 0x68, 0x79, 0x73, 0x69, 0x63, 0x61, 0x6c, 0x42, 0x79, 0x53, 0x65, 0x71, 0x52,
+	0x65, 0x73, 0x70, 0x12, 0x58, 0x0a, 0x11, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4d, 0x73, 0x67,
+	0x50, 0x68, 0x79, 0x73, 0x69, 0x63, 0x61, 0x6c, 0x12, 0x20, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69,
+	0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4d, 0x73, 0x67, 0x50,
+	0x68, 0x79, 0x73, 0x69, 0x63, 0x61, 0x6c, 0x52, 0x65, 0x71, 0x1a, 0x21, 0x2e, 0x6f, 0x70, 0x65,
+	0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4d, 0x73,
+	0x67, 0x50, 0x68, 0x79, 0x73, 0x69, 0x63, 0x61, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x12, 0x55, 0x0a,
+	0x10, 0x53, 0x65, 0x74, 0x53, 0x65, 0x6e, 0x64, 0x4d, 0x73, 0x67, 0x53, 0x74, 0x61, 0x74, 0x75,
+	0x73, 0x12, 0x1f, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x53,
+	0x65, 0x74, 0x53, 0x65, 0x6e, 0x64, 0x4d, 0x73, 0x67, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52,
+	0x65, 0x71, 0x1a, 0x20, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e,
+	0x53, 0x65, 0x74, 0x53, 0x65, 0x6e, 0x64, 0x4d, 0x73, 0x67, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73,
+	0x52, 0x65, 0x73, 0x70, 0x12, 0x55, 0x0a, 0x10, 0x47, 0x65, 0x74, 0x53, 0x65, 0x6e, 0x64, 0x4d,
+	0x73, 0x67, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x1f, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69,
+	0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x65, 0x6e, 0x64, 0x4d, 0x73, 0x67,
+	0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65, 0x71, 0x1a, 0x20, 0x2e, 0x6f, 0x70, 0x65, 0x6e,
+	0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x65, 0x6e, 0x64, 0x4d, 0x73,
+	0x67, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65, 0x73, 0x70, 0x12, 0x40, 0x0a, 0x09, 0x52,
+	0x65, 0x76, 0x6f, 0x6b, 0x65, 0x4d, 0x73, 0x67, 0x12, 0x18, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69,
+	0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x4d, 0x73, 0x67, 0x52,
+	0x65, 0x71, 0x1a, 0x19, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e,
+	0x52, 0x65, 0x76, 0x6f, 0x6b, 0x65, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x73, 0x70, 0x12, 0x4f, 0x0a,
+	0x0e, 0x4d, 0x61, 0x72, 0x6b, 0x4d, 0x73, 0x67, 0x73, 0x41, 0x73, 0x52, 0x65, 0x61, 0x64, 0x12,
+	0x1d, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x4d, 0x61, 0x72,
+	0x6b, 0x4d, 0x73, 0x67, 0x73, 0x41, 0x73, 0x52, 0x65, 0x61, 0x64, 0x52, 0x65, 0x71, 0x1a, 0x1e,
+	0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x4d, 0x61, 0x72, 0x6b,
+	0x4d, 0x73, 0x67, 0x73, 0x41, 0x73, 0x52, 0x65, 0x61, 0x64, 0x52, 0x65, 0x73, 0x70, 0x12, 0x67,
+	0x0a, 0x16, 0x4d, 0x61, 0x72, 0x6b, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x41, 0x73, 0x52, 0x65, 0x61, 0x64, 0x12, 0x25, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69,
+	0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x4d, 0x61, 0x72, 0x6b, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72,
+	0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x41, 0x73, 0x52, 0x65, 0x61, 0x64, 0x52, 0x65, 0x71, 0x1a,
+	0x26, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x4d, 0x61, 0x72,
+	0x6b, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x41, 0x73, 0x52,
+	0x65, 0x61, 0x64, 0x52, 0x65, 0x73, 0x70, 0x12, 0x70, 0x0a, 0x19, 0x53, 0x65, 0x74, 0x43, 0x6f,
+	0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x61, 0x73, 0x52, 0x65, 0x61,
+	0x64, 0x53, 0x65, 0x71, 0x12, 0x28, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73,
+	0x67, 0x2e, 0x53, 0x65, 0x74, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x48, 0x61, 0x73, 0x52, 0x65, 0x61, 0x64, 0x53, 0x65, 0x71, 0x52, 0x65, 0x71, 0x1a, 0x29,
+	0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x53, 0x65, 0x74, 0x43,
+	0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x61, 0x73, 0x52, 0x65,
+	0x61, 0x64, 0x53, 0x65, 0x71, 0x52, 0x65, 0x73, 0x70, 0x12, 0x85, 0x01, 0x0a, 0x20, 0x47, 0x65,
+	0x74, 0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x48, 0x61,
+	0x73, 0x52, 0x65, 0x61, 0x64, 0x41, 0x6e, 0x64, 0x4d, 0x61, 0x78, 0x53, 0x65, 0x71, 0x12, 0x2f,
+	0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x43,
+	0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x48, 0x61, 0x73, 0x52,
+	0x65, 0x61, 0x64, 0x41, 0x6e, 0x64, 0x4d, 0x61, 0x78, 0x53, 0x65, 0x71, 0x52, 0x65, 0x71, 0x1a,
+	0x30, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x47, 0x65, 0x74,
+	0x43, 0x6f, 0x6e, 0x76, 0x65, 0x72, 0x73, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x48, 0x61, 0x73,
+	0x52, 0x65, 0x61, 0x64, 0x41, 0x6e, 0x64, 0x4d, 0x61, 0x78, 0x53, 0x65, 0x71, 0x52, 0x65, 0x73,
+	0x70, 0x12, 0x4c, 0x0a, 0x0d, 0x47, 0x65, 0x74, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x55, 0x73,
+	0x65, 0x72, 0x12, 0x1c, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e,
+	0x47, 0x65, 0x74, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71,
+	0x1a, 0x1d, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x47, 0x65,
+	0x74, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x12,
+	0x4f, 0x0a, 0x0e, 0x47, 0x65, 0x74, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x47, 0x72, 0x6f, 0x75,
+	0x70, 0x12, 0x1d, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x47,
+	0x65, 0x74, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x52, 0x65, 0x71,
+	0x1a, 0x1e, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x47, 0x65,
+	0x74, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x52, 0x65, 0x73, 0x70,
+	0x12, 0x4c, 0x0a, 0x0d, 0x47, 0x65, 0x74, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x54, 0x69, 0x6d,
+	0x65, 0x12, 0x1c, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x47,
+	0x65, 0x74, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x54, 0x69, 0x6d, 0x65, 0x52, 0x65, 0x71, 0x1a,
+	0x1d, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x47, 0x65, 0x74,
+	0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x54, 0x69, 0x6d, 0x65, 0x52, 0x65, 0x73, 0x70, 0x12, 0x3d,
+	0x0a, 0x08, 0x43, 0x6c, 0x65, 0x61, 0x72, 0x4d, 0x73, 0x67, 0x12, 0x17, 0x2e, 0x6f, 0x70, 0x65,
+	0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67, 0x2e, 0x43, 0x6c, 0x65, 0x61, 0x72, 0x4d, 0x73, 0x67,
+	0x52, 0x65, 0x71, 0x1a, 0x18, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x69, 0x6d, 0x2e, 0x6d, 0x73, 0x67,
+	0x2e, 0x43, 0x6c, 0x65, 0x61, 0x72, 0x4d, 0x73, 0x67, 0x52, 0x65, 0x73, 0x70, 0x42, 0x23, 0x5a,
+	0x21, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6f, 0x70, 0x65, 0x6e,
+	0x69, 0x6d, 0x73, 0x64, 0x6b, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x2f, 0x6d,
+	0x73, 0x67, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -3685,7 +3782,7 @@ func file_msg_msg_proto_rawDescGZIP() []byte {
 	return file_msg_msg_proto_rawDescData
 }
 
-var file_msg_msg_proto_msgTypes = make([]protoimpl.MessageInfo, 63)
+var file_msg_msg_proto_msgTypes = make([]protoimpl.MessageInfo, 65)
 var file_msg_msg_proto_goTypes = []interface{}{
 	(*MsgDataToMQ)(nil),                          // 0: openim.msg.MsgDataToMQ
 	(*MsgDataToDB)(nil),                          // 1: openim.msg.MsgDataToDB
@@ -3744,54 +3841,56 @@ var file_msg_msg_proto_goTypes = []interface{}{
 	(*BatchSendMessageResp)(nil),                 // 54: openim.msg.batchSendMessageResp
 	(*GetServerTimeReq)(nil),                     // 55: openim.msg.GetServerTimeReq
 	(*GetServerTimeResp)(nil),                    // 56: openim.msg.GetServerTimeResp
-	nil,                                          // 57: openim.msg.SeqsInfoResp.MaxSeqsEntry
-	nil,                                          // 58: openim.msg.GetMsgByConversationIDsReq.MaxSeqsEntry
-	nil,                                          // 59: openim.msg.GetMsgByConversationIDsResp.MsgDatasEntry
-	nil,                                          // 60: openim.msg.GetConversationsHasReadAndMaxSeqResp.SeqsEntry
-	nil,                                          // 61: openim.msg.GetActiveUserResp.DateCountEntry
-	nil,                                          // 62: openim.msg.GetActiveGroupResp.DateCountEntry
-	(*sdkws.MsgData)(nil),                        // 63: openim.sdkws.MsgData
-	(*sdkws.RequestPagination)(nil),              // 64: openim.sdkws.RequestPagination
-	(*sdkws.UserInfo)(nil),                       // 65: openim.sdkws.UserInfo
-	(*sdkws.GroupInfo)(nil),                      // 66: openim.sdkws.GroupInfo
-	(*sdkws.GetMaxSeqReq)(nil),                   // 67: openim.sdkws.GetMaxSeqReq
-	(*sdkws.PullMessageBySeqsReq)(nil),           // 68: openim.sdkws.PullMessageBySeqsReq
-	(*sdkws.GetMaxSeqResp)(nil),                  // 69: openim.sdkws.GetMaxSeqResp
-	(*sdkws.PullMessageBySeqsResp)(nil),          // 70: openim.sdkws.PullMessageBySeqsResp
+	(*ClearMsgReq)(nil),                          // 57: openim.msg.ClearMsgReq
+	(*ClearMsgResp)(nil),                         // 58: openim.msg.ClearMsgResp
+	nil,                                          // 59: openim.msg.SeqsInfoResp.MaxSeqsEntry
+	nil,                                          // 60: openim.msg.GetMsgByConversationIDsReq.MaxSeqsEntry
+	nil,                                          // 61: openim.msg.GetMsgByConversationIDsResp.MsgDatasEntry
+	nil,                                          // 62: openim.msg.GetConversationsHasReadAndMaxSeqResp.SeqsEntry
+	nil,                                          // 63: openim.msg.GetActiveUserResp.DateCountEntry
+	nil,                                          // 64: openim.msg.GetActiveGroupResp.DateCountEntry
+	(*sdkws.MsgData)(nil),                        // 65: openim.sdkws.MsgData
+	(*sdkws.RequestPagination)(nil),              // 66: openim.sdkws.RequestPagination
+	(*sdkws.UserInfo)(nil),                       // 67: openim.sdkws.UserInfo
+	(*sdkws.GroupInfo)(nil),                      // 68: openim.sdkws.GroupInfo
+	(*sdkws.GetMaxSeqReq)(nil),                   // 69: openim.sdkws.GetMaxSeqReq
+	(*sdkws.PullMessageBySeqsReq)(nil),           // 70: openim.sdkws.PullMessageBySeqsReq
+	(*sdkws.GetMaxSeqResp)(nil),                  // 71: openim.sdkws.GetMaxSeqResp
+	(*sdkws.PullMessageBySeqsResp)(nil),          // 72: openim.sdkws.PullMessageBySeqsResp
 }
 var file_msg_msg_proto_depIdxs = []int32{
-	63, // 0: openim.msg.MsgDataToMQ.msgData:type_name -> openim.sdkws.MsgData
-	63, // 1: openim.msg.MsgDataToDB.msgData:type_name -> openim.sdkws.MsgData
-	63, // 2: openim.msg.PushMsgDataToMQ.msgData:type_name -> openim.sdkws.MsgData
-	63, // 3: openim.msg.MsgDataToMongoByMQ.msgData:type_name -> openim.sdkws.MsgData
-	63, // 4: openim.msg.SendMsgReq.msgData:type_name -> openim.sdkws.MsgData
-	63, // 5: openim.msg.MsgDataToModifyByMQ.messages:type_name -> openim.sdkws.MsgData
+	65, // 0: openim.msg.MsgDataToMQ.msgData:type_name -> openim.sdkws.MsgData
+	65, // 1: openim.msg.MsgDataToDB.msgData:type_name -> openim.sdkws.MsgData
+	65, // 2: openim.msg.PushMsgDataToMQ.msgData:type_name -> openim.sdkws.MsgData
+	65, // 3: openim.msg.MsgDataToMongoByMQ.msgData:type_name -> openim.sdkws.MsgData
+	65, // 4: openim.msg.SendMsgReq.msgData:type_name -> openim.sdkws.MsgData
+	65, // 5: openim.msg.MsgDataToModifyByMQ.messages:type_name -> openim.sdkws.MsgData
 	23, // 6: openim.msg.ClearConversationsMsgReq.deleteSyncOpt:type_name -> openim.msg.DeleteSyncOpt
 	23, // 7: openim.msg.UserClearAllMsgReq.deleteSyncOpt:type_name -> openim.msg.DeleteSyncOpt
 	23, // 8: openim.msg.DeleteMsgsReq.deleteSyncOpt:type_name -> openim.msg.DeleteSyncOpt
-	57, // 9: openim.msg.SeqsInfoResp.maxSeqs:type_name -> openim.msg.SeqsInfoResp.MaxSeqsEntry
-	58, // 10: openim.msg.GetMsgByConversationIDsReq.maxSeqs:type_name -> openim.msg.GetMsgByConversationIDsReq.MaxSeqsEntry
-	59, // 11: openim.msg.GetMsgByConversationIDsResp.msgDatas:type_name -> openim.msg.GetMsgByConversationIDsResp.MsgDatasEntry
-	60, // 12: openim.msg.GetConversationsHasReadAndMaxSeqResp.seqs:type_name -> openim.msg.GetConversationsHasReadAndMaxSeqResp.SeqsEntry
-	64, // 13: openim.msg.GetActiveUserReq.pagination:type_name -> openim.sdkws.RequestPagination
-	65, // 14: openim.msg.ActiveUser.user:type_name -> openim.sdkws.UserInfo
-	61, // 15: openim.msg.GetActiveUserResp.dateCount:type_name -> openim.msg.GetActiveUserResp.DateCountEntry
+	59, // 9: openim.msg.SeqsInfoResp.maxSeqs:type_name -> openim.msg.SeqsInfoResp.MaxSeqsEntry
+	60, // 10: openim.msg.GetMsgByConversationIDsReq.maxSeqs:type_name -> openim.msg.GetMsgByConversationIDsReq.MaxSeqsEntry
+	61, // 11: openim.msg.GetMsgByConversationIDsResp.msgDatas:type_name -> openim.msg.GetMsgByConversationIDsResp.MsgDatasEntry
+	62, // 12: openim.msg.GetConversationsHasReadAndMaxSeqResp.seqs:type_name -> openim.msg.GetConversationsHasReadAndMaxSeqResp.SeqsEntry
+	66, // 13: openim.msg.GetActiveUserReq.pagination:type_name -> openim.sdkws.RequestPagination
+	67, // 14: openim.msg.ActiveUser.user:type_name -> openim.sdkws.UserInfo
+	63, // 15: openim.msg.GetActiveUserResp.dateCount:type_name -> openim.msg.GetActiveUserResp.DateCountEntry
 	45, // 16: openim.msg.GetActiveUserResp.users:type_name -> openim.msg.ActiveUser
-	64, // 17: openim.msg.GetActiveGroupReq.pagination:type_name -> openim.sdkws.RequestPagination
-	66, // 18: openim.msg.ActiveGroup.group:type_name -> openim.sdkws.GroupInfo
-	62, // 19: openim.msg.GetActiveGroupResp.dateCount:type_name -> openim.msg.GetActiveGroupResp.DateCountEntry
+	66, // 17: openim.msg.GetActiveGroupReq.pagination:type_name -> openim.sdkws.RequestPagination
+	68, // 18: openim.msg.ActiveGroup.group:type_name -> openim.sdkws.GroupInfo
+	64, // 19: openim.msg.GetActiveGroupResp.dateCount:type_name -> openim.msg.GetActiveGroupResp.DateCountEntry
 	48, // 20: openim.msg.GetActiveGroupResp.groups:type_name -> openim.msg.ActiveGroup
-	64, // 21: openim.msg.SearchMessageReq.pagination:type_name -> openim.sdkws.RequestPagination
+	66, // 21: openim.msg.SearchMessageReq.pagination:type_name -> openim.sdkws.RequestPagination
 	52, // 22: openim.msg.SearchMessageResp.chatLogs:type_name -> openim.msg.ChatLog
-	63, // 23: openim.msg.batchSendMessageReq.msgData:type_name -> openim.sdkws.MsgData
-	63, // 24: openim.msg.GetMsgByConversationIDsResp.MsgDatasEntry.value:type_name -> openim.sdkws.MsgData
+	65, // 23: openim.msg.batchSendMessageReq.msgData:type_name -> openim.sdkws.MsgData
+	65, // 24: openim.msg.GetMsgByConversationIDsResp.MsgDatasEntry.value:type_name -> openim.sdkws.MsgData
 	42, // 25: openim.msg.GetConversationsHasReadAndMaxSeqResp.SeqsEntry.value:type_name -> openim.msg.Seqs
-	67, // 26: openim.msg.msg.GetMaxSeq:input_type -> openim.sdkws.GetMaxSeqReq
+	69, // 26: openim.msg.msg.GetMaxSeq:input_type -> openim.sdkws.GetMaxSeqReq
 	34, // 27: openim.msg.msg.GetMaxSeqs:input_type -> openim.msg.GetMaxSeqsReq
 	35, // 28: openim.msg.msg.GetHasReadSeqs:input_type -> openim.msg.GetHasReadSeqsReq
 	37, // 29: openim.msg.msg.GetMsgByConversationIDs:input_type -> openim.msg.GetMsgByConversationIDsReq
 	39, // 30: openim.msg.msg.GetConversationMaxSeq:input_type -> openim.msg.GetConversationMaxSeqReq
-	68, // 31: openim.msg.msg.PullMessageBySeqs:input_type -> openim.sdkws.PullMessageBySeqsReq
+	70, // 31: openim.msg.msg.PullMessageBySeqs:input_type -> openim.sdkws.PullMessageBySeqsReq
 	50, // 32: openim.msg.msg.SearchMessage:input_type -> openim.msg.SearchMessageReq
 	6,  // 33: openim.msg.msg.SendMsg:input_type -> openim.msg.SendMsgReq
 	24, // 34: openim.msg.msg.ClearConversationsMsg:input_type -> openim.msg.ClearConversationsMsgReq
@@ -3809,31 +3908,33 @@ var file_msg_msg_proto_depIdxs = []int32{
 	44, // 46: openim.msg.msg.GetActiveUser:input_type -> openim.msg.GetActiveUserReq
 	47, // 47: openim.msg.msg.GetActiveGroup:input_type -> openim.msg.GetActiveGroupReq
 	55, // 48: openim.msg.msg.GetServerTime:input_type -> openim.msg.GetServerTimeReq
-	69, // 49: openim.msg.msg.GetMaxSeq:output_type -> openim.sdkws.GetMaxSeqResp
-	36, // 50: openim.msg.msg.GetMaxSeqs:output_type -> openim.msg.SeqsInfoResp
-	36, // 51: openim.msg.msg.GetHasReadSeqs:output_type -> openim.msg.SeqsInfoResp
-	38, // 52: openim.msg.msg.GetMsgByConversationIDs:output_type -> openim.msg.GetMsgByConversationIDsResp
-	40, // 53: openim.msg.msg.GetConversationMaxSeq:output_type -> openim.msg.GetConversationMaxSeqResp
-	70, // 54: openim.msg.msg.PullMessageBySeqs:output_type -> openim.sdkws.PullMessageBySeqsResp
-	51, // 55: openim.msg.msg.SearchMessage:output_type -> openim.msg.SearchMessageResp
-	7,  // 56: openim.msg.msg.SendMsg:output_type -> openim.msg.SendMsgResp
-	25, // 57: openim.msg.msg.ClearConversationsMsg:output_type -> openim.msg.ClearConversationsMsgResp
-	27, // 58: openim.msg.msg.UserClearAllMsg:output_type -> openim.msg.UserClearAllMsgResp
-	29, // 59: openim.msg.msg.DeleteMsgs:output_type -> openim.msg.DeleteMsgsResp
-	33, // 60: openim.msg.msg.DeleteMsgPhysicalBySeq:output_type -> openim.msg.DeleteMsgPhysicalBySeqResp
-	31, // 61: openim.msg.msg.DeleteMsgPhysical:output_type -> openim.msg.DeleteMsgPhysicalResp
-	9,  // 62: openim.msg.msg.SetSendMsgStatus:output_type -> openim.msg.SetSendMsgStatusResp
-	11, // 63: openim.msg.msg.GetSendMsgStatus:output_type -> openim.msg.GetSendMsgStatusResp
-	16, // 64: openim.msg.msg.RevokeMsg:output_type -> openim.msg.RevokeMsgResp
-	18, // 65: openim.msg.msg.MarkMsgsAsRead:output_type -> openim.msg.MarkMsgsAsReadResp
-	20, // 66: openim.msg.msg.MarkConversationAsRead:output_type -> openim.msg.MarkConversationAsReadResp
-	22, // 67: openim.msg.msg.SetConversationHasReadSeq:output_type -> openim.msg.SetConversationHasReadSeqResp
-	43, // 68: openim.msg.msg.GetConversationsHasReadAndMaxSeq:output_type -> openim.msg.GetConversationsHasReadAndMaxSeqResp
-	46, // 69: openim.msg.msg.GetActiveUser:output_type -> openim.msg.GetActiveUserResp
-	49, // 70: openim.msg.msg.GetActiveGroup:output_type -> openim.msg.GetActiveGroupResp
-	56, // 71: openim.msg.msg.GetServerTime:output_type -> openim.msg.GetServerTimeResp
-	49, // [49:72] is the sub-list for method output_type
-	26, // [26:49] is the sub-list for method input_type
+	57, // 49: openim.msg.msg.ClearMsg:input_type -> openim.msg.ClearMsgReq
+	71, // 50: openim.msg.msg.GetMaxSeq:output_type -> openim.sdkws.GetMaxSeqResp
+	36, // 51: openim.msg.msg.GetMaxSeqs:output_type -> openim.msg.SeqsInfoResp
+	36, // 52: openim.msg.msg.GetHasReadSeqs:output_type -> openim.msg.SeqsInfoResp
+	38, // 53: openim.msg.msg.GetMsgByConversationIDs:output_type -> openim.msg.GetMsgByConversationIDsResp
+	40, // 54: openim.msg.msg.GetConversationMaxSeq:output_type -> openim.msg.GetConversationMaxSeqResp
+	72, // 55: openim.msg.msg.PullMessageBySeqs:output_type -> openim.sdkws.PullMessageBySeqsResp
+	51, // 56: openim.msg.msg.SearchMessage:output_type -> openim.msg.SearchMessageResp
+	7,  // 57: openim.msg.msg.SendMsg:output_type -> openim.msg.SendMsgResp
+	25, // 58: openim.msg.msg.ClearConversationsMsg:output_type -> openim.msg.ClearConversationsMsgResp
+	27, // 59: openim.msg.msg.UserClearAllMsg:output_type -> openim.msg.UserClearAllMsgResp
+	29, // 60: openim.msg.msg.DeleteMsgs:output_type -> openim.msg.DeleteMsgsResp
+	33, // 61: openim.msg.msg.DeleteMsgPhysicalBySeq:output_type -> openim.msg.DeleteMsgPhysicalBySeqResp
+	31, // 62: openim.msg.msg.DeleteMsgPhysical:output_type -> openim.msg.DeleteMsgPhysicalResp
+	9,  // 63: openim.msg.msg.SetSendMsgStatus:output_type -> openim.msg.SetSendMsgStatusResp
+	11, // 64: openim.msg.msg.GetSendMsgStatus:output_type -> openim.msg.GetSendMsgStatusResp
+	16, // 65: openim.msg.msg.RevokeMsg:output_type -> openim.msg.RevokeMsgResp
+	18, // 66: openim.msg.msg.MarkMsgsAsRead:output_type -> openim.msg.MarkMsgsAsReadResp
+	20, // 67: openim.msg.msg.MarkConversationAsRead:output_type -> openim.msg.MarkConversationAsReadResp
+	22, // 68: openim.msg.msg.SetConversationHasReadSeq:output_type -> openim.msg.SetConversationHasReadSeqResp
+	43, // 69: openim.msg.msg.GetConversationsHasReadAndMaxSeq:output_type -> openim.msg.GetConversationsHasReadAndMaxSeqResp
+	46, // 70: openim.msg.msg.GetActiveUser:output_type -> openim.msg.GetActiveUserResp
+	49, // 71: openim.msg.msg.GetActiveGroup:output_type -> openim.msg.GetActiveGroupResp
+	56, // 72: openim.msg.msg.GetServerTime:output_type -> openim.msg.GetServerTimeResp
+	58, // 73: openim.msg.msg.ClearMsg:output_type -> openim.msg.ClearMsgResp
+	50, // [50:74] is the sub-list for method output_type
+	26, // [26:50] is the sub-list for method input_type
 	26, // [26:26] is the sub-list for extension type_name
 	26, // [26:26] is the sub-list for extension extendee
 	0,  // [0:26] is the sub-list for field type_name
@@ -4529,6 +4630,30 @@ func file_msg_msg_proto_init() {
 				return nil
 			}
 		}
+		file_msg_msg_proto_msgTypes[57].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ClearMsgReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_msg_msg_proto_msgTypes[58].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ClearMsgResp); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -4536,7 +4661,7 @@ func file_msg_msg_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_msg_msg_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   63,
+			NumMessages:   65,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -4548,4 +4673,940 @@ func file_msg_msg_proto_init() {
 	file_msg_msg_proto_rawDesc = nil
 	file_msg_msg_proto_goTypes = nil
 	file_msg_msg_proto_depIdxs = nil
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConnInterface
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion6
+
+// MsgClient is the client API for Msg service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type MsgClient interface {
+	// 获取最小最大seq（包括用户的，以及指定群组的）
+	GetMaxSeq(ctx context.Context, in *sdkws.GetMaxSeqReq, opts ...grpc.CallOption) (*sdkws.GetMaxSeqResp, error)
+	// 获取会话列表的最大seq
+	GetMaxSeqs(ctx context.Context, in *GetMaxSeqsReq, opts ...grpc.CallOption) (*SeqsInfoResp, error)
+	// 获取会话列表已读的最大seq
+	GetHasReadSeqs(ctx context.Context, in *GetHasReadSeqsReq, opts ...grpc.CallOption) (*SeqsInfoResp, error)
+	// 获取最新消息
+	GetMsgByConversationIDs(ctx context.Context, in *GetMsgByConversationIDsReq, opts ...grpc.CallOption) (*GetMsgByConversationIDsResp, error)
+	GetConversationMaxSeq(ctx context.Context, in *GetConversationMaxSeqReq, opts ...grpc.CallOption) (*GetConversationMaxSeqResp, error)
+	// 拉取历史消息（包括用户的，以及指定群组的）
+	PullMessageBySeqs(ctx context.Context, in *sdkws.PullMessageBySeqsReq, opts ...grpc.CallOption) (*sdkws.PullMessageBySeqsResp, error)
+	SearchMessage(ctx context.Context, in *SearchMessageReq, opts ...grpc.CallOption) (*SearchMessageResp, error)
+	// 发送消息
+	SendMsg(ctx context.Context, in *SendMsgReq, opts ...grpc.CallOption) (*SendMsgResp, error)
+	// 全量清空指定会话消息 重置min seq 比最大seq大1
+	ClearConversationsMsg(ctx context.Context, in *ClearConversationsMsgReq, opts ...grpc.CallOption) (*ClearConversationsMsgResp, error)
+	// 删除用户全部消息 重置min seq 比最大seq大1
+	UserClearAllMsg(ctx context.Context, in *UserClearAllMsgReq, opts ...grpc.CallOption) (*UserClearAllMsgResp, error)
+	// 用户标记删除部分消息by Seq
+	DeleteMsgs(ctx context.Context, in *DeleteMsgsReq, opts ...grpc.CallOption) (*DeleteMsgsResp, error)
+	// seq物理删除消息
+	DeleteMsgPhysicalBySeq(ctx context.Context, in *DeleteMsgPhysicalBySeqReq, opts ...grpc.CallOption) (*DeleteMsgPhysicalBySeqResp, error)
+	// 物理删除消息by 时间
+	DeleteMsgPhysical(ctx context.Context, in *DeleteMsgPhysicalReq, opts ...grpc.CallOption) (*DeleteMsgPhysicalResp, error)
+	// 设置消息是否发送成功-针对api发送的消息
+	SetSendMsgStatus(ctx context.Context, in *SetSendMsgStatusReq, opts ...grpc.CallOption) (*SetSendMsgStatusResp, error)
+	// 获取消息发送状态
+	GetSendMsgStatus(ctx context.Context, in *GetSendMsgStatusReq, opts ...grpc.CallOption) (*GetSendMsgStatusResp, error)
+	RevokeMsg(ctx context.Context, in *RevokeMsgReq, opts ...grpc.CallOption) (*RevokeMsgResp, error)
+	// mark as read
+	MarkMsgsAsRead(ctx context.Context, in *MarkMsgsAsReadReq, opts ...grpc.CallOption) (*MarkMsgsAsReadResp, error)
+	MarkConversationAsRead(ctx context.Context, in *MarkConversationAsReadReq, opts ...grpc.CallOption) (*MarkConversationAsReadResp, error)
+	SetConversationHasReadSeq(ctx context.Context, in *SetConversationHasReadSeqReq, opts ...grpc.CallOption) (*SetConversationHasReadSeqResp, error)
+	GetConversationsHasReadAndMaxSeq(ctx context.Context, in *GetConversationsHasReadAndMaxSeqReq, opts ...grpc.CallOption) (*GetConversationsHasReadAndMaxSeqResp, error)
+	GetActiveUser(ctx context.Context, in *GetActiveUserReq, opts ...grpc.CallOption) (*GetActiveUserResp, error)
+	GetActiveGroup(ctx context.Context, in *GetActiveGroupReq, opts ...grpc.CallOption) (*GetActiveGroupResp, error)
+	GetServerTime(ctx context.Context, in *GetServerTimeReq, opts ...grpc.CallOption) (*GetServerTimeResp, error)
+	ClearMsg(ctx context.Context, in *ClearMsgReq, opts ...grpc.CallOption) (*ClearMsgResp, error)
+}
+
+type msgClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewMsgClient(cc grpc.ClientConnInterface) MsgClient {
+	return &msgClient{cc}
+}
+
+func (c *msgClient) GetMaxSeq(ctx context.Context, in *sdkws.GetMaxSeqReq, opts ...grpc.CallOption) (*sdkws.GetMaxSeqResp, error) {
+	out := new(sdkws.GetMaxSeqResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/GetMaxSeq", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) GetMaxSeqs(ctx context.Context, in *GetMaxSeqsReq, opts ...grpc.CallOption) (*SeqsInfoResp, error) {
+	out := new(SeqsInfoResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/GetMaxSeqs", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) GetHasReadSeqs(ctx context.Context, in *GetHasReadSeqsReq, opts ...grpc.CallOption) (*SeqsInfoResp, error) {
+	out := new(SeqsInfoResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/GetHasReadSeqs", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) GetMsgByConversationIDs(ctx context.Context, in *GetMsgByConversationIDsReq, opts ...grpc.CallOption) (*GetMsgByConversationIDsResp, error) {
+	out := new(GetMsgByConversationIDsResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/GetMsgByConversationIDs", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) GetConversationMaxSeq(ctx context.Context, in *GetConversationMaxSeqReq, opts ...grpc.CallOption) (*GetConversationMaxSeqResp, error) {
+	out := new(GetConversationMaxSeqResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/GetConversationMaxSeq", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) PullMessageBySeqs(ctx context.Context, in *sdkws.PullMessageBySeqsReq, opts ...grpc.CallOption) (*sdkws.PullMessageBySeqsResp, error) {
+	out := new(sdkws.PullMessageBySeqsResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/PullMessageBySeqs", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) SearchMessage(ctx context.Context, in *SearchMessageReq, opts ...grpc.CallOption) (*SearchMessageResp, error) {
+	out := new(SearchMessageResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/SearchMessage", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) SendMsg(ctx context.Context, in *SendMsgReq, opts ...grpc.CallOption) (*SendMsgResp, error) {
+	out := new(SendMsgResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/SendMsg", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) ClearConversationsMsg(ctx context.Context, in *ClearConversationsMsgReq, opts ...grpc.CallOption) (*ClearConversationsMsgResp, error) {
+	out := new(ClearConversationsMsgResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/ClearConversationsMsg", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) UserClearAllMsg(ctx context.Context, in *UserClearAllMsgReq, opts ...grpc.CallOption) (*UserClearAllMsgResp, error) {
+	out := new(UserClearAllMsgResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/UserClearAllMsg", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) DeleteMsgs(ctx context.Context, in *DeleteMsgsReq, opts ...grpc.CallOption) (*DeleteMsgsResp, error) {
+	out := new(DeleteMsgsResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/DeleteMsgs", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) DeleteMsgPhysicalBySeq(ctx context.Context, in *DeleteMsgPhysicalBySeqReq, opts ...grpc.CallOption) (*DeleteMsgPhysicalBySeqResp, error) {
+	out := new(DeleteMsgPhysicalBySeqResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/DeleteMsgPhysicalBySeq", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) DeleteMsgPhysical(ctx context.Context, in *DeleteMsgPhysicalReq, opts ...grpc.CallOption) (*DeleteMsgPhysicalResp, error) {
+	out := new(DeleteMsgPhysicalResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/DeleteMsgPhysical", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) SetSendMsgStatus(ctx context.Context, in *SetSendMsgStatusReq, opts ...grpc.CallOption) (*SetSendMsgStatusResp, error) {
+	out := new(SetSendMsgStatusResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/SetSendMsgStatus", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) GetSendMsgStatus(ctx context.Context, in *GetSendMsgStatusReq, opts ...grpc.CallOption) (*GetSendMsgStatusResp, error) {
+	out := new(GetSendMsgStatusResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/GetSendMsgStatus", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) RevokeMsg(ctx context.Context, in *RevokeMsgReq, opts ...grpc.CallOption) (*RevokeMsgResp, error) {
+	out := new(RevokeMsgResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/RevokeMsg", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) MarkMsgsAsRead(ctx context.Context, in *MarkMsgsAsReadReq, opts ...grpc.CallOption) (*MarkMsgsAsReadResp, error) {
+	out := new(MarkMsgsAsReadResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/MarkMsgsAsRead", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) MarkConversationAsRead(ctx context.Context, in *MarkConversationAsReadReq, opts ...grpc.CallOption) (*MarkConversationAsReadResp, error) {
+	out := new(MarkConversationAsReadResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/MarkConversationAsRead", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) SetConversationHasReadSeq(ctx context.Context, in *SetConversationHasReadSeqReq, opts ...grpc.CallOption) (*SetConversationHasReadSeqResp, error) {
+	out := new(SetConversationHasReadSeqResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/SetConversationHasReadSeq", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) GetConversationsHasReadAndMaxSeq(ctx context.Context, in *GetConversationsHasReadAndMaxSeqReq, opts ...grpc.CallOption) (*GetConversationsHasReadAndMaxSeqResp, error) {
+	out := new(GetConversationsHasReadAndMaxSeqResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/GetConversationsHasReadAndMaxSeq", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) GetActiveUser(ctx context.Context, in *GetActiveUserReq, opts ...grpc.CallOption) (*GetActiveUserResp, error) {
+	out := new(GetActiveUserResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/GetActiveUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) GetActiveGroup(ctx context.Context, in *GetActiveGroupReq, opts ...grpc.CallOption) (*GetActiveGroupResp, error) {
+	out := new(GetActiveGroupResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/GetActiveGroup", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) GetServerTime(ctx context.Context, in *GetServerTimeReq, opts ...grpc.CallOption) (*GetServerTimeResp, error) {
+	out := new(GetServerTimeResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/GetServerTime", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) ClearMsg(ctx context.Context, in *ClearMsgReq, opts ...grpc.CallOption) (*ClearMsgResp, error) {
+	out := new(ClearMsgResp)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/ClearMsg", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// MsgServer is the server API for Msg service.
+type MsgServer interface {
+	// 获取最小最大seq（包括用户的，以及指定群组的）
+	GetMaxSeq(context.Context, *sdkws.GetMaxSeqReq) (*sdkws.GetMaxSeqResp, error)
+	// 获取会话列表的最大seq
+	GetMaxSeqs(context.Context, *GetMaxSeqsReq) (*SeqsInfoResp, error)
+	// 获取会话列表已读的最大seq
+	GetHasReadSeqs(context.Context, *GetHasReadSeqsReq) (*SeqsInfoResp, error)
+	// 获取最新消息
+	GetMsgByConversationIDs(context.Context, *GetMsgByConversationIDsReq) (*GetMsgByConversationIDsResp, error)
+	GetConversationMaxSeq(context.Context, *GetConversationMaxSeqReq) (*GetConversationMaxSeqResp, error)
+	// 拉取历史消息（包括用户的，以及指定群组的）
+	PullMessageBySeqs(context.Context, *sdkws.PullMessageBySeqsReq) (*sdkws.PullMessageBySeqsResp, error)
+	SearchMessage(context.Context, *SearchMessageReq) (*SearchMessageResp, error)
+	// 发送消息
+	SendMsg(context.Context, *SendMsgReq) (*SendMsgResp, error)
+	// 全量清空指定会话消息 重置min seq 比最大seq大1
+	ClearConversationsMsg(context.Context, *ClearConversationsMsgReq) (*ClearConversationsMsgResp, error)
+	// 删除用户全部消息 重置min seq 比最大seq大1
+	UserClearAllMsg(context.Context, *UserClearAllMsgReq) (*UserClearAllMsgResp, error)
+	// 用户标记删除部分消息by Seq
+	DeleteMsgs(context.Context, *DeleteMsgsReq) (*DeleteMsgsResp, error)
+	// seq物理删除消息
+	DeleteMsgPhysicalBySeq(context.Context, *DeleteMsgPhysicalBySeqReq) (*DeleteMsgPhysicalBySeqResp, error)
+	// 物理删除消息by 时间
+	DeleteMsgPhysical(context.Context, *DeleteMsgPhysicalReq) (*DeleteMsgPhysicalResp, error)
+	// 设置消息是否发送成功-针对api发送的消息
+	SetSendMsgStatus(context.Context, *SetSendMsgStatusReq) (*SetSendMsgStatusResp, error)
+	// 获取消息发送状态
+	GetSendMsgStatus(context.Context, *GetSendMsgStatusReq) (*GetSendMsgStatusResp, error)
+	RevokeMsg(context.Context, *RevokeMsgReq) (*RevokeMsgResp, error)
+	// mark as read
+	MarkMsgsAsRead(context.Context, *MarkMsgsAsReadReq) (*MarkMsgsAsReadResp, error)
+	MarkConversationAsRead(context.Context, *MarkConversationAsReadReq) (*MarkConversationAsReadResp, error)
+	SetConversationHasReadSeq(context.Context, *SetConversationHasReadSeqReq) (*SetConversationHasReadSeqResp, error)
+	GetConversationsHasReadAndMaxSeq(context.Context, *GetConversationsHasReadAndMaxSeqReq) (*GetConversationsHasReadAndMaxSeqResp, error)
+	GetActiveUser(context.Context, *GetActiveUserReq) (*GetActiveUserResp, error)
+	GetActiveGroup(context.Context, *GetActiveGroupReq) (*GetActiveGroupResp, error)
+	GetServerTime(context.Context, *GetServerTimeReq) (*GetServerTimeResp, error)
+	ClearMsg(context.Context, *ClearMsgReq) (*ClearMsgResp, error)
+}
+
+// UnimplementedMsgServer can be embedded to have forward compatible implementations.
+type UnimplementedMsgServer struct {
+}
+
+func (*UnimplementedMsgServer) GetMaxSeq(context.Context, *sdkws.GetMaxSeqReq) (*sdkws.GetMaxSeqResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMaxSeq not implemented")
+}
+func (*UnimplementedMsgServer) GetMaxSeqs(context.Context, *GetMaxSeqsReq) (*SeqsInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMaxSeqs not implemented")
+}
+func (*UnimplementedMsgServer) GetHasReadSeqs(context.Context, *GetHasReadSeqsReq) (*SeqsInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetHasReadSeqs not implemented")
+}
+func (*UnimplementedMsgServer) GetMsgByConversationIDs(context.Context, *GetMsgByConversationIDsReq) (*GetMsgByConversationIDsResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMsgByConversationIDs not implemented")
+}
+func (*UnimplementedMsgServer) GetConversationMaxSeq(context.Context, *GetConversationMaxSeqReq) (*GetConversationMaxSeqResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetConversationMaxSeq not implemented")
+}
+func (*UnimplementedMsgServer) PullMessageBySeqs(context.Context, *sdkws.PullMessageBySeqsReq) (*sdkws.PullMessageBySeqsResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PullMessageBySeqs not implemented")
+}
+func (*UnimplementedMsgServer) SearchMessage(context.Context, *SearchMessageReq) (*SearchMessageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchMessage not implemented")
+}
+func (*UnimplementedMsgServer) SendMsg(context.Context, *SendMsgReq) (*SendMsgResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendMsg not implemented")
+}
+func (*UnimplementedMsgServer) ClearConversationsMsg(context.Context, *ClearConversationsMsgReq) (*ClearConversationsMsgResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ClearConversationsMsg not implemented")
+}
+func (*UnimplementedMsgServer) UserClearAllMsg(context.Context, *UserClearAllMsgReq) (*UserClearAllMsgResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserClearAllMsg not implemented")
+}
+func (*UnimplementedMsgServer) DeleteMsgs(context.Context, *DeleteMsgsReq) (*DeleteMsgsResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteMsgs not implemented")
+}
+func (*UnimplementedMsgServer) DeleteMsgPhysicalBySeq(context.Context, *DeleteMsgPhysicalBySeqReq) (*DeleteMsgPhysicalBySeqResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteMsgPhysicalBySeq not implemented")
+}
+func (*UnimplementedMsgServer) DeleteMsgPhysical(context.Context, *DeleteMsgPhysicalReq) (*DeleteMsgPhysicalResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteMsgPhysical not implemented")
+}
+func (*UnimplementedMsgServer) SetSendMsgStatus(context.Context, *SetSendMsgStatusReq) (*SetSendMsgStatusResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetSendMsgStatus not implemented")
+}
+func (*UnimplementedMsgServer) GetSendMsgStatus(context.Context, *GetSendMsgStatusReq) (*GetSendMsgStatusResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSendMsgStatus not implemented")
+}
+func (*UnimplementedMsgServer) RevokeMsg(context.Context, *RevokeMsgReq) (*RevokeMsgResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RevokeMsg not implemented")
+}
+func (*UnimplementedMsgServer) MarkMsgsAsRead(context.Context, *MarkMsgsAsReadReq) (*MarkMsgsAsReadResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MarkMsgsAsRead not implemented")
+}
+func (*UnimplementedMsgServer) MarkConversationAsRead(context.Context, *MarkConversationAsReadReq) (*MarkConversationAsReadResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MarkConversationAsRead not implemented")
+}
+func (*UnimplementedMsgServer) SetConversationHasReadSeq(context.Context, *SetConversationHasReadSeqReq) (*SetConversationHasReadSeqResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetConversationHasReadSeq not implemented")
+}
+func (*UnimplementedMsgServer) GetConversationsHasReadAndMaxSeq(context.Context, *GetConversationsHasReadAndMaxSeqReq) (*GetConversationsHasReadAndMaxSeqResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetConversationsHasReadAndMaxSeq not implemented")
+}
+func (*UnimplementedMsgServer) GetActiveUser(context.Context, *GetActiveUserReq) (*GetActiveUserResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetActiveUser not implemented")
+}
+func (*UnimplementedMsgServer) GetActiveGroup(context.Context, *GetActiveGroupReq) (*GetActiveGroupResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetActiveGroup not implemented")
+}
+func (*UnimplementedMsgServer) GetServerTime(context.Context, *GetServerTimeReq) (*GetServerTimeResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetServerTime not implemented")
+}
+func (*UnimplementedMsgServer) ClearMsg(context.Context, *ClearMsgReq) (*ClearMsgResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ClearMsg not implemented")
+}
+
+func RegisterMsgServer(s *grpc.Server, srv MsgServer) {
+	s.RegisterService(&_Msg_serviceDesc, srv)
+}
+
+func _Msg_GetMaxSeq_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(sdkws.GetMaxSeqReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).GetMaxSeq(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/GetMaxSeq",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).GetMaxSeq(ctx, req.(*sdkws.GetMaxSeqReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_GetMaxSeqs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMaxSeqsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).GetMaxSeqs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/GetMaxSeqs",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).GetMaxSeqs(ctx, req.(*GetMaxSeqsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_GetHasReadSeqs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetHasReadSeqsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).GetHasReadSeqs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/GetHasReadSeqs",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).GetHasReadSeqs(ctx, req.(*GetHasReadSeqsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_GetMsgByConversationIDs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMsgByConversationIDsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).GetMsgByConversationIDs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/GetMsgByConversationIDs",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).GetMsgByConversationIDs(ctx, req.(*GetMsgByConversationIDsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_GetConversationMaxSeq_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetConversationMaxSeqReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).GetConversationMaxSeq(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/GetConversationMaxSeq",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).GetConversationMaxSeq(ctx, req.(*GetConversationMaxSeqReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_PullMessageBySeqs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(sdkws.PullMessageBySeqsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).PullMessageBySeqs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/PullMessageBySeqs",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).PullMessageBySeqs(ctx, req.(*sdkws.PullMessageBySeqsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_SearchMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchMessageReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).SearchMessage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/SearchMessage",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).SearchMessage(ctx, req.(*SearchMessageReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_SendMsg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SendMsgReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).SendMsg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/SendMsg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).SendMsg(ctx, req.(*SendMsgReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_ClearConversationsMsg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ClearConversationsMsgReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).ClearConversationsMsg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/ClearConversationsMsg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).ClearConversationsMsg(ctx, req.(*ClearConversationsMsgReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_UserClearAllMsg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserClearAllMsgReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).UserClearAllMsg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/UserClearAllMsg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).UserClearAllMsg(ctx, req.(*UserClearAllMsgReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_DeleteMsgs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteMsgsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).DeleteMsgs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/DeleteMsgs",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).DeleteMsgs(ctx, req.(*DeleteMsgsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_DeleteMsgPhysicalBySeq_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteMsgPhysicalBySeqReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).DeleteMsgPhysicalBySeq(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/DeleteMsgPhysicalBySeq",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).DeleteMsgPhysicalBySeq(ctx, req.(*DeleteMsgPhysicalBySeqReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_DeleteMsgPhysical_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteMsgPhysicalReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).DeleteMsgPhysical(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/DeleteMsgPhysical",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).DeleteMsgPhysical(ctx, req.(*DeleteMsgPhysicalReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_SetSendMsgStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetSendMsgStatusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).SetSendMsgStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/SetSendMsgStatus",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).SetSendMsgStatus(ctx, req.(*SetSendMsgStatusReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_GetSendMsgStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSendMsgStatusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).GetSendMsgStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/GetSendMsgStatus",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).GetSendMsgStatus(ctx, req.(*GetSendMsgStatusReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_RevokeMsg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RevokeMsgReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).RevokeMsg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/RevokeMsg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).RevokeMsg(ctx, req.(*RevokeMsgReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_MarkMsgsAsRead_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MarkMsgsAsReadReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).MarkMsgsAsRead(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/MarkMsgsAsRead",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).MarkMsgsAsRead(ctx, req.(*MarkMsgsAsReadReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_MarkConversationAsRead_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MarkConversationAsReadReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).MarkConversationAsRead(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/MarkConversationAsRead",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).MarkConversationAsRead(ctx, req.(*MarkConversationAsReadReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_SetConversationHasReadSeq_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetConversationHasReadSeqReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).SetConversationHasReadSeq(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/SetConversationHasReadSeq",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).SetConversationHasReadSeq(ctx, req.(*SetConversationHasReadSeqReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_GetConversationsHasReadAndMaxSeq_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetConversationsHasReadAndMaxSeqReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).GetConversationsHasReadAndMaxSeq(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/GetConversationsHasReadAndMaxSeq",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).GetConversationsHasReadAndMaxSeq(ctx, req.(*GetConversationsHasReadAndMaxSeqReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_GetActiveUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetActiveUserReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).GetActiveUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/GetActiveUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).GetActiveUser(ctx, req.(*GetActiveUserReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_GetActiveGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetActiveGroupReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).GetActiveGroup(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/GetActiveGroup",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).GetActiveGroup(ctx, req.(*GetActiveGroupReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_GetServerTime_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetServerTimeReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).GetServerTime(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/GetServerTime",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).GetServerTime(ctx, req.(*GetServerTimeReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_ClearMsg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ClearMsgReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).ClearMsg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.msg.msg/ClearMsg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).ClearMsg(ctx, req.(*ClearMsgReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _Msg_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "openim.msg.msg",
+	HandlerType: (*MsgServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetMaxSeq",
+			Handler:    _Msg_GetMaxSeq_Handler,
+		},
+		{
+			MethodName: "GetMaxSeqs",
+			Handler:    _Msg_GetMaxSeqs_Handler,
+		},
+		{
+			MethodName: "GetHasReadSeqs",
+			Handler:    _Msg_GetHasReadSeqs_Handler,
+		},
+		{
+			MethodName: "GetMsgByConversationIDs",
+			Handler:    _Msg_GetMsgByConversationIDs_Handler,
+		},
+		{
+			MethodName: "GetConversationMaxSeq",
+			Handler:    _Msg_GetConversationMaxSeq_Handler,
+		},
+		{
+			MethodName: "PullMessageBySeqs",
+			Handler:    _Msg_PullMessageBySeqs_Handler,
+		},
+		{
+			MethodName: "SearchMessage",
+			Handler:    _Msg_SearchMessage_Handler,
+		},
+		{
+			MethodName: "SendMsg",
+			Handler:    _Msg_SendMsg_Handler,
+		},
+		{
+			MethodName: "ClearConversationsMsg",
+			Handler:    _Msg_ClearConversationsMsg_Handler,
+		},
+		{
+			MethodName: "UserClearAllMsg",
+			Handler:    _Msg_UserClearAllMsg_Handler,
+		},
+		{
+			MethodName: "DeleteMsgs",
+			Handler:    _Msg_DeleteMsgs_Handler,
+		},
+		{
+			MethodName: "DeleteMsgPhysicalBySeq",
+			Handler:    _Msg_DeleteMsgPhysicalBySeq_Handler,
+		},
+		{
+			MethodName: "DeleteMsgPhysical",
+			Handler:    _Msg_DeleteMsgPhysical_Handler,
+		},
+		{
+			MethodName: "SetSendMsgStatus",
+			Handler:    _Msg_SetSendMsgStatus_Handler,
+		},
+		{
+			MethodName: "GetSendMsgStatus",
+			Handler:    _Msg_GetSendMsgStatus_Handler,
+		},
+		{
+			MethodName: "RevokeMsg",
+			Handler:    _Msg_RevokeMsg_Handler,
+		},
+		{
+			MethodName: "MarkMsgsAsRead",
+			Handler:    _Msg_MarkMsgsAsRead_Handler,
+		},
+		{
+			MethodName: "MarkConversationAsRead",
+			Handler:    _Msg_MarkConversationAsRead_Handler,
+		},
+		{
+			MethodName: "SetConversationHasReadSeq",
+			Handler:    _Msg_SetConversationHasReadSeq_Handler,
+		},
+		{
+			MethodName: "GetConversationsHasReadAndMaxSeq",
+			Handler:    _Msg_GetConversationsHasReadAndMaxSeq_Handler,
+		},
+		{
+			MethodName: "GetActiveUser",
+			Handler:    _Msg_GetActiveUser_Handler,
+		},
+		{
+			MethodName: "GetActiveGroup",
+			Handler:    _Msg_GetActiveGroup_Handler,
+		},
+		{
+			MethodName: "GetServerTime",
+			Handler:    _Msg_GetServerTime_Handler,
+		},
+		{
+			MethodName: "ClearMsg",
+			Handler:    _Msg_ClearMsg_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "msg/msg.proto",
 }
