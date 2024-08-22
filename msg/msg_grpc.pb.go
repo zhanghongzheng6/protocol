@@ -314,7 +314,6 @@ type MsgServer interface {
 	GetActiveUser(context.Context, *GetActiveUserReq) (*GetActiveUserResp, error)
 	GetActiveGroup(context.Context, *GetActiveGroupReq) (*GetActiveGroupResp, error)
 	GetServerTime(context.Context, *GetServerTimeReq) (*GetServerTimeResp, error)
-	mustEmbedUnimplementedMsgServer()
 }
 
 // UnimplementedMsgServer must be embedded to have forward compatible implementations.
@@ -389,14 +388,6 @@ func (UnimplementedMsgServer) GetActiveGroup(context.Context, *GetActiveGroupReq
 }
 func (UnimplementedMsgServer) GetServerTime(context.Context, *GetServerTimeReq) (*GetServerTimeResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetServerTime not implemented")
-}
-func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
-
-// UnsafeMsgServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to MsgServer will
-// result in compilation errors.
-type UnsafeMsgServer interface {
-	mustEmbedUnimplementedMsgServer()
 }
 
 func RegisterMsgServer(s grpc.ServiceRegistrar, srv MsgServer) {

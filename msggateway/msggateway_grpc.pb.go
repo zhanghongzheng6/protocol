@@ -98,7 +98,6 @@ type MsgGatewayServer interface {
 	SuperGroupOnlineBatchPushOneMsg(context.Context, *OnlineBatchPushOneMsgReq) (*OnlineBatchPushOneMsgResp, error)
 	KickUserOffline(context.Context, *KickUserOfflineReq) (*KickUserOfflineResp, error)
 	MultiTerminalLoginCheck(context.Context, *MultiTerminalLoginCheckReq) (*MultiTerminalLoginCheckResp, error)
-	mustEmbedUnimplementedMsgGatewayServer()
 }
 
 // UnimplementedMsgGatewayServer must be embedded to have forward compatible implementations.
@@ -122,14 +121,6 @@ func (UnimplementedMsgGatewayServer) KickUserOffline(context.Context, *KickUserO
 }
 func (UnimplementedMsgGatewayServer) MultiTerminalLoginCheck(context.Context, *MultiTerminalLoginCheckReq) (*MultiTerminalLoginCheckResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MultiTerminalLoginCheck not implemented")
-}
-func (UnimplementedMsgGatewayServer) mustEmbedUnimplementedMsgGatewayServer() {}
-
-// UnsafeMsgGatewayServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to MsgGatewayServer will
-// result in compilation errors.
-type UnsafeMsgGatewayServer interface {
-	mustEmbedUnimplementedMsgGatewayServer()
 }
 
 func RegisterMsgGatewayServer(s grpc.ServiceRegistrar, srv MsgGatewayServer) {

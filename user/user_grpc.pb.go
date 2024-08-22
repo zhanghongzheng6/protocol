@@ -329,7 +329,6 @@ type UserServer interface {
 	SearchNotificationAccount(context.Context, *SearchNotificationAccountReq) (*SearchNotificationAccountResp, error)
 	// getNotificationAccount by userID
 	GetNotificationAccount(context.Context, *GetNotificationAccountReq) (*GetNotificationAccountResp, error)
-	mustEmbedUnimplementedUserServer()
 }
 
 // UnimplementedUserServer must be embedded to have forward compatible implementations.
@@ -404,14 +403,6 @@ func (UnimplementedUserServer) SearchNotificationAccount(context.Context, *Searc
 }
 func (UnimplementedUserServer) GetNotificationAccount(context.Context, *GetNotificationAccountReq) (*GetNotificationAccountResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetNotificationAccount not implemented")
-}
-func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
-
-// UnsafeUserServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to UserServer will
-// result in compilation errors.
-type UnsafeUserServer interface {
-	mustEmbedUnimplementedUserServer()
 }
 
 func RegisterUserServer(s grpc.ServiceRegistrar, srv UserServer) {

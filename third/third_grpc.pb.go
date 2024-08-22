@@ -177,7 +177,6 @@ type ThirdServer interface {
 	UploadLogs(context.Context, *UploadLogsReq) (*UploadLogsResp, error)
 	DeleteLogs(context.Context, *DeleteLogsReq) (*DeleteLogsResp, error)
 	SearchLogs(context.Context, *SearchLogsReq) (*SearchLogsResp, error)
-	mustEmbedUnimplementedThirdServer()
 }
 
 // UnimplementedThirdServer must be embedded to have forward compatible implementations.
@@ -222,14 +221,6 @@ func (UnimplementedThirdServer) DeleteLogs(context.Context, *DeleteLogsReq) (*De
 }
 func (UnimplementedThirdServer) SearchLogs(context.Context, *SearchLogsReq) (*SearchLogsResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchLogs not implemented")
-}
-func (UnimplementedThirdServer) mustEmbedUnimplementedThirdServer() {}
-
-// UnsafeThirdServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ThirdServer will
-// result in compilation errors.
-type UnsafeThirdServer interface {
-	mustEmbedUnimplementedThirdServer()
 }
 
 func RegisterThirdServer(s grpc.ServiceRegistrar, srv ThirdServer) {

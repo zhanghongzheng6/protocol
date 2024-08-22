@@ -423,7 +423,6 @@ type GroupServer interface {
 	GetGroupMemberCache(context.Context, *GetGroupMemberCacheReq) (*GetGroupMemberCacheResp, error)
 	GroupCreateCount(context.Context, *GroupCreateCountReq) (*GroupCreateCountResp, error)
 	NotificationUserInfoUpdate(context.Context, *NotificationUserInfoUpdateReq) (*NotificationUserInfoUpdateResp, error)
-	mustEmbedUnimplementedGroupServer()
 }
 
 // UnimplementedGroupServer must be embedded to have forward compatible implementations.
@@ -522,14 +521,6 @@ func (UnimplementedGroupServer) GroupCreateCount(context.Context, *GroupCreateCo
 }
 func (UnimplementedGroupServer) NotificationUserInfoUpdate(context.Context, *NotificationUserInfoUpdateReq) (*NotificationUserInfoUpdateResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method NotificationUserInfoUpdate not implemented")
-}
-func (UnimplementedGroupServer) mustEmbedUnimplementedGroupServer() {}
-
-// UnsafeGroupServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to GroupServer will
-// result in compilation errors.
-type UnsafeGroupServer interface {
-	mustEmbedUnimplementedGroupServer()
 }
 
 func RegisterGroupServer(s grpc.ServiceRegistrar, srv GroupServer) {

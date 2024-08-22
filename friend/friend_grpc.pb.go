@@ -266,7 +266,6 @@ type FriendServer interface {
 	GetFriendIDs(context.Context, *GetFriendIDsReq) (*GetFriendIDsResp, error)
 	// 获取指定好友信息
 	GetSpecifiedFriendsInfo(context.Context, *GetSpecifiedFriendsInfoReq) (*GetSpecifiedFriendsInfoResp, error)
-	mustEmbedUnimplementedFriendServer()
 }
 
 // UnimplementedFriendServer must be embedded to have forward compatible implementations.
@@ -326,14 +325,6 @@ func (UnimplementedFriendServer) GetFriendIDs(context.Context, *GetFriendIDsReq)
 }
 func (UnimplementedFriendServer) GetSpecifiedFriendsInfo(context.Context, *GetSpecifiedFriendsInfoReq) (*GetSpecifiedFriendsInfoResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSpecifiedFriendsInfo not implemented")
-}
-func (UnimplementedFriendServer) mustEmbedUnimplementedFriendServer() {}
-
-// UnsafeFriendServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to FriendServer will
-// result in compilation errors.
-type UnsafeFriendServer interface {
-	mustEmbedUnimplementedFriendServer()
 }
 
 func RegisterFriendServer(s grpc.ServiceRegistrar, srv FriendServer) {

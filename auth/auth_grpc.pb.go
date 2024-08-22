@@ -97,7 +97,6 @@ type AuthServer interface {
 	ParseToken(context.Context, *ParseTokenReq) (*ParseTokenResp, error)
 	// Invalidate or mark the token as kicked out
 	InvalidateToken(context.Context, *InvalidateTokenReq) (*InvalidateTokenResp, error)
-	mustEmbedUnimplementedAuthServer()
 }
 
 // UnimplementedAuthServer must be embedded to have forward compatible implementations.
@@ -118,14 +117,6 @@ func (UnimplementedAuthServer) ParseToken(context.Context, *ParseTokenReq) (*Par
 }
 func (UnimplementedAuthServer) InvalidateToken(context.Context, *InvalidateTokenReq) (*InvalidateTokenResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method InvalidateToken not implemented")
-}
-func (UnimplementedAuthServer) mustEmbedUnimplementedAuthServer() {}
-
-// UnsafeAuthServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to AuthServer will
-// result in compilation errors.
-type UnsafeAuthServer interface {
-	mustEmbedUnimplementedAuthServer()
 }
 
 func RegisterAuthServer(s grpc.ServiceRegistrar, srv AuthServer) {
