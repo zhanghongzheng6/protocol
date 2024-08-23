@@ -133,6 +133,7 @@ message getPaginationUsersReq {
   sdkws.RequestPagination pagination = 2;
   string userID = 3;
   string nickName = 4;
+  string companyID = 5;
 }
 
 message getPaginationUsersResp{
