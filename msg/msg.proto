@@ -260,7 +260,8 @@ message SearchMessageReq{
   string sendTime=4;
   int32 sessionType=5;
   sdkws.RequestPagination pagination = 6;
-  string companyID = 7;
+  repeated string sendIDs = 7;
+  string companyID=9;
 }
 
 message SearchMessageResp{
