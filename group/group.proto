@@ -178,6 +178,7 @@ message GetGroupsReq {
   openim.sdkws.RequestPagination pagination = 1;
   string groupName = 2;
   string groupID = 3;
+  string companyID = 4;
 }
 
 message GetGroupsResp {

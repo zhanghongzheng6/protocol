@@ -43,6 +43,7 @@ message accountCheckResp{
 
 message getDesignateUsersReq{
   repeated string userIDs = 1;
+  repeated string companyIDs = 2;
 }
 message getDesignateUsersResp{
   repeated sdkws.UserInfo usersInfo = 1;
