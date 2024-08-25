@@ -37,8 +37,8 @@ func (x *AccountCheckReq) Check() error {
 }
 
 func (x *GetDesignateUsersReq) Check() error {
-	if x.UserIDs == nil {
-		return errors.New("UserIDs is empty")
+	if x.UserIDs == nil && x.CompanyIDs == nil {
+		return errors.New("UserIDs is empty and CompanyIDs is empty")
 	}
 	return nil
 }
