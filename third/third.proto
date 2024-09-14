@@ -142,7 +142,7 @@ message CompleteFormDataResp {
 message FcmUpdateTokenReq {
   int32 platformID = 1;
   string fcmToken = 2;
-  string account = 3;
+  string userID = 3;
   int64 expireTime = 4;
 }
 

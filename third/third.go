@@ -26,7 +26,7 @@ func (x *FcmUpdateTokenReq) Check() error {
 	if x.FcmToken == "" {
 		return errors.New("FcmToken is empty")
 	}
-	if x.Account == "" {
+	if x.UserID == "" {
 		return errors.New("account is empty")
 	}
 	return nil
